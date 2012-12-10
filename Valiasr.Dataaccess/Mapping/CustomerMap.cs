@@ -9,9 +9,9 @@ using Valiasr.Domain;
 
 namespace Valiasr.DataAccess.Mapping
 {
-    class PersonMap:EntityTypeConfiguration<Person>
+    class CustomerMap:EntityTypeConfiguration<Customer>
     {
-        public PersonMap()
+        public CustomerMap()
         {
             //Primary Key
             this.HasKey(p => p.Id);
@@ -24,6 +24,7 @@ namespace Valiasr.DataAccess.Mapping
             this.Property(p => p.Lastname).IsRequired().HasMaxLength(30).HasColumnName("Lastname");
             this.Property(p => p.ContactInfo.Address).HasMaxLength(40).HasColumnName("Peson_Address");
             this.Property(p => p.ContactInfo.Tellno).HasColumnName("Person_Tellno");
+            this.HasOptional(o => o.CustomerHesabs).WithMany();
         }
     }
 }

@@ -16,12 +16,12 @@ namespace Valiasr.Service
         public PersonDto GetPerson(string name)
         {
             ValiasrContext context = new ValiasrContext("Valiasr");
-            Person person = context.Persons.First(p => p.Firstname == name);
+            Customer customer = context.Customers.First(p => p.Firstname == name);
             return new PersonDto()
 
                 {
-                    Firstname = person.Firstname,
-                    Lastname = person.Lastname,
+                    Firstname = customer.Firstname,
+                    Lastname = customer.Lastname,
                 };
         }
      }

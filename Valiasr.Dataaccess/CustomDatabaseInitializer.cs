@@ -7,8 +7,6 @@
     public class CustomDatabaseInitializer<T> : IDatabaseInitializer<T>
         where T : DbContext
     {
-
-
         public void InitializeDatabase(T context)
         {
             if (context.Database.Exists())

@@ -10,12 +10,10 @@ namespace Valiasr.DataAccess
     {
         public ValiasrContext(string conn):base(conn)
         {
-            Database.SetInitializer(new CustomDatabaseInitializer<ValiasrContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ValiasrContext>());
         }
-        public DbSet<Person> Persons { get; set; }      
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<CustomerHesab> CustomerHesabs { get; set; }
     }
-    
-
-    
-    
 }
