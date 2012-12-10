@@ -10,7 +10,6 @@ namespace Valiasr.DataAccess
 {
     [TestClass]
     public class DbTest
-
     {
         [TestMethod]
         public void dbTest()
