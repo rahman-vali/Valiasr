@@ -15,8 +15,14 @@ namespace Valiasr.DataAccess.Mapping
                 .HasColumnName("AccountId");
             this.Property(a => a.Description).HasMaxLength(210);
             this.Property(a => a.Balance);
-
-            this.HasMany(a => a.Correspondent).WithMany();
+            this.HasMany(a => a.Correspondents).WithMany(o => o.Accounts).Map(
+                ac =>
+                {
+                    ac.MapLeftKey("AccountId");
+                    ac.MapRightKey("CorrespondetId");
+                    ac.ToTable("AccountsCorrespondents");
+                }
+                );
         }
     }
 }

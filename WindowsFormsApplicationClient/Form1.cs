@@ -26,5 +26,9 @@ namespace WindowsFormsApplicationClient
             PersonDto personDto = client.GetPerson(textBox1.Text);
             button1.Text = personDto.Firstname;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Valiasr.DataAccess
 {
     using System.Data.Entity;
+    using System.Data.Entity.Migrations;
 
     using Valiasr.DataAccess.Mapping;
     using Valiasr.NewDomain;
@@ -30,8 +31,9 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new PersonMap());
-//            modelBuilder.Configurations.Add(new CustomerMap());
+            modelBuilder.Configurations.Add(new ContactInfoMap());
             modelBuilder.Configurations.Add(new AccountMap());
+            modelBuilder.Configurations.Add(new CorrespondentMap());
             base.OnModelCreating(modelBuilder);
         }
 

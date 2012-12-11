@@ -23,6 +23,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Valiasr.NewDomain", "Valias
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Valiasr.NewDataAccess", "Valiasr.NewDataAccess\Valiasr.NewDataAccess.csproj", "{6E13A01E-5FD8-40EE-9DC8-FB613F04AEF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Valiasr.UI.WPF", "Valiasr.UI.WPF\Valiasr.UI.WPF.csproj", "{10E35248-B0D0-481D-89DE-6CCA965BE469}"
+	ProjectSection(ProjectDependencies) = postProject
+		{15B3E0D2-6217-493A-A690-158C497F5318} = {15B3E0D2-6217-493A-A690-158C497F5318}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +58,10 @@ Global
 		{6E13A01E-5FD8-40EE-9DC8-FB613F04AEF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E13A01E-5FD8-40EE-9DC8-FB613F04AEF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E13A01E-5FD8-40EE-9DC8-FB613F04AEF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10E35248-B0D0-481D-89DE-6CCA965BE469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10E35248-B0D0-481D-89DE-6CCA965BE469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10E35248-B0D0-481D-89DE-6CCA965BE469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10E35248-B0D0-481D-89DE-6CCA965BE469}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

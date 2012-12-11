@@ -28,11 +28,16 @@
             var context = new ValiasrContext("Valiasr.ce");
             Customer customer = this.CreateCustomer();
             Account account = this.CreateAccount();
-            account.Correspondent.Add(customer);
+            account.Correspondents.Add(customer);
+
+            context.Customers.Add(customer);
+            context.Accounts.Add(account);
+
             context.SaveChanges();
 
             var anotherContext = new ValiasrContext("Valiasr.ce");
-            Assert.IsTrue(customer == anotherContext.Customers.FirstOrDefault(o => o.Id == customer.Id));
+            var fetchedCustomer = anotherContext.Customers.FirstOrDefault(o => o.Id == customer.Id);
+            Assert.IsTrue(customer.Equals(fetchedCustomer));
         }
 
         [TestCleanup]
@@ -52,14 +57,14 @@
 
         private static void TearDown()
         {
-            var context = new ValiasrContext("Valiasr.ce");
-            context.Customers.SqlQuery("Delete from Customers");
+            var context = new ValiasrContext("Valiasr.Ce");
+            context.Customers.SqlQuery("Delete from Persons");
             context.Accounts.SqlQuery("Delete from Accounts");
         }
 
         private Account CreateAccount()
         {
-            var account = new Account { Id = Guid.NewGuid(), Balance = 1000, Description = "first" };
+            var account = new Account { Id = Guid.NewGuid(), Balance = 1000, Description = "first",  No = "1"};
             return account;
         }
 
