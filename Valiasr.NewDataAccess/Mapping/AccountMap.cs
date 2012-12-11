@@ -16,9 +16,7 @@ namespace Valiasr.DataAccess.Mapping
             this.Property(a => a.Description).HasMaxLength(210);
             this.Property(a => a.Balance);
 
-            this.HasMany(a => a.SahebHesabs).WithMany();
-            this.HasMany(a => a.Moarefin).WithMany();
-            this.HasMany(a => a.Vakils).WithMany();
+            this.HasMany(a => a.Correspondent).WithMany();
         }
     }
 }

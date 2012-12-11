@@ -28,7 +28,7 @@
             var context = new ValiasrContext("Valiasr.ce");
             Customer customer = this.CreateCustomer();
             Account account = this.CreateAccount();
-            account.SahebHesabs.Add(customer);
+            account.Correspondent.Add(customer);
             context.SaveChanges();
 
             var anotherContext = new ValiasrContext("Valiasr.ce");

@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WindowsFormsApplicationClient.ServiceReference1;
+
 
 namespace WindowsFormsApplicationClient
 {
+    using WindowsFormsApplicationClient.PersonServiceReference;
+
     public partial class Form1 : Form
     {
         public Form1()

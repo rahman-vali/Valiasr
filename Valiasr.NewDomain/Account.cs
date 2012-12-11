@@ -15,12 +15,7 @@
         public Guid Id { get; set; }
 
         //Vokalaye Hesab
-        public ICollection<Vakil> Vakils { get; set; }
-
-        public ICollection<Customer> Moarefin { get; set; }
-
-        //Sahebane Hesab
-        public ICollection<Customer> SahebHesabs { get; set; }
+        public ICollection<Correspondent> Correspondent { get; set; }
 
         #endregion
 
@@ -28,7 +23,7 @@
 
         public bool Bardasht(Customer customer, double amount)
         {
-            if (this.SahebHesabs.Contains(customer) &&
+            if (this.Correspondent.Contains(customer) &&
                 customer.Balegh && 
                 customer.HagheBardasht && 
                 amount <= customer.Portion * this.Balance)

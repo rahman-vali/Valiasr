@@ -30,7 +30,12 @@
         public ContactInfo ContactInfo { get; set; }
     }
 
-    public class Customer : Person
+    public class Correspondent:Person
+    {
+         
+    }
+
+    public class Customer : Correspondent
     {
         public ICollection<Account> Accounts { get; set; }
 
@@ -39,7 +44,7 @@
         public float Portion { get; set; }
     }
 
-    public class Vakil : Person
+    public class Vakil : Correspondent
     {
         public DateTime? EndDate { get; set; }
 
