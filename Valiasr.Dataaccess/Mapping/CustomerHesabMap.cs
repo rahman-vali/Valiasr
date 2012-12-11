@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Valiasr.Domain;
+using Valiasr.Domain.SystemJari;
 
 namespace Valiasr.DataAccess.Mapping
 {
@@ -16,9 +17,9 @@ namespace Valiasr.DataAccess.Mapping
             this.HasRequired(o => o.Account);
             this.HasRequired(o => o.Customer);
             this.HasKey(o => o.Id);
-            this.Property(o => o.Id)
-                .HasColumnName("CustomerHesabId")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(o => o.Id).HasColumnName("CustomerHesabId");
+                //It's not supported in Sql Server CE
+                //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
             this.Property(o => o.Role);
         }
     }

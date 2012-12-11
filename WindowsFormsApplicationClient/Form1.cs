@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WindowsFormsApplicationClient.PersonServiceReference;
+using WindowsFormsApplicationClient.ServiceReference1;
 
 namespace WindowsFormsApplicationClient
 {

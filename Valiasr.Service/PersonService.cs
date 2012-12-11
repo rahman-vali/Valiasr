@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
+﻿using System.Linq;
 using Valiasr.DataAccess;
-using Valiasr.Domain;
 
 namespace Valiasr.Service
 {
@@ -15,8 +9,8 @@ namespace Valiasr.Service
      {
         public PersonDto GetPerson(string name)
         {
-            ValiasrContext context = new ValiasrContext("Valiasr");
-            Customer customer = context.Customers.First(p => p.Firstname == name);
+            var context = new ValiasrContext("Valiasr.Ce");
+            var customer = context.Customers.First(p => p.Firstname == name);
             return new PersonDto()
 
                 {

@@ -3,8 +3,7 @@
     using System.Data.Entity;
 
     using Valiasr.DataAccess.Mapping;
-    using Valiasr.Domain;
-    using Valiasr.Domain.SystemJari;
+    using Valiasr.NewDomain;
 
     public class ValiasrContext : DbContext
     {
@@ -22,8 +21,6 @@
 
         public DbSet<Account> Accounts { get; set; }
 
-        public DbSet<CustomerHesab> CustomerHesabs { get; set; }
-
         public DbSet<Customer> Customers { get; set; }
 
         #endregion
@@ -32,8 +29,8 @@
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new CustomerMap());
-            modelBuilder.Configurations.Add(new CustomerHesabMap());
+            modelBuilder.Configurations.Add(new PersonMap());
+//            modelBuilder.Configurations.Add(new CustomerMap());
             modelBuilder.Configurations.Add(new AccountMap());
             base.OnModelCreating(modelBuilder);
         }

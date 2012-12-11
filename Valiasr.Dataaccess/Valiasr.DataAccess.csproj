@@ -72,8 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomDatabaseInitializer.cs" />
-    <Compile Include="DbTest.cs" />
+    <Compile Include="DataAccessTest.cs" />
     <Compile Include="Mapping\AccountMap.cs" />
     <Compile Include="Mapping\ContactInfoMap.cs" />
     <Compile Include="Mapping\CustomerHesabMap.cs" />
@@ -86,6 +85,10 @@
       <Project>{74095029-36a6-4547-b1ac-a50ccf32ae3c}</Project>
       <Name>Valiasr.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Valiasr.NewDomain\Valiasr.NewDomain.csproj">
+      <Project>{2c5b3f64-244d-4aaa-9da6-f787011290f6}</Project>
+      <Name>Valiasr.NewDomain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -97,14 +100,6 @@
     <Content Include="App_Data\Valiasr.Ce.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\jquery-1.8.3.intellisense.js" />
-    <Content Include="Scripts\jquery-1.8.3.js" />
-    <Content Include="Scripts\jquery-1.8.3.min.js" />
-    <Content Include="Scripts\jquery-ui-1.9.2.js" />
-    <Content Include="Scripts\jquery-ui-1.9.2.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

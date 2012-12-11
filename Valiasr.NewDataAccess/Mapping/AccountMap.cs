@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Valiasr.Domain;
-using Valiasr.Domain.SystemJari;
+﻿using System.Data.Entity.ModelConfiguration;
 
 namespace Valiasr.DataAccess.Mapping
 {
+    using Valiasr.NewDomain;
+
     public class AccountMap : EntityTypeConfiguration<Account>
     {
         public AccountMap()
@@ -19,8 +13,12 @@ namespace Valiasr.DataAccess.Mapping
                 //It's not supported in Sql Server CE
                 //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
                 .HasColumnName("AccountId");
-            this.Property(a => a.Hesab_Des).HasMaxLength(210);
-            this.HasOptional(a => a.CustomerHesabs).WithMany();
+            this.Property(a => a.Description).HasMaxLength(210);
+            this.Property(a => a.Balance);
+
+            this.HasMany(a => a.SahebHesabs).WithMany();
+            this.HasMany(a => a.Moarefin).WithMany();
+            this.HasMany(a => a.Vakils).WithMany();
         }
     }
 }

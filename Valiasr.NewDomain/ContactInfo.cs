@@ -1,4 +1,4 @@
-﻿namespace Valiasr.Domain
+﻿namespace Valiasr.NewDomain
 {
     public class ContactInfo
     {
@@ -9,5 +9,4 @@
             return (this.Address != null || this.Tellno != 0);
         }
     }
-
 }

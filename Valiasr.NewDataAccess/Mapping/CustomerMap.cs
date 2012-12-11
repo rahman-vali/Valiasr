@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Valiasr.Domain;
-using Valiasr.Domain.SystemJari;
+﻿using System.Data.Entity.ModelConfiguration;
 
 namespace Valiasr.DataAccess.Mapping
 {
-    class CustomerMap:EntityTypeConfiguration<Customer>
+    using Valiasr.NewDomain;
+
+
+    class PersonMap : EntityTypeConfiguration<Person>
     {
-        public CustomerMap()
+        public PersonMap()
         {
             //Primary Key
             this.HasKey(p => p.Id);
@@ -26,7 +21,14 @@ namespace Valiasr.DataAccess.Mapping
             this.Property(p => p.Lastname).IsRequired().HasMaxLength(30).HasColumnName("Lastname");
             this.Property(p => p.ContactInfo.Address).HasMaxLength(40).HasColumnName("Peson_Address");
             this.Property(p => p.ContactInfo.Tellno).HasColumnName("Person_Tellno");
-            this.HasOptional(o => o.CustomerHesabs).WithMany();
         }
     }
+
+//    class CustomerMap: EntityTypeConfiguration<Customer>
+//    {
+//        public CustomerMap()
+//        {
+//            this.HasMany(p => p.Accounts).WithMany();
+//        }
+//    }
 }
