@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using Valiasr.DataAccess;
+    using Valiasr.NewDataAccess;
     using Valiasr.NewDomain;
 
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
@@ -39,8 +39,9 @@
         public ICollection<CustomerDto> GetCustomerByAccountNo(string accountNo)
         {
             return
-                this.Context.Customers.Include("Accounts")
+                this.Context.Correspondents.Include("Accounts")
                     .Where(c => c.Accounts.Any(a => a.No == accountNo))
+                    .OfType<Customer>()
                     .Select(o => new CustomerDto { HagheBardasht = o.HagheBardasht, No = o.No, Portion = o.Portion })
                     .ToList();
         }

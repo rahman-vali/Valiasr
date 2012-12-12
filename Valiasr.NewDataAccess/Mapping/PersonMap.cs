@@ -1,11 +1,10 @@
-﻿using System.Data.Entity.ModelConfiguration;
-
-namespace Valiasr.DataAccess.Mapping
+﻿namespace Valiasr.NewDataAccess.Mapping
 {
+    using System.Data.Entity.ModelConfiguration;
+
     using Valiasr.NewDomain;
 
-
-    class PersonMap : EntityTypeConfiguration<Person>
+    public class PersonMap : EntityTypeConfiguration<Person>
     {
         public PersonMap()
         {
@@ -24,12 +23,14 @@ namespace Valiasr.DataAccess.Mapping
             this.Property(p => p.ContactInfo.Tellno).HasColumnName("Person_Tellno");        
         }
     }
-
     class CorrespondentMap : EntityTypeConfiguration<Correspondent>
     {
         public CorrespondentMap()
         {
-            this.HasMany(p => p.Accounts).WithMany(o => o.Correspondents);
+            //In Mored ezafi ast va agar yektarafe rabete ra moshakhas konim kafi ast
+            //Tarafe digar rabete dar file AccountMap inchenin ast: this.HasMany(a => a.Correspondents).WithMany();
+            //this.HasMany(p => p.Accounts).WithMany();
         }
     }
+
 }

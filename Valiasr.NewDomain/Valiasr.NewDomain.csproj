@@ -40,8 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContactInfo.cs" />
+    <Compile Include="Correspondent.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Account.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

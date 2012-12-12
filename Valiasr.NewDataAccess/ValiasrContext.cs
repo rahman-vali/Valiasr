@@ -1,9 +1,8 @@
-﻿namespace Valiasr.DataAccess
+﻿namespace Valiasr.NewDataAccess
 {
     using System.Data.Entity;
-    using System.Data.Entity.Migrations;
 
-    using Valiasr.DataAccess.Mapping;
+    using Valiasr.NewDataAccess.Mapping;
     using Valiasr.NewDomain;
 
     public class ValiasrContext : DbContext
@@ -22,7 +21,7 @@
 
         public DbSet<Account> Accounts { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Correspondent> Correspondents { get; set; }
 
         #endregion
 
@@ -33,7 +32,8 @@
             modelBuilder.Configurations.Add(new PersonMap());
             modelBuilder.Configurations.Add(new ContactInfoMap());
             modelBuilder.Configurations.Add(new AccountMap());
-            modelBuilder.Configurations.Add(new CorrespondentMap());
+            //In khat ezafi ast chera, tozihat aan dar file CorrespondentMap.cs amade ast
+            //modelBuilder.Configurations.Add(new CorrespondentMap());
             base.OnModelCreating(modelBuilder);
         }
 

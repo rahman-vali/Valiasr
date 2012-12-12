@@ -34,7 +34,7 @@
 
         public bool Bardasht(string customerNo, double amount)
         {
-            var customer = this.Correspondents.OfType<Customer>().FirstOrDefault(o => o.No == customerNo);
+            var customer = this.Correspondents.OfType<Customer>().FirstOrDefault(o => o.No == customerNo);            
             if (customer != null &&
                 customer.Balegh &&
                 customer.HagheBardasht &&

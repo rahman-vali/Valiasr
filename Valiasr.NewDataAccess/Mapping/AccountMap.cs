@@ -1,7 +1,7 @@
-﻿using System.Data.Entity.ModelConfiguration;
-
-namespace Valiasr.DataAccess.Mapping
+﻿namespace Valiasr.NewDataAccess.Mapping
 {
+    using System.Data.Entity.ModelConfiguration;
+
     using Valiasr.NewDomain;
 
     public class AccountMap : EntityTypeConfiguration<Account>
@@ -15,14 +15,7 @@ namespace Valiasr.DataAccess.Mapping
                 .HasColumnName("AccountId");
             this.Property(a => a.Description).HasMaxLength(210);
             this.Property(a => a.Balance);
-            this.HasMany(a => a.Correspondents).WithMany(o => o.Accounts).Map(
-                ac =>
-                {
-                    ac.MapLeftKey("AccountId");
-                    ac.MapRightKey("CorrespondetId");
-                    ac.ToTable("AccountsCorrespondents");
-                }
-                );
+            this.HasMany(a => a.Correspondents).WithMany();
         }
     }
 }
