@@ -15,7 +15,7 @@
                 .HasColumnName("AccountId");
             this.Property(a => a.Description).HasMaxLength(210);
             this.Property(a => a.Balance);
-            this.HasMany(a => a.Correspondents).WithMany();
+            this.HasMany(a => a.Correspondents).WithMany(c => c.Accounts);
         }
     }
 }

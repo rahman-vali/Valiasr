@@ -30,6 +30,8 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new PersonMap());
+            modelBuilder.Configurations.Add(new CustomerMap());
+            modelBuilder.Configurations.Add(new VakilMap());
             modelBuilder.Configurations.Add(new ContactInfoMap());
             modelBuilder.Configurations.Add(new AccountMap());
             //In khat ezafi ast chera, tozihat aan dar file CorrespondentMap.cs amade ast

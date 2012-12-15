@@ -24,18 +24,33 @@
         public void Create_Relation_test()
         {
             var context = new ValiasrContext("Valiasr.ce");
-            Correspondent correspondent = this.CreateCorrespondent();
+            Customer customer = this.CreateCustomer();
+            Vakil vakil = this.CreateVakil();
             Account account = this.CreateAccount();
-            account.Correspondents.Add(correspondent);
-
+            //account.Correspondents.Add(correspondent);
+   //         Correspondent correspondent = customer;
+            account.Correspondents.Add(vakil);
             context.Accounts.Add(account);
-
+            //account.Correspondents.Add(customer);
+            account.Correspondents.Add(customer);
+        //    context.Accounts.Add(account);
+  //          account.Correspondents.Add(vakil);
+  //          context.Correspondents.Add(correspondent);
+            context.Accounts.Add(account);
+            Account account2 = this.CreateAccount();
+            account2.Correspondents.Add(vakil);
+            context.Accounts.Add(account2);
             context.SaveChanges();
 
             var anotherContext = new ValiasrContext("Valiasr.ce");
+            //Correspondent fetchedCorrespondent =
+              //  anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
+            //Assert.True(correspondent.Equals(fetchedCorrespondent));
             Correspondent fetchedCorrespondent =
-                anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
-            Assert.True(correspondent.Equals(fetchedCorrespondent));
+                anotherContext.Correspondents.FirstOrDefault(o => o.Id == customer.Id);
+            Assert.True(customer.Equals(fetchedCorrespondent));
+      //      account = this.CreateAccount();
+
         }
 
         [Fact]
@@ -56,8 +71,10 @@
         {
             var context = new ValiasrContext("Valiasr.Ce");
             context.Database.ExecuteSqlCommand("Delete from AccountCorrespondents");
-            context.Database.ExecuteSqlCommand("Delete from Persons");
             context.Database.ExecuteSqlCommand("Delete from Accounts");
+            context.Database.ExecuteSqlCommand("Delete from Customers");
+            context.Database.ExecuteSqlCommand("Delete From Vakils");
+            context.Database.ExecuteSqlCommand("Delete from Persons");
         }
 
         private Account CreateAccount()
@@ -85,9 +102,23 @@
                     Id = Guid.NewGuid(),
                     Firstname = "ali",
                     Lastname = "ahmadi",
+                    No = "1",
                     ContactInfo = { Address = "babol", Tellno = 12435 }
                 };
             return customer;
+        }
+
+        private Vakil CreateVakil()
+        {
+            var vakil = new Vakil
+            {
+                Id = Guid.NewGuid(),
+                Firstname = "ali2",
+                Lastname = "ahmadi2",
+                StartDate = new DateTime(2012,6,12),
+                ContactInfo = { Address = "babol2", Tellno = 12435 }
+            };
+            return vakil;
         }
 
         #endregion

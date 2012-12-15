@@ -1,5 +1,7 @@
 ﻿namespace Valiasr.NewDataAccess.Mapping
 {
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
     using System.Data.Entity.ModelConfiguration;
 
     using Valiasr.NewDomain;
@@ -20,16 +22,24 @@
             this.Property(p => p.Firstname).IsRequired().HasMaxLength(30).HasColumnName("Firstname");
             this.Property(p => p.Lastname).IsRequired().HasMaxLength(30).HasColumnName("Lastname");
             this.Property(p => p.ContactInfo.Address).HasMaxLength(40).HasColumnName("Peson_Address");
-            this.Property(p => p.ContactInfo.Tellno).HasColumnName("Person_Tellno");        
+            this.Property(p => p.ContactInfo.Tellno).HasColumnName("Person_Tellno"); 
         }
     }
-    class CorrespondentMap : EntityTypeConfiguration<Correspondent>
+    public class CustomerMap : EntityTypeConfiguration<Customer>
     {
-        public CorrespondentMap()
+        public CustomerMap()
         {
-            //In Mored ezafi ast va agar yektarafe rabete ra moshakhas konim kafi ast
-            //Tarafe digar rabete dar file AccountMap inchenin ast: this.HasMany(a => a.Correspondents).WithMany();
-            //this.HasMany(p => p.Accounts).WithMany();
+            this.ToTable("Customers");
+            this.Property(c => c.No).IsRequired().HasColumnName("CustomerNo");
+        }
+    }
+
+    public class VakilMap : EntityTypeConfiguration<Vakil>
+    {
+        public VakilMap()
+        {
+            this.ToTable("Vakils");
+            this.Property(v => v.StartDate).IsRequired().HasColumnName("StartDate");
         }
     }
 
