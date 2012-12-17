@@ -1,18 +1,19 @@
-﻿namespace Valiasr.NewDataAccess
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Valiasr.NewDomain;
+using NUnit.Framework;
+namespace Valiasr.NewDataAccess
 {
-    using System;
-    using System.Linq;
 
-    using NUnit.Framework;
-
-    using Valiasr.NewDomain;
-
-    public class DataAccessTest
+    public class DbTest
     {
         #region Constructors and Destructors
 
-
-        public DataAccessTest()
+        public DbTest()
         {
             TearDown();
         }
@@ -27,34 +28,30 @@
             var context = new ValiasrContext("Valiasr.ce");
             Customer customer = this.CreateCustomer();
             Vakil vakil = this.CreateVakil();
-<<<<<<< HEAD
-=======
             Kol kol = this.CreateKol();
-            Moin moin = this.CreateMoin();
->>>>>>> Modified until 1391/09/27
+            Moin moin = this.CreateMoin();           
             Account account = this.CreateAccount();
-            //account.Correspondents.Add(correspondent);
-   //         Correspondent correspondent = customer;
+            Correspondent correspondent = vakil;
             account.Correspondents.Add(vakil);
-            context.Accounts.Add(account);
-            //account.Correspondents.Add(customer);
             account.Correspondents.Add(customer);
-        //    context.Accounts.Add(account);
-  //          account.Correspondents.Add(vakil);
-  //          context.Correspondents.Add(correspondent);
-            context.Accounts.Add(account);
+            moin.Accounts.Add(account);
+            kol.Moins.Add(moin); 
+            context.Kols.Add(kol);
             Account account2 = this.CreateAccount();
             account2.Correspondents.Add(vakil);
+            //moin.Accounts.Add(account2);
+            //kol.Moins.Add(moin);
+            account2.Moin = moin;
             context.Accounts.Add(account2);
+            //context.Kols.Add(kol);
             context.SaveChanges();
 
             var anotherContext = new ValiasrContext("Valiasr.ce");
-            //Correspondent fetchedCorrespondent =
-              //  anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
-            //Assert.True(correspondent.Equals(fetchedCorrespondent));
-            Correspondent fetchedCorrespondent =
-                anotherContext.Correspondents.FirstOrDefault(o => o.Id == customer.Id);
-            Assert.True(customer.Equals(fetchedCorrespondent));
+            Correspondent fetchedCorrespondent = anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
+            Assert.True(correspondent.Equals(fetchedCorrespondent));
+          //  Correspondent fetchedCorrespondent =
+           //     anotherContext.Correspondents.FirstOrDefault(o => o.Id == customer.Id);
+        //    Assert.True(customer.Equals(fetchedCorrespondent));
       //      account = this.CreateAccount();
 
         }
@@ -72,7 +69,6 @@
         #endregion
 
         #region Methods
-
         [SetUp]
         private static void TearDown()
         {
@@ -82,11 +78,8 @@
             context.Database.ExecuteSqlCommand("Delete from Customers");
             context.Database.ExecuteSqlCommand("Delete From Vakils");
             context.Database.ExecuteSqlCommand("Delete from Persons");
-<<<<<<< HEAD
-=======
-            context.Database.ExecuteSqlCommand("Delete from Kol");
-            context.Database.ExecuteSqlCommand("Delete from Moin");
->>>>>>> Modified until 1391/09/27
+            context.Database.ExecuteSqlCommand("Delete from Moins");
+            context.Database.ExecuteSqlCommand("Delete from Kols");            
         }
 
         private Account CreateAccount()
