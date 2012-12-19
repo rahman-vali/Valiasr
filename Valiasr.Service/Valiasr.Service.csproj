@@ -141,13 +141,13 @@
     <Content Include="Scripts\jquery.validate.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Valiasr.NewDataAccess\Valiasr.NewDataAccess.csproj">
+    <ProjectReference Include="..\Valiasr.DataAccess\Valiasr.DataAccess.csproj">
       <Project>{6e13a01e-5fd8-40ee-9dc8-fb613f04aef3}</Project>
-      <Name>Valiasr.NewDataAccess</Name>
+      <Name>Valiasr.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Valiasr.NewDomain\Valiasr.NewDomain.csproj">
-      <Project>{2c5b3f64-244d-4aaa-9da6-f787011290f6}</Project>
-      <Name>Valiasr.NewDomain</Name>
+    <ProjectReference Include="..\Valiasr.Domain\Valiasr.Domain.csproj">
+      <Project>{74095029-36a6-4547-b1ac-a50ccf32ae3c}</Project>
+      <Name>Valiasr.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -2,12 +2,21 @@
 {
     public class ContactInfo
     {
-        public string Address { get; set; }
-        public int Tellno { get; set; }
+        public string HomeAddress { get; set; }
+
+        public string WorkAddress { get; set; }
+
+        public string  HomeTelno { get; set; }
+
+        public string OfficeTelNo { get; set; }
+
+        public string Mobile { get; set; }
+
+        public string PostIdentity { get; set; }
+
         public bool HasValue()
         {
-            return (this.Address != null || this.Tellno != 0);
+            return (this.HomeAddress != null || this.HomeTelno != "0");
         }
     }
-
 }

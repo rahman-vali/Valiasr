@@ -4,7 +4,7 @@
 
     using Valiasr.DataAccess.Mapping;
     using Valiasr.Domain;
-    using Valiasr.Domain.SystemJari;
+    
 
     public class ValiasrContext : DbContext
     {
@@ -20,11 +20,13 @@
 
         #region Properties
 
+        public DbSet<Kol> Kols { get; set; }
+
+        public DbSet<Moin> Moins { get; set; }
+
         public DbSet<Account> Accounts { get; set; }
 
-        public DbSet<CustomerHesab> CustomerHesabs { get; set; }
-
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Correspondent> Correspondents { get; set; }
 
         #endregion
 
@@ -32,9 +34,17 @@
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new PersonMap());
             modelBuilder.Configurations.Add(new CustomerMap());
-            modelBuilder.Configurations.Add(new CustomerHesabMap());
+            modelBuilder.Configurations.Add(new VakilMap());
+            modelBuilder.Configurations.Add(new KolMap());
+            modelBuilder.Configurations.Add(new MoinMap());
+            modelBuilder.Configurations.Add(new ContactInfoMap());
             modelBuilder.Configurations.Add(new AccountMap());
+          //  modelBuilder.Entity<Person>().Map<Correspondent>(c => c.Requires("PersonTye").HasValue(1));
+            modelBuilder.Entity<Person>().Map<Correspondent>(c => c.Requires("Diccriminator").HasValue("1"));
+            //In khat ezafi ast chera, tozihat aan dar file CorrespondentMap.cs amade ast
+            //modelBuilder.Configurations.Add(new CorrespondentMap());
             base.OnModelCreating(modelBuilder);
         }
 

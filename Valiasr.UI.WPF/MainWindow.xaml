@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:NewDomain="clr-namespace:Valiasr.NewDomain;assembly=Valiasr.NewDomain" xmlns:AccountServiceReference="clr-namespace:Valiasr.UI.WPF.AccountServiceReference" mc:Ignorable="d" x:Class="Valiasr.UI.WPF.MainWindow"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Domain="clr-namespace:Valiasr.Domain;assembly=Valiasr.Domain" xmlns:AccountServiceReference="clr-namespace:Valiasr.UI.WPF.AccountServiceReference" mc:Ignorable="d" x:Class="Valiasr.UI.WPF.MainWindow"
         Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded_1" >
     <Window.Resources>
         <CollectionViewSource x:Key="customerDtoViewSource" d:DesignSource="{d:DesignInstance {x:Type AccountServiceReference:CustomerDto}, CreateList=True}"/>
@@ -9,7 +9,7 @@
     <Grid DataContext="{StaticResource customerDtoViewSource}">
         <Button Content="Load Customer" HorizontalAlignment="Left" Margin="296,15,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_1" RenderTransformOrigin="-1.173,0.909"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="296,54,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" x:Name="AccountNo"/>
-        <ListView x:Name="customerDtoListView" ItemsSource="{Binding}" Margin="48,82,69,38" SelectionMode="Single">
+        <ListView x:Name="customerDtoListView" ItemsSource="{Binding}" Margin="48,82,69,38" SelectionMode="Single" SelectionChanged="customerDtoListView_SelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>

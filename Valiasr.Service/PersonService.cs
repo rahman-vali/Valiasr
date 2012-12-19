@@ -2,22 +2,48 @@
 
 namespace Valiasr.Service
 {
-    using Valiasr.NewDataAccess;
+    using Valiasr.DataAccess;
+    using Valiasr.Domain;
 
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
      
     public class PersonService : IPersonService
      {
-        public PersonDto GetPerson(string name)
+        public PersonDTO GetPerson(string melliIdentity)
         {
-            var context = new ValiasrContext("Valiasr.Ce");
-            var customer = context.Correspondents.First(p => p.Firstname == name);
-            return new PersonDto()
+            PersonDTO personDTO =  new PersonDTO();           
+            PersonDAO personDAO = new PersonDAO();
+            Person person = personDAO.GetPerson(melliIdentity); 
+            if (person != null)
+              TranslatePersonToPersonDTO(person , personDTO);
+            else
+              personDTO = null;            
+            return personDTO;
+        }
 
-                {
-                    Firstname = customer.Firstname,
-                    Lastname = customer.Lastname,
-                };
+        private void TranslatePersonToPersonDTO(Person person, PersonDTO personDTO)
+        {
+            personDTO.CustomerId = person.CustomerId;
+            personDTO.ShobehCode = person.ShobehCode;
+            personDTO.Firstname = person.Firstname;
+            personDTO.Lastname = person.Lastname;
+            personDTO.FatherName = person.FatherName;
+            personDTO.CretyId = person.CretyId;
+            personDTO.CretySerial = person.CretySerial;
+            personDTO.Sadereh = person.Sadereh;
+            personDTO.BirthDate = person.BirthDate;
+            personDTO.MelliIdentity = person.MelliIdentity;
+            personDTO.HeadMelliIdentity = person.HeadMelliIdentity;
+            personDTO.JobName = person.JobName;
+            personDTO.JobKind = person.JobKind;
+            personDTO.Salary = person.Salary;
+            personDTO.IndivOrOrgan = person.IndivOrOrgan;
+            personDTO.HomeAddress = person.ContactInfo.HomeAddress;
+            personDTO.WorkAddress = person.ContactInfo.WorkAddress;
+            personDTO.HomeTelno = person.ContactInfo.HomeTelno;
+            personDTO.OfficeTelNo = person.ContactInfo.OfficeTelNo;
+            personDTO.Mobile = person.ContactInfo.Mobile;
+            personDTO.PostIdentity = person.ContactInfo.PostIdentity;
         }
 
 

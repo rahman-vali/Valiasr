@@ -42,5 +42,10 @@ namespace Valiasr.UI.WPF
             // Load data by setting the CollectionViewSource.Source property:
             // customerDtoViewSource.Source = [generic data source]
         }
+
+        private void customerDtoListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

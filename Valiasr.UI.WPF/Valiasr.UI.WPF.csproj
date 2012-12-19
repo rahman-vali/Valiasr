@@ -132,13 +132,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Valiasr.NewDomain\Valiasr.NewDomain.csproj">
-      <Project>{2c5b3f64-244d-4aaa-9da6-f787011290f6}</Project>
-      <Name>Valiasr.NewDomain</Name>
-    </ProjectReference>
+    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\DataSources\" />
+    <ProjectReference Include="..\Valiasr.Domain\Valiasr.Domain.csproj">
+      <Project>{74095029-36a6-4547-b1ac-a50ccf32ae3c}</Project>
+      <Name>Valiasr.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

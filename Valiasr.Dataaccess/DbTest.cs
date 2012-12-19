@@ -1,18 +1,16 @@
-﻿namespace Valiasr.DataAccess
+﻿using System;
+using System.Linq;
+    //using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Valiasr.Domain;
+using NUnit.Framework;
+namespace Valiasr.DataAccess
 {
-    using System;
-    using System.Linq;
 
-    using NUnit.Framework;
-
-    using Valiasr.Domain;
-
-    public class DataAccessTest
+    public class DbTest
     {
         #region Constructors and Destructors
 
-
-        public DataAccessTest()
+        public DbTest()
         {
             TearDown();
         }
@@ -22,42 +20,43 @@
         #region Public Methods
 
         [Test]
-        public void Create_Relation_test()
+        public void CreateRelationtest()
         {
             var context = new ValiasrContext("Valiasr.ce");
-            Customer customer = this.CreateCustomer();
-            Vakil vakil = this.CreateVakil();
+            Customer customer = Customer.CreateCustomer("ali", "ahmadi", "babol", "2" , "2");  //this.CreateCustomer();
+            Vakil vakil = Vakil.CreateVakil("ahmad", "haghighi", "tehran", new DateTime(2012, 09, 28) , "1");//this.CreateVakil();
             Kol kol = this.CreateKol();
-            Moin moin = this.CreateMoin();
+            Moin moin = this.CreateMoin();           
             Account account = this.CreateAccount();
-            //account.Correspondents.Add(correspondent);
-   //         Correspondent correspondent = customer;
+            Correspondent correspondent = vakil;//new Correspondent();
+
             account.Correspondents.Add(vakil);
-            context.Accounts.Add(account);
-            //account.Correspondents.Add(customer);
             account.Correspondents.Add(customer);
-        //    context.Accounts.Add(account);
-  //          account.Correspondents.Add(vakil);
-  //          context.Correspondents.Add(correspondent);
-            context.Accounts.Add(account);
-            Account account2 = this.CreateAccount();
-            account2.Correspondents.Add(vakil);
-            context.Accounts.Add(account2);
+            moin.Accounts.Add(account);
+            kol.Moins.Add(moin); 
+            context.Kols.Add(kol);
+       //     Account account2 = this.CreateAccount();
+         //   account2.Correspondents.Add(vakil);
+           // moin.Accounts.Add(account2);
+            //kol.Moins.Add(moin);
+            //account2.Moin = moin;
+            //context.Accounts.Add(account2);
+            //context.Kols.Add(kol);
             context.SaveChanges();
 
             var anotherContext = new ValiasrContext("Valiasr.ce");
-            //Correspondent fetchedCorrespondent =
-              //  anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
-            //Assert.True(correspondent.Equals(fetchedCorrespondent));
-            Correspondent fetchedCorrespondent =
-                anotherContext.Correspondents.FirstOrDefault(o => o.Id == customer.Id);
-            Assert.True(customer.Equals(fetchedCorrespondent));
-      //      account = this.CreateAccount();
-
+            Correspondent fetchedCorrespondent = anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
+            Assert.True(correspondent.Equals(fetchedCorrespondent));
+          /*  context.Accounts.Remove(account);
+            context.Moins.Remove(moin);
+            context.Kols.Remove(kol);
+            context.Correspondents.Remove(vakil);
+            context.Correspondents.Remove(customer);
+            context.SaveChanges();*/
         }
 
         [Test]
-        public void Test_Database_Created()
+        public void TestDatabaseCreated()
         {
             var context = new ValiasrContext("Valiasr.Ce");
             Customer customer = this.CreateCustomer();
@@ -69,7 +68,6 @@
         #endregion
 
         #region Methods
-
         [SetUp]
         private static void TearDown()
         {
@@ -79,8 +77,8 @@
             context.Database.ExecuteSqlCommand("Delete from Customers");
             context.Database.ExecuteSqlCommand("Delete From Vakils");
             context.Database.ExecuteSqlCommand("Delete from Persons");
-            context.Database.ExecuteSqlCommand("Delete from Kol");
-            context.Database.ExecuteSqlCommand("Delete from Moin");
+            context.Database.ExecuteSqlCommand("Delete from Moins");
+            context.Database.ExecuteSqlCommand("Delete from Kols");            
         }
 
         private Account CreateAccount()
@@ -105,9 +103,11 @@
         {
             var correspondent = new Correspondent
                 {
+                    
                     Id = Guid.NewGuid(),
                     Firstname = "ali",
                     Lastname = "ahmadi",
+                    MelliIdentity = "4",
                     ContactInfo = { HomeAddress = "babol", HomeTelno = "12435" }
                 };
             return correspondent;
@@ -115,14 +115,16 @@
 
         private Customer CreateCustomer()
         {
-            var customer = new Customer
+            var customer = Customer.CreateCustomer("ali", "ahmadi", "babol", "1", "3");
+           /* var customer = new Customer
                 {
+                    
                     Id = Guid.NewGuid(),
                     Firstname = "ali",
                     Lastname = "ahmadi",
                     No = "1",
-                    ContactInfo = { HomeAddress = "babol", HomeTelno = "12435" }
-                };
+                    ContactInfo = { Address = "babol", Tellno = 12435 }
+                };*/
             return customer;
         }
 
@@ -134,6 +136,7 @@
                 Firstname = "ali2",
                 Lastname = "ahmadi2",
                 StartDate = new DateTime(2012,6,12),
+                MelliIdentity = "5",
                 ContactInfo = { HomeAddress = "babol2", HomeTelno = "12435" }
             };
             return vakil;

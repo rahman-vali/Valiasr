@@ -15,18 +15,75 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PersonDto", Namespace="http://schemas.datacontract.org/2004/07/Valiasr.Service")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PersonDTO", Namespace="http://schemas.datacontract.org/2004/07/Valiasr.Service")]
     [System.SerializableAttribute()]
-    public partial class PersonDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class PersonDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int BirthDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CretyIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CretySerialField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CustomerIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FatherNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string FirstnameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string HeadMelliIdentityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string HomeAddressField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string HomeTelnoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IndivOrOrganField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private short JobKindField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string JobNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string LastnameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MelliIdentityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MobileField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string OfficeTelNoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PostIdentityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SaderehField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int SalaryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ShobehCodeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string WorkAddressField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -35,6 +92,71 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int BirthDate {
+            get {
+                return this.BirthDateField;
+            }
+            set {
+                if ((this.BirthDateField.Equals(value) != true)) {
+                    this.BirthDateField = value;
+                    this.RaisePropertyChanged("BirthDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CretyId {
+            get {
+                return this.CretyIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CretyIdField, value) != true)) {
+                    this.CretyIdField = value;
+                    this.RaisePropertyChanged("CretyId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CretySerial {
+            get {
+                return this.CretySerialField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CretySerialField, value) != true)) {
+                    this.CretySerialField = value;
+                    this.RaisePropertyChanged("CretySerial");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CustomerId {
+            get {
+                return this.CustomerIdField;
+            }
+            set {
+                if ((this.CustomerIdField.Equals(value) != true)) {
+                    this.CustomerIdField = value;
+                    this.RaisePropertyChanged("CustomerId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FatherName {
+            get {
+                return this.FatherNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FatherNameField, value) != true)) {
+                    this.FatherNameField = value;
+                    this.RaisePropertyChanged("FatherName");
+                }
             }
         }
         
@@ -52,6 +174,84 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string HeadMelliIdentity {
+            get {
+                return this.HeadMelliIdentityField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.HeadMelliIdentityField, value) != true)) {
+                    this.HeadMelliIdentityField = value;
+                    this.RaisePropertyChanged("HeadMelliIdentity");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string HomeAddress {
+            get {
+                return this.HomeAddressField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.HomeAddressField, value) != true)) {
+                    this.HomeAddressField = value;
+                    this.RaisePropertyChanged("HomeAddress");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string HomeTelno {
+            get {
+                return this.HomeTelnoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.HomeTelnoField, value) != true)) {
+                    this.HomeTelnoField = value;
+                    this.RaisePropertyChanged("HomeTelno");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string IndivOrOrgan {
+            get {
+                return this.IndivOrOrganField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IndivOrOrganField, value) != true)) {
+                    this.IndivOrOrganField = value;
+                    this.RaisePropertyChanged("IndivOrOrgan");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public short JobKind {
+            get {
+                return this.JobKindField;
+            }
+            set {
+                if ((this.JobKindField.Equals(value) != true)) {
+                    this.JobKindField = value;
+                    this.RaisePropertyChanged("JobKind");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string JobName {
+            get {
+                return this.JobNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.JobNameField, value) != true)) {
+                    this.JobNameField = value;
+                    this.RaisePropertyChanged("JobName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string Lastname {
             get {
                 return this.LastnameField;
@@ -60,6 +260,110 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
                 if ((object.ReferenceEquals(this.LastnameField, value) != true)) {
                     this.LastnameField = value;
                     this.RaisePropertyChanged("Lastname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string MelliIdentity {
+            get {
+                return this.MelliIdentityField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MelliIdentityField, value) != true)) {
+                    this.MelliIdentityField = value;
+                    this.RaisePropertyChanged("MelliIdentity");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Mobile {
+            get {
+                return this.MobileField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MobileField, value) != true)) {
+                    this.MobileField = value;
+                    this.RaisePropertyChanged("Mobile");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string OfficeTelNo {
+            get {
+                return this.OfficeTelNoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OfficeTelNoField, value) != true)) {
+                    this.OfficeTelNoField = value;
+                    this.RaisePropertyChanged("OfficeTelNo");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PostIdentity {
+            get {
+                return this.PostIdentityField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PostIdentityField, value) != true)) {
+                    this.PostIdentityField = value;
+                    this.RaisePropertyChanged("PostIdentity");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Sadereh {
+            get {
+                return this.SaderehField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SaderehField, value) != true)) {
+                    this.SaderehField = value;
+                    this.RaisePropertyChanged("Sadereh");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Salary {
+            get {
+                return this.SalaryField;
+            }
+            set {
+                if ((this.SalaryField.Equals(value) != true)) {
+                    this.SalaryField = value;
+                    this.RaisePropertyChanged("Salary");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ShobehCode {
+            get {
+                return this.ShobehCodeField;
+            }
+            set {
+                if ((this.ShobehCodeField.Equals(value) != true)) {
+                    this.ShobehCodeField = value;
+                    this.RaisePropertyChanged("ShobehCode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string WorkAddress {
+            get {
+                return this.WorkAddressField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WorkAddressField, value) != true)) {
+                    this.WorkAddressField = value;
+                    this.RaisePropertyChanged("WorkAddress");
                 }
             }
         }
@@ -79,10 +383,10 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
     public interface IPersonService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetPerson", ReplyAction="http://tempuri.org/IPersonService/GetPersonResponse")]
-        WindowsFormsApplicationClient.PersonServiceReference.PersonDto GetPerson(string name);
+        WindowsFormsApplicationClient.PersonServiceReference.PersonDTO GetPerson(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetPerson", ReplyAction="http://tempuri.org/IPersonService/GetPersonResponse")]
-        System.Threading.Tasks.Task<WindowsFormsApplicationClient.PersonServiceReference.PersonDto> GetPersonAsync(string name);
+        System.Threading.Tasks.Task<WindowsFormsApplicationClient.PersonServiceReference.PersonDTO> GetPersonAsync(string name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -112,11 +416,11 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public WindowsFormsApplicationClient.PersonServiceReference.PersonDto GetPerson(string name) {
+        public WindowsFormsApplicationClient.PersonServiceReference.PersonDTO GetPerson(string name) {
             return base.Channel.GetPerson(name);
         }
         
-        public System.Threading.Tasks.Task<WindowsFormsApplicationClient.PersonServiceReference.PersonDto> GetPersonAsync(string name) {
+        public System.Threading.Tasks.Task<WindowsFormsApplicationClient.PersonServiceReference.PersonDTO> GetPersonAsync(string name) {
             return base.Channel.GetPersonAsync(name);
         }
     }

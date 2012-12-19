@@ -1,5 +1,6 @@
-﻿namespace Valiasr.NewDomain
+﻿namespace Valiasr.Domain
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
@@ -8,14 +9,22 @@
         public Correspondent()
         {
             this.Accounts = new Collection<Account>();
+           
         }
         public ICollection<Account> Accounts { get; set; }
+        public Correspondent CreateCorrespondent(string fName,string lName,string address , string melliIdentity)
+        {
+            var correspondent = new Correspondent() { Id = Guid.NewGuid(), Firstname = fName, Lastname = lName, MelliIdentity = melliIdentity};
+            
+            correspondent.ContactInfo = new ContactInfo(){HomeAddress = address};
+            return correspondent;        
+        }
 
         protected bool Equals(Correspondent other)
         {
             return this.Id.Equals(other.Id) && string.Equals(this.Firstname, other.Firstname) && string.Equals(this.Lastname, other.Lastname);
         }
-
+        
         public override int GetHashCode()
         {
             unchecked

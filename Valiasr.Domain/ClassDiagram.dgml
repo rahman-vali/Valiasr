@@ -123,7 +123,7 @@
   </QualifiedNames>
   <IdentifierAliases>
     <Alias n="1" Uri="Assembly=$(2c5b3f64-244d-4aaa-9da6-f787011290f6.OutputPathUri)" />
-    <Alias n="2" Id="Namespace=Valiasr.NewDomain" />
+    <Alias n="2" Id="Namespace=Valiasr.Domain" />
     <Alias n="3" Id="Type=Account" />
     <Alias n="4" Id="(@1 @2 @3)" />
     <Alias n="5" Id="Type=Customer" />
@@ -224,8 +224,8 @@
     </Style>
   </Styles>
   <Paths>
-    <Path Id="2c5b3f64-244d-4aaa-9da6-f787011290f6.OutputPath" Value="G:\Valiasr\Valiasr.NewDomain\bin\Debug\Valiasr.NewDomain.dll" />
-    <Path Id="2c5b3f64-244d-4aaa-9da6-f787011290f6.OutputPathUri" Value="file:///G:/Valiasr/Valiasr.NewDomain/bin/Debug/Valiasr.NewDomain.dll" />
+    <Path Id="2c5b3f64-244d-4aaa-9da6-f787011290f6.OutputPath" Value="G:\Valiasr\Valiasr.Domain\bin\Debug\Valiasr.Domain.dll" />
+    <Path Id="2c5b3f64-244d-4aaa-9da6-f787011290f6.OutputPathUri" Value="file:///G:/Valiasr/Valiasr.Domain/bin/Debug/Valiasr.Domain.dll" />
     <Path Id="FxReferenceAssemblies" Value="D:\Program Files (x86)\Reference Assemblies\Microsoft\Framework" />
     <Path Id="FxReferenceAssembliesUri" Value="file:///D:/Program Files (x86)/Reference Assemblies/Microsoft/Framework" />
   </Paths>
