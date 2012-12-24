@@ -21,17 +21,13 @@ namespace Valiasr.Service
             return personDTO;
         }
          public void AddPerson(PersonDTO personDto)
-        {
-            var context = new ValiasrContext("Valiasr.ce");
-            //Customer person = Customer.CreateCustomer(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, "12", personDto.MelliIdentity); 
-            Customer customer = Customer.CreateCustomer("ali", "ahmadi", "babol", "2", "2");  //this.CreateCustomer();
-            Correspondent correspondent = customer;// vakil;//new Correspondent();
-            context.Correspondents.Add(correspondent);
-            context.SaveChanges();
-             //PersonDAO personDao = new PersonDAO();
+         {
+             Customer person = Customer.CreateCustomer(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, "12", personDto.MelliIdentity); 
+            Correspondent correspondent = person;// vakil;//new Correspondent();
+            PersonDAO personDao = new PersonDAO();
              
-//             this.TranslatePersonDtoToPerson(personDto, person);
-            // personDao.AddPerson(person);
+             TranslatePersonDtoToPerson(personDto, person);
+             personDao.AddPerson(person);
 
          }
         private void TranslatePersonToPersonDto(Correspondent person, PersonDTO personDto)

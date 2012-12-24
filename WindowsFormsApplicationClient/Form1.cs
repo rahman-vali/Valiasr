@@ -36,7 +36,7 @@ namespace WindowsFormsApplicationClient
                 ShobehCode = 1,
                 Firstname = "ali",
                 Lastname = "ahmadi",
-                MelliIdentity = "60",
+                MelliIdentity = "70",
                 HomeAddress = "babol", 
                 HomeTelno = "12435" ,
             };
