@@ -12,6 +12,8 @@
             this.Moins = new Collection<Moin>();
         }
         public int Id{get;set;}
+
+        public int Kol_Code { get; set; }
         public string  Description{get;set;}
         public int Kind {get;set;}
         public int Last_Date{get;set;}
@@ -27,6 +29,9 @@
             this.Accounts = new Collection<Account>();
         }
         public int Id { get; set; }
+
+        public int Kol_Code { get; set; }
+        public string Moin_Code { get; set; }
         public int Moin_InKol_Code { get; set; }
         public string Description {get;set;}
         public bool Hesab_Have {get;set;}
@@ -48,6 +53,8 @@
         #region Properties
 
         //Shomare Hesab
+        public string Moin_Code { get; set; }
+        public string Hesab_No { get; set; }
         public string No { get; set; }
 
         /// Mojodi Hesab

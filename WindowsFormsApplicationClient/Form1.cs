@@ -17,9 +17,9 @@ namespace WindowsFormsApplicationClient
         {
             button1.Enabled = false;
             PersonServiceClient client = new PersonServiceClient();
-            PersonDTO personDTO = client.GetPerson(textBox1.Text);
-            if (personDTO != null)
-             button1.Text = personDTO.Firstname;
+            PersonDTO personDto = client.GetPerson(textBox1.Text);
+            if (personDto != null)
+             button1.Text = personDto.Firstname;
             else
              button1.Text = "not found";
             button1.Enabled = true;
@@ -27,6 +27,21 @@ namespace WindowsFormsApplicationClient
 
         private void button2_Click(object sender, EventArgs e)
         {
+            button2.Enabled = false;
+            PersonServiceClient client = new PersonServiceClient();
+            PersonDTO personDto = new PersonDTO
+            {
+
+                CustomerId = 10,
+                ShobehCode = 1,
+                Firstname = "ali",
+                Lastname = "ahmadi",
+                MelliIdentity = "60",
+                HomeAddress = "babol", 
+                HomeTelno = "12435" ,
+            };
+            client.AddPerson(personDto);
+            button2.Enabled = true;
         }
     }
 }

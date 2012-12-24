@@ -24,7 +24,10 @@ namespace Valiasr.DataAccess
         {
             var context = new ValiasrContext("Valiasr.ce");
             Customer customer = Customer.CreateCustomer("ali", "ahmadi", "babol", "2" , "2");  //this.CreateCustomer();
-            Vakil vakil = Vakil.CreateVakil("ahmad", "haghighi", "tehran", new DateTime(2012, 09, 28) , "1");//this.CreateVakil();
+            Correspondent correspondent = customer;// vakil;//new Correspondent();
+            context.Correspondents.Add(correspondent);
+            context.SaveChanges();
+            /*Vakil vakil = Vakil.CreateVakil("ahmad", "haghighi", "tehran", new DateTime(2012, 09, 28) , "1");//this.CreateVakil();
             Kol kol = this.CreateKol();
             Moin moin = this.CreateMoin();           
             Account account = this.CreateAccount();
@@ -41,7 +44,8 @@ namespace Valiasr.DataAccess
             //kol.Moins.Add(moin);
             //account2.Moin = moin;
             //context.Accounts.Add(account2);
-            //context.Kols.Add(kol);
+            context.Kols.Add(kol);
+            //context.Accounts.Add(account);
             context.SaveChanges();
 
             var anotherContext = new ValiasrContext("Valiasr.ce");

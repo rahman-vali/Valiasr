@@ -11,7 +11,7 @@
         public KolMap()
         {
             this.HasKey(k => k.Id);
-            this.Property(k => k.Id).HasColumnName("Kol_Code");
+            this.Property(k => k.Id).HasColumnName("KolId");
                 //It's not supported in Sql Server CE
                 //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
 
@@ -26,12 +26,13 @@
         public MoinMap()
         {
             this.HasKey(m => m.Id);
-            this.Property(m => m.Id).HasColumnName("Moin_Code");
+            this.Property(m => m.Id).HasColumnName("MoinId");
                 //It's not supported in Sql Server CE
                 //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
                
             this.Property(m => m.Description).HasMaxLength(150).HasColumnName("Moin_Des");
-            this.HasMany(m => m.Accounts).WithRequired(a => a.Moin);
+            //this.HasMany(m => m.Accounts).WithRequired(a => a.Moin).Map(m => m.MapKey("Kol_Code"));
+            this.HasRequired(k => k.Kol).WithMany(m => m.Moins).Map(m => m.MapKey("KolId"));
         }
     }
 
@@ -48,6 +49,7 @@
             this.Property(a => a.Description).HasMaxLength(210);
             this.Property(a => a.Balance);
             this.HasMany(a => a.Correspondents).WithMany(c => c.Accounts);
+            HasRequired(m => m.Moin).WithMany(a => a.Accounts).Map(m => m.MapKey("MoinId"));
         }
     }
 }

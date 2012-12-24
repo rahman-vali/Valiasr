@@ -13,8 +13,11 @@ namespace Valiasr.Service
     {
 
         [OperationContract]
-        PersonDTO GetPerson(string name);                    
+        PersonDTO GetPerson(string name);
 
+
+        [OperationContract]
+        void AddPerson(PersonDTO personDto);                    
 
         // TODO: Add your service operations here
     }

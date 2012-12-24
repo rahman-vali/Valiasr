@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="92bd3b83-5276-42cd-8ab5-eb152524d68c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3495d7f5-59f0-42b4-a504-ace633284ddb" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,10 +22,10 @@
     <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="babd39c1-bd89-48e1-af6d-cdc5ab720bfc" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="842ebe7b-e1ab-43e0-9f87-30b1ea0ace41" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="f30d131c-fce3-4f5b-b52a-9fcc0d913a21" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" />
-    <MetadataFile FileName="Valiasr.Service.xsd" MetadataType="Schema" ID="2d9ecf73-a4fd-4bac-8387-4c0b5fd14150" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="825ae63f-a450-4398-8ebf-bcaf124a866a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="9fe674fc-0496-4b11-b162-28b73d557132" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c0a0ff02-bc65-4772-8023-144f5a454603" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" />
+    <MetadataFile FileName="Valiasr.Service.xsd" MetadataType="Schema" ID="a0d317c5-8d1a-4575-b9aa-1bff2093a8fd" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Valiasr.Service/PersonService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

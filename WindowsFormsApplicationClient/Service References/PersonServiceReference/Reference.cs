@@ -77,7 +77,7 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
         private string SaderehField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int SalaryField;
+        private decimal SalaryField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int ShobehCodeField;
@@ -330,7 +330,7 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Salary {
+        public decimal Salary {
             get {
                 return this.SalaryField;
             }
@@ -387,6 +387,12 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetPerson", ReplyAction="http://tempuri.org/IPersonService/GetPersonResponse")]
         System.Threading.Tasks.Task<WindowsFormsApplicationClient.PersonServiceReference.PersonDTO> GetPersonAsync(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/AddPerson", ReplyAction="http://tempuri.org/IPersonService/AddPersonResponse")]
+        void AddPerson(WindowsFormsApplicationClient.PersonServiceReference.PersonDTO personDto);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/AddPerson", ReplyAction="http://tempuri.org/IPersonService/AddPersonResponse")]
+        System.Threading.Tasks.Task AddPersonAsync(WindowsFormsApplicationClient.PersonServiceReference.PersonDTO personDto);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -422,6 +428,14 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
         
         public System.Threading.Tasks.Task<WindowsFormsApplicationClient.PersonServiceReference.PersonDTO> GetPersonAsync(string name) {
             return base.Channel.GetPersonAsync(name);
+        }
+        
+        public void AddPerson(WindowsFormsApplicationClient.PersonServiceReference.PersonDTO personDto) {
+            base.Channel.AddPerson(personDto);
+        }
+        
+        public System.Threading.Tasks.Task AddPersonAsync(WindowsFormsApplicationClient.PersonServiceReference.PersonDTO personDto) {
+            return base.Channel.AddPersonAsync(personDto);
         }
     }
 }

@@ -20,7 +20,7 @@
       <xs:element minOccurs="0" name="OfficeTelNo" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="PostIdentity" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Sadereh" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Salary" type="xs:int" />
+      <xs:element minOccurs="0" name="Salary" type="xs:decimal" />
       <xs:element minOccurs="0" name="ShobehCode" type="xs:int" />
       <xs:element minOccurs="0" name="WorkAddress" nillable="true" type="xs:string" />
     </xs:sequence>
