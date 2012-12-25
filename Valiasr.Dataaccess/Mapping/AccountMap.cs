@@ -48,7 +48,7 @@
                 .HasColumnName("AccountId");
             this.Property(a => a.Description).HasMaxLength(210);
             this.Property(a => a.Balance);
-            this.HasMany(a => a.Correspondents).WithMany(c => c.Accounts);
+            this.HasMany(a => a.Persons).WithMany(c => c.Accounts);
             HasRequired(m => m.Moin).WithMany(a => a.Accounts).Map(m => m.MapKey("MoinId"));
         }
     }

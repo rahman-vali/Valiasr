@@ -1,24 +1,25 @@
 ﻿namespace Valiasr.Domain
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     public class Person
     {
-       /* public Person()
+
+        public Person()
         {
-            this.Id = Guid.NewGuid();
-            this.ContactInfo = new ContactInfo();
-            this.BirthDate = 13910928;
-        }*/        
+            Accounts = new Collection<Account>();
+        }
 
         public bool Balegh
         {
             get
             {
-              /*  if ((DateTime.Now - this.BirthDate).TotalDays / 365 < 18)
-                    return false;
-                else*/
-                    return true;
+                /*  if ((DateTime.Now - this.BirthDate).TotalDays / 365 < 18)
+                      return false;
+                  else*/
+                return true;
             }
         }
         /*public static Person CreatePerson(string fName,string lName , string address)
@@ -28,11 +29,13 @@
             person.ContactInfo = new ContactInfo(){HomeAddress = address};
             return person;
         }*/
+        public ICollection<Account> Accounts { get; set; }
+
         public Guid Id { get; set; }
 
         public int CustomerId { get; set; }
 
-        public int ShobehCode { get; set; }     
+        public int ShobehCode { get; set; }
 
         public string Firstname { get; set; }
 
@@ -68,6 +71,14 @@
 
 
         public ContactInfo ContactInfo { get; set; }
+
+        public static Person Create(string fName, string lName, string address, string melliIdentity)
+        {
+            var correspondent = new Person() { Id = Guid.NewGuid(), Firstname = fName, Lastname = lName, MelliIdentity = melliIdentity };
+
+            correspondent.ContactInfo = new ContactInfo() { HomeAddress = address };
+            return correspondent;
+        }
 
     }
 }

@@ -1,54 +1,63 @@
 ﻿namespace Valiasr.DataAccess
 {
     using System;
+    using System.Data;
     using System.Linq;
+
+    using NUnit.Framework;
 
     using Valiasr.Domain;
 
     public class PersonDAO
     {
-        public Correspondent GetPerson(string melliIdentity)
+        public Person GetPerson(string melliIdentity)
         {
             var context = new ValiasrContext("Valiasr.ce");
-            return (from p in context.Correspondents where p.MelliIdentity == melliIdentity select p).FirstOrDefault();
+            return (from p in context.Persons where p.MelliIdentity == melliIdentity select p).FirstOrDefault();
         }
 
-        public Correspondent GetAcount(string melliIdentity)
+        public Person GetAcount(string melliIdentity)
         {
             var context = new ValiasrContext("Valiasr.ce");
-            return (from p in context.Correspondents where p.MelliIdentity == melliIdentity select p).FirstOrDefault();
+            return (from p in context.Persons where p.MelliIdentity == melliIdentity select p).FirstOrDefault();
         }
 
-        public void AddPerson(Correspondent person)
+        public void AddPerson(Person person)
         {
             var context = new ValiasrContext("Valiasr.ce");
-            Correspondent correspondent = person;
-            context.Correspondents.Add(correspondent);
+            Person correspondent = person;
+            context.Persons.Add(correspondent);
             context.SaveChanges();
 
         }
-        public void AddCustomer(string melliIdentity, string no, float portion)
+
+        [Test]
+        public void AddCustomer(
+            [Values("1")] string melliIdentity,
+            [Values("5")]string no,
+            [Values(1)] float portion)
         {
             var context = new ValiasrContext("Valiasr.ce");
-            Correspondent correspondent = (from p in context.Correspondents where p.MelliIdentity == melliIdentity select p).FirstOrDefault();
-            var person = (Person)correspondent;
+            Person person = (from p in context.Persons where p.MelliIdentity == melliIdentity select p).FirstOrDefault();
 
-            Customer customer =
-                Customer.CreateCustomer(
-                correspondent.Firstname,
-                correspondent.Lastname,
-                correspondent.ContactInfo.HomeAddress,
-                no,
-                melliIdentity);
-            if (correspondent != null)
-                customer.Id = correspondent.Id;
-            customer.No = no;
-            customer.Portion = portion;
+            var customer = new Customer
+                {
+                    ContactInfo =  person.ContactInfo,
+                    CustomerId = person.CustomerId,
+                    ShobehCode = person.ShobehCode,
+                    Firstname = person.Firstname,
+                    Lastname = person.Lastname,
+                    HeadMelliIdentity = melliIdentity,
+                    No = no,
+                    Portion = portion,
+                    Id = person.Id
+                };
 
             Account account = (from c in context.Accounts where c.Hesab_No == "1/0/2" select c).FirstOrDefault();
-            account.Correspondents.Add(customer);
+            account.Persons.Add(customer);
             //context.Accounts.Add(account);
-            //context.Correspondents.Add(correspondent);
+            //context.Persons.Add(correspondent);
+            context.Entry(person).State = EntityState.Unchanged;
             context.SaveChanges();
         }
     }

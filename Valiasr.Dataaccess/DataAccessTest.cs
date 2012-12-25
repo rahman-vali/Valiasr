@@ -30,27 +30,27 @@
             Kol kol = this.CreateKol();
             Moin moin = this.CreateMoin();
             Account account = this.CreateAccount();
-            //account.Correspondents.Add(correspondent);
+            //account.Persons.Add(correspondent);
    //         Correspondent correspondent = customer;
-            account.Correspondents.Add(vakil);
+            account.Persons.Add(vakil);
             context.Accounts.Add(account);
-            //account.Correspondents.Add(customer);
-            account.Correspondents.Add(customer);
+            //account.Persons.Add(customer);
+            account.Persons.Add(customer);
         //    context.Accounts.Add(account);
-  //          account.Correspondents.Add(vakil);
-  //          context.Correspondents.Add(correspondent);
+  //          account.Persons.Add(vakil);
+  //          context.Persons.Add(correspondent);
             context.Accounts.Add(account);
             Account account2 = this.CreateAccount();
-            account2.Correspondents.Add(vakil);
+            account2.Persons.Add(vakil);
             context.Accounts.Add(account2);
             context.SaveChanges();
 
             var anotherContext = new ValiasrContext("Valiasr.ce");
             //Correspondent fetchedCorrespondent =
-              //  anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
+              //  anotherContext.Persons.FirstOrDefault(o => o.Id == correspondent.Id);
             //Assert.True(correspondent.Equals(fetchedCorrespondent));
-            Correspondent fetchedCorrespondent =
-                anotherContext.Correspondents.FirstOrDefault(o => o.Id == customer.Id);
+            Person fetchedCorrespondent =
+                anotherContext.Persons.FirstOrDefault(o => o.Id == customer.Id);
             Assert.True(customer.Equals(fetchedCorrespondent));
       //      account = this.CreateAccount();
 
@@ -61,7 +61,7 @@
         {
             var context = new ValiasrContext("Valiasr.Ce");
             Customer customer = this.CreateCustomer();
-            context.Correspondents.Add(customer);
+            context.Persons.Add(customer);
             context.SaveChanges();
             Assert.True(context.Database.Exists());
         }
@@ -74,13 +74,13 @@
         private static void TearDown()
         {
             var context = new ValiasrContext("Valiasr.Ce");
-            context.Database.ExecuteSqlCommand("Delete from AccountCorrespondents");
+            context.Database.ExecuteSqlCommand("Delete from AccountPersons");
             context.Database.ExecuteSqlCommand("Delete from Accounts");
             context.Database.ExecuteSqlCommand("Delete from Customers");
             context.Database.ExecuteSqlCommand("Delete From Vakils");
             context.Database.ExecuteSqlCommand("Delete from Persons");
-            context.Database.ExecuteSqlCommand("Delete from Kol");
-            context.Database.ExecuteSqlCommand("Delete from Moin");
+            context.Database.ExecuteSqlCommand("Delete from Kols");
+            context.Database.ExecuteSqlCommand("Delete from Moins");
         }
 
         private Account CreateAccount()
@@ -101,9 +101,9 @@
             return moin;
         }
 
-        private Correspondent CreateCorrespondent()
+        private Person CreateCorrespondent()
         {
-            var correspondent = new Correspondent
+            var correspondent = new Person()
                 {
                     Id = Guid.NewGuid(),
                     Firstname = "ali",

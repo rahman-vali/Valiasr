@@ -26,7 +26,7 @@
 
         public DbSet<Account> Accounts { get; set; }
 
-        public DbSet<Correspondent> Correspondents { get; set; }
+        public DbSet<Person> Persons { get; set; }
 
         #endregion
 
@@ -41,7 +41,7 @@
             modelBuilder.Configurations.Add(new MoinMap());
             modelBuilder.Configurations.Add(new ContactInfoMap());
             modelBuilder.Configurations.Add(new AccountMap());
-            modelBuilder.Configurations.Add(new CorrespondentMap());
+            //modelBuilder.Configurations.Add(new CorrespondentMap());
 
           //  modelBuilder.Entity<Person>().Map<Correspondent>(c => c.Requires("PersonTye").HasValue(1));
             //modelBuilder.Entity<Person>().Map<Correspondent>(c => c.Requires("Diccriminator").HasValue("1"));

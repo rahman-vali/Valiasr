@@ -3,9 +3,9 @@
     using System;
     using System.Runtime.Serialization;
 
-    public class Customer : Correspondent
+    public class Customer : Person
     {
-       /* public Customer()
+        /* public Customer()
         {
             
         }*/
@@ -17,15 +17,21 @@
 
         public static Customer CreateCustomer(string fName, string lName, string address ,string no , string melliIdentity)
         {   
-            var customer = new Customer() {Firstname = fName, Lastname = lName ,No = no ,MelliIdentity = melliIdentity};
-            
-            customer.ContactInfo = new ContactInfo(){HomeAddress = address};
+            var customer = new Customer
+                {
+                    Id = Guid.NewGuid(),
+                    Firstname = fName,
+                    Lastname = lName,
+                    No = no,
+                    MelliIdentity = melliIdentity,
+                    ContactInfo = new ContactInfo() { HomeAddress = address }
+                };
 
             return customer;                                    
         }
     }
 
-    public class Vakil : Correspondent
+    public class Vakil : Person
     { 
         public DateTime? EndDate { get; set; }
 
@@ -33,9 +39,15 @@
 
         public static Vakil CreateVakil(string fName, string lName, string address, DateTime startDate , string melliIdentity)
         {
-            var vakil = new Vakil() {Firstname = fName, Lastname = lName, StartDate = startDate , MelliIdentity = melliIdentity};
-
-            vakil.ContactInfo = new ContactInfo() { HomeAddress = address };
+            var vakil = new Vakil
+                {
+                    Id = Guid.NewGuid(),
+                    Firstname = fName,
+                    Lastname = lName,
+                    StartDate = startDate,
+                    MelliIdentity = melliIdentity,
+                    ContactInfo = new ContactInfo() { HomeAddress = address }
+                };
 
             return vakil;
         }

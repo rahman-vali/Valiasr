@@ -31,28 +31,28 @@ namespace Valiasr.DataAccess
             Account account = this.CreateAccount();
             //Correspondent correspondent = vakil;//new Correspondent();
 
-            account.Correspondents.Add(vakil);
+            account.Persons.Add(vakil);
             moin.Accounts.Add(account);
             kol.Moins.Add(moin); 
             context.Kols.Add(kol);
        //     Account account2 = this.CreateAccount();
-         //   account2.Correspondents.Add(vakil);
+         //   account2.Persons.Add(vakil);
            // moin.Accounts.Add(account2);
             //kol.Moins.Add(moin);
             //account2.Moin = moin;
             //context.Accounts.Add(account2);
             //context.Kols.Add(kol);
             //context.Accounts.Add(account);            
-            account.Correspondents.Add(customer);
+            account.Persons.Add(customer);
             context.SaveChanges();
             /*var anotherContext = new ValiasrContext("Valiasr.ce");
-            Correspondent fetchedCorrespondent = anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
+            Correspondent fetchedCorrespondent = anotherContext.Persons.FirstOrDefault(o => o.Id == correspondent.Id);
             Assert.True(correspondent.Equals(fetchedCorrespondent));
             context.Accounts.Remove(account);
             context.Moins.Remove(moin);
             context.Kols.Remove(kol);
-            context.Correspondents.Remove(vakil);
-            context.Correspondents.Remove(customer);
+            context.Persons.Remove(vakil);
+            context.Persons.Remove(customer);
             context.SaveChanges();*/
         }
 
@@ -61,7 +61,7 @@ namespace Valiasr.DataAccess
         {
             var context = new ValiasrContext("Valiasr.Ce");
             Customer customer = this.CreateCustomer();
-            context.Correspondents.Add(customer);
+            context.Persons.Add(customer);
             context.SaveChanges();
             Assert.True(context.Database.Exists());
         }
@@ -73,7 +73,7 @@ namespace Valiasr.DataAccess
         private static void TearDown()
         {
             var context = new ValiasrContext("Valiasr.Ce");
-            context.Database.ExecuteSqlCommand("Delete from AccountCorrespondents");
+            context.Database.ExecuteSqlCommand("Delete from AccountPersons");
             context.Database.ExecuteSqlCommand("Delete from Accounts");
             context.Database.ExecuteSqlCommand("Delete from Customers");
             context.Database.ExecuteSqlCommand("Delete From Vakils");
@@ -100,9 +100,9 @@ namespace Valiasr.DataAccess
             return moin;
         }
 
-        private Correspondent CreateCorrespondent()
+        private Person CreateCorrespondent()
         {
-            var correspondent = new Correspondent
+            var correspondent = new Person()
                 {
                     
                     Id = Guid.NewGuid(),

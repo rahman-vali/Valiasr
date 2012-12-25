@@ -56,14 +56,4 @@
             this.Property(v => v.StartDate).IsRequired().HasColumnName("StartDate");
         }
     }
-
-    public class CorrespondentMap: EntityTypeConfiguration<Correspondent>
-    {
-        public CorrespondentMap()
-        {
-            this.ToTable("Correspondent");
-        }
-    }
-
-
 }

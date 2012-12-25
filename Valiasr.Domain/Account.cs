@@ -47,7 +47,7 @@
         {
             Id = Guid.NewGuid();
             //this.Moin = new Moin();
-            this.Correspondents = new Collection<Correspondent>();
+            this.Persons = new Collection<Person>();
         }
 
         #region Properties
@@ -66,7 +66,7 @@
 
         public virtual Moin Moin{get;set;}
         //Vokalaye Hesab
-        public ICollection<Correspondent> Correspondents { get; set; }
+        public Collection<Person> Persons { get; set; }
 
         #endregion
 
@@ -74,7 +74,7 @@
 
         public bool Bardasht(string customerNo, double amount)
         {
-            var customer = this.Correspondents.OfType<Customer>().FirstOrDefault(o => o.No == customerNo);            
+            var customer = this.Persons.OfType<Customer>().FirstOrDefault(o => o.No == customerNo);            
             if (customer != null &&
                 customer.Balegh &&
                 customer.HagheBardasht &&

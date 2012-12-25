@@ -13,7 +13,7 @@ namespace Valiasr.Service
         {
             PersonDTO personDTO =  new PersonDTO();           
             PersonDAO personDao = new PersonDAO();
-            Correspondent person = personDao.GetPerson(melliIdentity);
+            Person person = personDao.GetPerson(melliIdentity);
             if (person != null)
                 TranslatePersonToPersonDto(person, personDTO);
             else
@@ -23,7 +23,7 @@ namespace Valiasr.Service
          public void AddPerson(PersonDTO personDto)
          {             
             //Customer person = Customer.CreateCustomer(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, "12", personDto.MelliIdentity); 
-             Correspondent correspondent = Correspondent.CreateCorrespondent(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, personDto.MelliIdentity);//person;// vakil;//new Correspondent();
+             Person correspondent = Person.Create(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, personDto.MelliIdentity);//person;// vakil;//new Correspondent();
             PersonDAO personDao = new PersonDAO();
              
             // TranslatePersonDtoToPerson(personDto, person);
@@ -35,7 +35,7 @@ namespace Valiasr.Service
              PersonDAO personDao = new PersonDAO();
              personDao.AddCustomer(melliIdentity, no, portion);
          }
-        private void TranslatePersonToPersonDto(Correspondent person, PersonDTO personDto)
+        private void TranslatePersonToPersonDto(Person person, PersonDTO personDto)
         {
             personDto.CustomerId = person.CustomerId;
             personDto.ShobehCode = person.ShobehCode;
@@ -60,7 +60,7 @@ namespace Valiasr.Service
             personDto.PostIdentity = person.ContactInfo.PostIdentity;
         }
 
-        private void TranslatePersonDtoToPerson(PersonDTO personDto , Correspondent person)
+        private void TranslatePersonDtoToPerson(PersonDTO personDto , Person person)
         {
             person.CustomerId = personDto.CustomerId;
             person.ShobehCode = personDto.ShobehCode;

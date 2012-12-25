@@ -28,7 +28,7 @@
 
         public bool CanBardasht(string accountNo, double amount)
         {
-            Account acc = this.Context.Accounts.Include("Correspondents").FirstOrDefault(o => o.No == accountNo);
+            Account acc = this.Context.Accounts.Include("Persons").FirstOrDefault(o => o.No == accountNo);
             if (acc == null)
             {
                 throw new ArgumentNullException("Customer Does Not Exist");
@@ -39,7 +39,7 @@
         public ICollection<CustomerDto> GetCustomerByAccountNo(string accountNo)
         {
             return
-                this.Context.Correspondents.Include("Accounts")
+                this.Context.Persons.Include("Accounts")
                     .Where(c => c.Accounts.Any(a => a.No == accountNo))
                     .OfType<Customer>()
                     .Select(o => new CustomerDto { HagheBardasht = o.HagheBardasht, No = o.No, Portion = o.Portion })
