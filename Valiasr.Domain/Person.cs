@@ -4,12 +4,12 @@
 
     public class Person
     {
-        public Person()
+       /* public Person()
         {
             this.Id = Guid.NewGuid();
             this.ContactInfo = new ContactInfo();
             this.BirthDate = 13910928;
-        }        
+        }*/        
 
         public bool Balegh
         {
@@ -21,13 +21,13 @@
                     return true;
             }
         }
-        public static Person CreatePerson(string fName,string lName , string address)
+        /*public static Person CreatePerson(string fName,string lName , string address)
         {
             var person = new Person() { Id = Guid.NewGuid(), Firstname = fName, Lastname = lName };
             
             person.ContactInfo = new ContactInfo(){HomeAddress = address};
             return person;
-        }
+        }*/
         public Guid Id { get; set; }
 
         public int CustomerId { get; set; }

@@ -41,8 +41,10 @@
             modelBuilder.Configurations.Add(new MoinMap());
             modelBuilder.Configurations.Add(new ContactInfoMap());
             modelBuilder.Configurations.Add(new AccountMap());
+            modelBuilder.Configurations.Add(new CorrespondentMap());
+
           //  modelBuilder.Entity<Person>().Map<Correspondent>(c => c.Requires("PersonTye").HasValue(1));
-            modelBuilder.Entity<Person>().Map<Correspondent>(c => c.Requires("Diccriminator").HasValue("1"));
+            //modelBuilder.Entity<Person>().Map<Correspondent>(c => c.Requires("Diccriminator").HasValue("1"));
             //In khat ezafi ast chera, tozihat aan dar file CorrespondentMap.cs amade ast
             //modelBuilder.Configurations.Add(new CorrespondentMap());
             base.OnModelCreating(modelBuilder);

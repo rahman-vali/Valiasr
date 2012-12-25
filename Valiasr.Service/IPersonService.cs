@@ -17,7 +17,10 @@ namespace Valiasr.Service
 
 
         [OperationContract]
-        void AddPerson(PersonDTO personDto);                    
+        void AddPerson(PersonDTO personDto);
+
+        [OperationContract]
+        void AddCustomer(string melliIdentity, string no, float portion);                    
 
         // TODO: Add your service operations here
     }

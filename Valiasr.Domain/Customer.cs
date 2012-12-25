@@ -5,6 +5,10 @@
 
     public class Customer : Correspondent
     {
+       /* public Customer()
+        {
+            
+        }*/
         public string No { get; set; }
 
         public bool HagheBardasht { get; set; }
@@ -13,7 +17,7 @@
 
         public static Customer CreateCustomer(string fName, string lName, string address ,string no , string melliIdentity)
         {   
-            var customer = new Customer() { Id = Guid.NewGuid(), Firstname = fName, Lastname = lName ,No = no ,MelliIdentity = melliIdentity};
+            var customer = new Customer() {Firstname = fName, Lastname = lName ,No = no ,MelliIdentity = melliIdentity};
             
             customer.ContactInfo = new ContactInfo(){HomeAddress = address};
 
@@ -29,7 +33,7 @@
 
         public static Vakil CreateVakil(string fName, string lName, string address, DateTime startDate , string melliIdentity)
         {
-            var vakil = new Vakil() { Id = Guid.NewGuid(), Firstname = fName, Lastname = lName, StartDate = startDate , MelliIdentity = melliIdentity};
+            var vakil = new Vakil() {Firstname = fName, Lastname = lName, StartDate = startDate , MelliIdentity = melliIdentity};
 
             vakil.ContactInfo = new ContactInfo() { HomeAddress = address };
 

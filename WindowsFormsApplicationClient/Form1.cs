@@ -43,5 +43,13 @@ namespace WindowsFormsApplicationClient
             client.AddPerson(personDto);
             button2.Enabled = true;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            button3.Enabled = false;
+            PersonServiceClient client = new PersonServiceClient();
+            client.AddCustomer("1","5",1);
+            button3.Enabled = true;
+        }
     }
 }

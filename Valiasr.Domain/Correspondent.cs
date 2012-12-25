@@ -8,11 +8,12 @@
     {
         public Correspondent()
         {
+            Id = Guid.NewGuid();
             this.Accounts = new Collection<Account>();
            
         }
         public ICollection<Account> Accounts { get; set; }
-        public Correspondent CreateCorrespondent(string fName,string lName,string address , string melliIdentity)
+        public static Correspondent CreateCorrespondent(string fName,string lName,string address , string melliIdentity)
         {
             var correspondent = new Correspondent() { Id = Guid.NewGuid(), Firstname = fName, Lastname = lName, MelliIdentity = melliIdentity};
             

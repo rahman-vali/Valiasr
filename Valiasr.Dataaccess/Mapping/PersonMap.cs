@@ -57,4 +57,13 @@
         }
     }
 
+    public class CorrespondentMap: EntityTypeConfiguration<Correspondent>
+    {
+        public CorrespondentMap()
+        {
+            this.ToTable("Correspondent");
+        }
+    }
+
+
 }

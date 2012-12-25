@@ -24,17 +24,14 @@ namespace Valiasr.DataAccess
         {
             var context = new ValiasrContext("Valiasr.ce");
             Customer customer = Customer.CreateCustomer("ali", "ahmadi", "babol", "2" , "2");  //this.CreateCustomer();
-            Correspondent correspondent = customer;// vakil;//new Correspondent();
-            context.Correspondents.Add(correspondent);
-            context.SaveChanges();
-            /*Vakil vakil = Vakil.CreateVakil("ahmad", "haghighi", "tehran", new DateTime(2012, 09, 28) , "1");//this.CreateVakil();
+           // Correspondent correspondent = customer;// vakil;//new Correspondent();
+            Vakil vakil = Vakil.CreateVakil("ahmad", "haghighi", "tehran", new DateTime(2012, 09, 28) , "1");//this.CreateVakil();
             Kol kol = this.CreateKol();
             Moin moin = this.CreateMoin();           
             Account account = this.CreateAccount();
-            Correspondent correspondent = vakil;//new Correspondent();
+            //Correspondent correspondent = vakil;//new Correspondent();
 
             account.Correspondents.Add(vakil);
-            account.Correspondents.Add(customer);
             moin.Accounts.Add(account);
             kol.Moins.Add(moin); 
             context.Kols.Add(kol);
@@ -44,14 +41,14 @@ namespace Valiasr.DataAccess
             //kol.Moins.Add(moin);
             //account2.Moin = moin;
             //context.Accounts.Add(account2);
-            context.Kols.Add(kol);
-            //context.Accounts.Add(account);
+            //context.Kols.Add(kol);
+            //context.Accounts.Add(account);            
+            account.Correspondents.Add(customer);
             context.SaveChanges();
-
-            var anotherContext = new ValiasrContext("Valiasr.ce");
+            /*var anotherContext = new ValiasrContext("Valiasr.ce");
             Correspondent fetchedCorrespondent = anotherContext.Correspondents.FirstOrDefault(o => o.Id == correspondent.Id);
             Assert.True(correspondent.Equals(fetchedCorrespondent));
-          /*  context.Accounts.Remove(account);
+            context.Accounts.Remove(account);
             context.Moins.Remove(moin);
             context.Kols.Remove(kol);
             context.Correspondents.Remove(vakil);

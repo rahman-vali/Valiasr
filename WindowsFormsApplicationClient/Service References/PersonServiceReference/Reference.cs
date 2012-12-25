@@ -393,6 +393,12 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/AddPerson", ReplyAction="http://tempuri.org/IPersonService/AddPersonResponse")]
         System.Threading.Tasks.Task AddPersonAsync(WindowsFormsApplicationClient.PersonServiceReference.PersonDTO personDto);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/AddCustomer", ReplyAction="http://tempuri.org/IPersonService/AddCustomerResponse")]
+        void AddCustomer(string melliIdentity, string no, float portion);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/AddCustomer", ReplyAction="http://tempuri.org/IPersonService/AddCustomerResponse")]
+        System.Threading.Tasks.Task AddCustomerAsync(string melliIdentity, string no, float portion);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -436,6 +442,14 @@ namespace WindowsFormsApplicationClient.PersonServiceReference {
         
         public System.Threading.Tasks.Task AddPersonAsync(WindowsFormsApplicationClient.PersonServiceReference.PersonDTO personDto) {
             return base.Channel.AddPersonAsync(personDto);
+        }
+        
+        public void AddCustomer(string melliIdentity, string no, float portion) {
+            base.Channel.AddCustomer(melliIdentity, no, portion);
+        }
+        
+        public System.Threading.Tasks.Task AddCustomerAsync(string melliIdentity, string no, float portion) {
+            return base.Channel.AddCustomerAsync(melliIdentity, no, portion);
         }
     }
 }
