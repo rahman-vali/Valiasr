@@ -12,8 +12,8 @@ namespace Valiasr.Service
         public PersonDTO GetPerson(string melliIdentity)
         {
             PersonDTO personDTO =  new PersonDTO();           
-            PersonDAO personDao = new PersonDAO();
-            Person person = personDao.GetPerson(melliIdentity);
+            PersonRepository personRepository = new PersonRepository();
+            Person person = personRepository.GetPerson(melliIdentity);
             if (person != null)
                 TranslatePersonToPersonDto(person, personDTO);
             else
@@ -24,16 +24,16 @@ namespace Valiasr.Service
          {             
             //Customer person = Customer.CreateCustomer(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, "12", personDto.MelliIdentity); 
              Person correspondent = Person.Create(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, personDto.MelliIdentity);//person;// vakil;//new Correspondent();
-            PersonDAO personDao = new PersonDAO();
+            PersonRepository personRepository = new PersonRepository();
              
             // TranslatePersonDtoToPerson(personDto, person);
-             personDao.AddPerson(correspondent);
+             personRepository.AddPerson(correspondent);
 
          }
          public void AddCustomer(string melliIdentity, string no, float portion)
          {
-             PersonDAO personDao = new PersonDAO();
-             personDao.AddCustomer(melliIdentity, no, portion);
+             PersonRepository personRepository = new PersonRepository();
+             personRepository.AddCustomer(melliIdentity, no, portion);
          }
         private void TranslatePersonToPersonDto(Person person, PersonDTO personDto)
         {

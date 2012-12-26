@@ -20,9 +20,9 @@
 
         #region Properties
 
-        public DbSet<Kol> Kols { get; set; }
+        public DbSet<GeneralAccount> GeneralAccounts { get; set; }
 
-        public DbSet<Moin> Moins { get; set; }
+        public DbSet<IndexAccount> Moins { get; set; }
 
         public DbSet<Account> Accounts { get; set; }
 
@@ -36,10 +36,10 @@
         {
             modelBuilder.Configurations.Add(new PersonMap());
             modelBuilder.Configurations.Add(new CustomerMap());
-            modelBuilder.Configurations.Add(new VakilMap());
-            modelBuilder.Configurations.Add(new KolMap());
-            modelBuilder.Configurations.Add(new MoinMap());
-            modelBuilder.Configurations.Add(new ContactInfoMap());
+            modelBuilder.Configurations.Add(new LawyerMap());
+            modelBuilder.Configurations.Add(new GeneralAccountMap());
+            modelBuilder.Configurations.Add(new IndexAccountMap());
+            modelBuilder.Configurations.Add(new PersonMap.ContactInfoMap());
             modelBuilder.Configurations.Add(new AccountMap());
             //modelBuilder.Configurations.Add(new CorrespondentMap());
 

@@ -1,61 +1,46 @@
 ﻿namespace Valiasr.Domain
 {
     using System;
-    using System.Runtime.Serialization;
+    using System.Collections.ObjectModel;
 
-    public class Customer : Person
+    /// <summary>
+    /// Moshtari
+    /// </summary>
+    public class Customer
     {
-        /* public Customer()
+        public Customer()
         {
-            
-        }*/
-        public string No { get; set; }
-
-        public bool HagheBardasht { get; set; }
-
-        public float Portion { get; set; }
-
-        public static Customer CreateCustomer(string fName, string lName, string address ,string no , string melliIdentity)
-        {   
-            var customer = new Customer
-                {
-                    Id = Guid.NewGuid(),
-                    Firstname = fName,
-                    Lastname = lName,
-                    No = no,
-                    MelliIdentity = melliIdentity,
-                    ContactInfo = new ContactInfo() { HomeAddress = address }
-                };
-
-            return customer;                                    
+            Person= new Person();
+            Accounts = new Collection<Account>();
         }
+        public Guid Id { get; set; }
+        public Person Person { get; set; }
+        public string No { get; set; }
+        public bool HagheBardasht { get; set; }
+        public float Portion { get; set; }
+        public Collection<Account> Accounts { get; set; }
     }
 
-    public class Vakil : Person
-    { 
-        public DateTime? EndDate { get; set; }
-
-        public DateTime   StartDate { get; set; }
-
-        public static Vakil CreateVakil(string fName, string lName, string address, DateTime startDate , string melliIdentity)
+    /// <summary>
+    /// Vakil
+    /// </summary>
+    public class Lawyer 
+    {
+        public Lawyer()
         {
-            var vakil = new Vakil
-                {
-                    Id = Guid.NewGuid(),
-                    Firstname = fName,
-                    Lastname = lName,
-                    StartDate = startDate,
-                    MelliIdentity = melliIdentity,
-                    ContactInfo = new ContactInfo() { HomeAddress = address }
-                };
-
-            return vakil;
+            Person = new Person();
+            Accounts = new Collection<Account>();
         }
+        public Guid Id { get; set; }
+        public Person Person { get; set; }
+        public DateTime? EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public Collection<Account> Accounts { get; set; }
 
     }
 
     //    public class Zamen : Customer
     //    {
-    //        public ICollection<Vam> Vams { get; set; }
+    //        public Collection<Vam> Vams { get; set; }
     //    }
 }

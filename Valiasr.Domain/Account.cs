@@ -1,84 +1,77 @@
 ﻿namespace Valiasr.Domain
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    public class Kol
+    public class GeneralAccount
     {
-        public Kol() 
+        public GeneralAccount()
         {
-            this.Moins = new Collection<Moin>();
+            Id = Guid.NewGuid();
+            this.IndexAccounts = new Collection<IndexAccount>();
         }
-        public int Id{get;set;}
+        public Guid Id { get; set; }
 
-        public int Kol_Code { get; set; }
-        public string  Description{get;set;}
-        public int Kind {get;set;}
-        public int Last_Date{get;set;}
+        public int Code { get; set; }
+        public string Description { get; set; }
+        public int Category { get; set; }
+        public int LastDate { get; set; }
 
-        public virtual ICollection<Moin> Moins{get;set;}
+        public Collection<IndexAccount> IndexAccounts { get; set; }
     }
 
-    public class Moin
+    public class IndexAccount
     {
-        public Moin()
+        public IndexAccount()
         {
-          //  this.Kol = new Kol();
+            Id = Guid.NewGuid();
             this.Accounts = new Collection<Account>();
         }
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int Kol_Code { get; set; }
-        public string Moin_Code { get; set; }
-        public int Moin_InKol_Code { get; set; }
-        public string Description {get;set;}
-        public bool Hesab_Have {get;set;}
-        public short YearEnd_Kind {get;set;}
-        public int Last_Date{get;set;}
+        public string Code { get; set; }
+        public int GeneralAccountCode { get; set; }
+        public string Description { get; set; }
+        public short ExpiryDateCategory { get; set; }
+        public int LastUpdated { get; set; }
+        public bool HaveAccounts { get { return Accounts.Count > 0; } }
 
-        public virtual Kol Kol {get;set;}
-        public virtual ICollection<Account> Accounts{get;set;}
+        public GeneralAccount GeneralAccount { get; set; }
+        public Collection<Account> Accounts { get; set; }
     }
+
     public class Account
     {
         public Account()
         {
             Id = Guid.NewGuid();
-            //this.Moin = new Moin();
-            this.Persons = new Collection<Person>();
+            this.Lawyers = new Collection<Lawyer>();
+            this.Customers = new Collection<Customer>();
         }
 
-        #region Properties
-
+        public Guid Id { get; set; }
         //Shomare Hesab
-        public string Moin_Code { get; set; }
-        public string Hesab_No { get; set; }
+        public string IndexCode { get; set; }
+        public string Code { get; set; }
         public string No { get; set; }
-
         /// Mojodi Hesab
         public double Balance { get; set; }
-
         public string Description { get; set; }
 
-        public Guid Id { get; set; }
-
-        public virtual Moin Moin{get;set;}
-        //Vokalaye Hesab
-        public Collection<Person> Persons { get; set; }
-
-        #endregion
-
-        #region Public Methods
+        public virtual IndexAccount IndexAccount { get; set; }
+        public Collection<Customer> Customers { get; set; }
+        public Collection<Lawyer> Lawyers { get; set; }
 
         public bool Bardasht(string customerNo, double amount)
         {
-            var customer = this.Persons.OfType<Customer>().FirstOrDefault(o => o.No == customerNo);            
+            var customer = this.Customers
+                .FirstOrDefault(o => o.No == customerNo);
+
             if (customer != null &&
-                customer.Balegh &&
+                customer.Person.Balegh &&
                 customer.HagheBardasht &&
-                amount <= customer.Portion/100 * this.Balance)
+                amount <= customer.Portion / 100 * this.Balance)
             {
                 return true;
             }
@@ -87,8 +80,6 @@
                 return false;
             }
         }
-
-        #endregion
     }
 
 

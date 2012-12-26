@@ -1,7 +1,5 @@
 ﻿namespace Valiasr.DataAccess.Mapping
 {
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
     using System.Data.Entity.ModelConfiguration;
 
     using Valiasr.Domain;
@@ -10,15 +8,12 @@
     {
         public PersonMap()
         {
-            //Primary Key
             this.ToTable("Persons");
             this.HasKey(p => p.Id);
             this.Property(p => p.Id)
                 //It's not supported in Sql Server CE
                 //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
                 .HasColumnName("PersonId");
-
-            //prperty
             Property(p => p.CustomerId).IsRequired();
             Property(p => p.ShobehCode).IsRequired();
             Property(p => p.Firstname).IsRequired().HasMaxLength(120);
@@ -38,21 +33,29 @@
             Property(p => p.ContactInfo.PostIdentity).HasMaxLength(20);
             Property(p => p.IndivOrOrgan).HasMaxLength(1);
         }
+
+        /// <summary>
+        /// this is an example of nested class
+        /// In kelas ro faghat baraye inke bedoonid nested calss chie jabejash kardam avordam dakhele class personmap
+        /// </summary>
+        public class ContactInfoMap : ComplexTypeConfiguration<ContactInfo>
+        {
+        }
+
     }
+
     public class CustomerMap : EntityTypeConfiguration<Customer>
     {
         public CustomerMap()
         {
-            this.ToTable("Customers");
             this.Property(c => c.No).IsRequired().HasColumnName("CustomerNo");
         }
     }
 
-    public class VakilMap : EntityTypeConfiguration<Vakil>
+    public class LawyerMap : EntityTypeConfiguration<Lawyer>
     {
-        public VakilMap()
+        public LawyerMap()
         {
-            this.ToTable("Vakils");
             this.Property(v => v.StartDate).IsRequired().HasColumnName("StartDate");
         }
     }

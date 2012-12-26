@@ -9,10 +9,10 @@
 //        public Correspondent()
 //        {
 //            Id = Guid.NewGuid();
-//            this.Accounts = new Collection<Account>();
+//            this.AccountRelations = new Collection<Account>();
 //           
 //        }
-//        public ICollection<Account> Accounts { get; set; }
+//        public Collection<Account> AccountRelations { get; set; }
 //        public static Correspondent CreateCorrespondent(string fName,string lName,string address , string melliIdentity)
 //        {
 //            var correspondent = new Correspondent() { Id = Guid.NewGuid(), Firstname = fName, Lastname = lName, MelliIdentity = melliIdentity};

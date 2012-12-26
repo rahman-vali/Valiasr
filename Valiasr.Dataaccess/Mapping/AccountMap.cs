@@ -4,38 +4,28 @@
 
     using Valiasr.Domain;
 
-
-
-    public class KolMap : EntityTypeConfiguration<Kol>
+    public class GeneralAccountMap : EntityTypeConfiguration<GeneralAccount>
     {
-        public KolMap()
+        public GeneralAccountMap()
         {
             this.HasKey(k => k.Id);
             this.Property(k => k.Id).HasColumnName("KolId");
-                //It's not supported in Sql Server CE
-                //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
-
             this.Property(k => k.Description).HasMaxLength(150).HasColumnName("Kol_Des");
-            this.Property(k => k.Kind).HasColumnName("KodKind");
-            this.HasMany(k => k.Moins).WithRequired(m => m.Kol);
+            this.Property(k => k.Category).HasColumnName("KodKind");
+            this.HasMany(k => k.IndexAccounts).WithRequired(m => m.GeneralAccount);
         }
     }
 
-    public class MoinMap : EntityTypeConfiguration<Moin>
+    public class IndexAccountMap : EntityTypeConfiguration<IndexAccount>
     {
-        public MoinMap()
+        public IndexAccountMap()
         {
             this.HasKey(m => m.Id);
             this.Property(m => m.Id).HasColumnName("MoinId");
-                //It's not supported in Sql Server CE
-                //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
-               
             this.Property(m => m.Description).HasMaxLength(150).HasColumnName("Moin_Des");
-            //this.HasMany(m => m.Accounts).WithRequired(a => a.Moin).Map(m => m.MapKey("Kol_Code"));
-            this.HasRequired(k => k.Kol).WithMany(m => m.Moins).Map(m => m.MapKey("KolId"));
+            this.HasRequired(k => k.GeneralAccount).WithMany(m => m.IndexAccounts).Map(m => m.MapKey("KolId"));
         }
     }
-
 
     public class AccountMap : EntityTypeConfiguration<Account>
     {
@@ -43,13 +33,12 @@
         {
             this.HasKey(a => a.Id);
             this.Property(a => a.Id)
-                //It's not supported in Sql Server CE
-                //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
                 .HasColumnName("AccountId");
             this.Property(a => a.Description).HasMaxLength(210);
             this.Property(a => a.Balance);
-            this.HasMany(a => a.Persons).WithMany(c => c.Accounts);
-            HasRequired(m => m.Moin).WithMany(a => a.Accounts).Map(m => m.MapKey("MoinId"));
+            this.HasMany(a => a.Lawyers).WithMany();
+            this.HasMany(a => a.Customers).WithMany();
+            this.HasRequired(m => m.IndexAccount).WithMany(a => a.Accounts).Map(m => m.MapKey("MoinId"));
         }
     }
 }
