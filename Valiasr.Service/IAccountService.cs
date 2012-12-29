@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 
 namespace Valiasr.Service
 {
-    using Valiasr.Domain;
-
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
     [ServiceContract]
     public interface IAccountService
     {
+        [OperationContract]
+        void AddGeneralAccount(GeneralAccountDto generalAccountDto);
+
+        [OperationContract]
+        void AddIndexAccount(IndexAccountDto indexAccountDto);
+
+        [OperationContract]
+        void AddAccount<T>(T obj);
+
         [OperationContract]
         bool CanBardasht(string accountNo, double amount );  
 
@@ -24,6 +28,38 @@ namespace Valiasr.Service
 
         // TODO: Add your service operaGetCustomerByAccountNotions here
     }
+
+    public class GeneralAccountDto
+    {
+        [DataMember]
+        public int Code { get; set; }        
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public int Category { get; set; }
+    }
+
+
+    public class IndexAccountDto
+    {
+        [DataMember]
+        public string Code { get; set; }
+
+        [DataMember]
+        public int GeneralAccountCode { get; set; }
+
+        [DataMember]
+        public int Indexer { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public bool HaveAccounts { get; set; }        
+    }
+
 
     public class CustomerDto
     {

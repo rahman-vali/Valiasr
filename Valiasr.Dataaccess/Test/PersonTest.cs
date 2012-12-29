@@ -1,13 +1,10 @@
 ﻿namespace Valiasr.DataAccess.Test
 {
     using System;
-    using System.Diagnostics;
     using System.Linq;
 
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Kernel;
-
-    using Valiasr.Domain;
+    using Valiasr.DataAccess.Repositories;
+    using Valiasr.Domain.Model;
 
     using Xunit;
 
@@ -37,9 +34,10 @@
 
             this.context.SaveChanges();
 
-            Assert.True(this.anotherContext.Persons.Count() == 1);
+            Assert.True(this.anotherContext.Persons.Count() == 2);
             Assert.True(this.anotherContext.Accounts.Count() == 2);
-            Assert.True(this.anotherContext.Accounts.SelectMany(o=> o.Lawyers).Count() == 1);
+            var lawyers = this.anotherContext.Accounts.SelectMany(o => o.Lawyers).Distinct().ToList();
+            Assert.True(lawyers.Count() == 1);
             Assert.True(this.anotherContext.Accounts.SelectMany(o=> o.Customers).Count() == 1);
         }
 
@@ -57,6 +55,23 @@
             this.context.Accounts.Add(account);
             this.context.SaveChanges();
 
+            Assert.True(this.anotherContext.Accounts.SelectMany(o => o.Lawyers).Distinct().Count() == 1);
+            Assert.True(this.anotherContext.Accounts.SelectMany(o => o.Customers).Count() == 1);
+            Assert.True(this.anotherContext.Accounts.Count() == 1);
+        }
+
+        [Fact]
+        public void Add_Single_Person_As_Customer_And_Lawyer_2()
+        {
+            var person = Person.CreatePerson();
+            var lawyer = Lawyer.CreateLawyer(person);
+            var customer = Customer.CreateCustomer(person,"3" , 1);
+
+            var account = AccountTest.CreateAccount();
+            account.Lawyers.Add(lawyer);
+            account.Customers.Add(customer);
+            AccountRepository repository = new AccountRepository();
+            repository.Add(account);
             Assert.True(this.anotherContext.Accounts.SelectMany(o => o.Lawyers).Distinct().Count() == 1);
             Assert.True(this.anotherContext.Accounts.SelectMany(o => o.Customers).Count() == 1);
             Assert.True(this.anotherContext.Accounts.Count() == 1);
@@ -100,5 +115,7 @@
             return vakil;
         }
 
+
+        public AccountRepository repository { get; set; }
     }
 }

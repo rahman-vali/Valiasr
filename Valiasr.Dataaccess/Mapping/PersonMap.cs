@@ -2,7 +2,7 @@
 {
     using System.Data.Entity.ModelConfiguration;
 
-    using Valiasr.Domain;
+    using Valiasr.Domain.Model;
 
     public class PersonMap : EntityTypeConfiguration<Person>
     {
@@ -19,18 +19,19 @@
             Property(p => p.Firstname).IsRequired().HasMaxLength(120);
             Property(p => p.Lastname).HasMaxLength(120);
             Property(p => p.FatherName).HasMaxLength(120);
-            Property(p => p.MelliIdentity).HasMaxLength(30);
+            Property(p => p.NationaliIdentity).HasMaxLength(30);
             Property(p => p.CretyId).HasMaxLength(60);
             Property(p => p.CretySerial).HasMaxLength(20);
             Property(p => p.Sadereh).HasMaxLength(90);
             Property(p => p.JobName).HasMaxLength(90);
-            Property(p => p.HeadMelliIdentity).HasMaxLength(30);
+            Property(p => p.HeadNationalIdentity).HasMaxLength(30);
             Property(p => p.ContactInfo.HomeAddress).HasMaxLength(250).HasColumnName("HomeAddress");
             Property(p => p.ContactInfo.WorkAddress).HasMaxLength(250).HasColumnName("WorkAddress");
             Property(p => p.ContactInfo.HomeTelno).HasColumnName("HomeTelno").HasMaxLength(45);
             Property(p => p.ContactInfo.OfficeTelNo).HasColumnName("OfficeTelno").HasMaxLength(45);
             Property(p => p.ContactInfo.Mobile).HasMaxLength(15).HasColumnName("Mobile");
-            Property(p => p.ContactInfo.PostIdentity).HasMaxLength(20);
+            Property(p => p.ContactInfo.PostalIdentity).HasMaxLength(15).HasColumnName("PostalIdentity");
+            Property(p => p.ContactInfo.PostalIdentity).HasMaxLength(20);
             Property(p => p.IndivOrOrgan).HasMaxLength(1);
         }
 
@@ -49,6 +50,7 @@
         public CustomerMap()
         {
             this.Property(c => c.No).IsRequired().HasColumnName("CustomerNo");
+            this.HasRequired(c => c.Person);
         }
     }
 
@@ -57,6 +59,7 @@
         public LawyerMap()
         {
             this.Property(v => v.StartDate).IsRequired().HasColumnName("StartDate");
+            this.HasRequired(l => l.Person);
         }
     }
 }

@@ -3,8 +3,7 @@
     using System.Data.Entity;
 
     using Valiasr.DataAccess.Mapping;
-    using Valiasr.Domain;
-    
+    using Valiasr.Domain.Model;
 
     public class ValiasrContext : DbContext
     {
@@ -14,6 +13,11 @@
             : base(conn)
         {
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ValiasrContext>());
+        }
+
+        public ValiasrContext()
+        {
+            // TODO: Complete member initialization
         }
 
         #endregion

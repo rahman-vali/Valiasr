@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 
 namespace Valiasr.Service
 {
@@ -13,14 +10,21 @@ namespace Valiasr.Service
     {
 
         [OperationContract]
-        PersonDTO GetPerson(string name);
+        PersonDto GetPerson(string name);
 
 
         [OperationContract]
-        void AddPerson(PersonDTO personDto);
+        void AddPerson(PersonDto personDto);
 
         [OperationContract]
-        void AddCustomer(string melliIdentity, string no, float portion);                    
+        void UpdatePerson(PersonDto personDto);
+
+        [OperationContract]
+        void AddCustomer(string melliIdentity, string no, float portion);
+
+        [OperationContract]
+        void AddLawyer(string melliIdentity, DateTime startDate);
+
 
         // TODO: Add your service operations here
     }
@@ -29,7 +33,7 @@ namespace Valiasr.Service
     // You can add XSD files into the project. After building the project, you can directly use the data types defined there, with the namespace "Valiasr.Service.ContractType".
 
     [DataContract]
-    public class PersonDTO
+    public class PersonDto
     {
         [DataMember]
         public int CustomerId { get; set; }
@@ -50,9 +54,9 @@ namespace Valiasr.Service
         [DataMember]
         public int BirthDate { get; set; }
         [DataMember]
-        public string MelliIdentity { get; set; }
+        public string NationalIdentity { get; set; }
         [DataMember]
-        public string HeadMelliIdentity { get; set; }
+        public string HeadNationalIdentity { get; set; }
         [DataMember]
         public string JobName { get; set; }
         [DataMember]
@@ -72,6 +76,6 @@ namespace Valiasr.Service
         [DataMember]
         public string Mobile { get; set; }
         [DataMember]
-        public string PostIdentity { get; set; }
+        public string PostalIdentity { get; set; }
     }
 }

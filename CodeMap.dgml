@@ -3,18 +3,18 @@
   <Nodes>
     <Node Id="(@1)" Category="CodeSchema_Assembly" Bounds="1.70530256582424E-13,175.5000875,155.833333333333,25.96" CodeSchemaProperty_StrongName="Valiasr.UI.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(10e35248-b0d0-481d-89de-6cca965be469.OutputPath)" Group="Collapsed" Label="Valiasr.UI.WPF.exe" />
     <Node Id="(@2)" Category="CodeSchema_Assembly" Bounds="192.289660709361,167.88,252.403333333333,25.96" CodeSchemaProperty_StrongName="WindowsFormsApplicationClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(bcf3ad21-8a48-4de5-9e12-2d32ef76cd25.OutputPath)" Group="Collapsed" Label="WindowsFormsApplicationClient.exe" />
-    <Node Id="@4" Category="CodeSchema_Assembly" Bounds="5.97579219042208,-53.3400791666672,171.643333333333,86.92" CodeSchemaProperty_StrongName="Valiasr.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="1" FilePath="$(15b3e0d2-6217-493a-a690-158c497f5318.OutputPath)" Group="Expanded" Label="Valiasr.Service.dll" UseManualLocation="True" />
-    <Node Id="@6" Category="CodeSchema_Assembly" Bounds="5.93767871732133,119.539920833333,154.41,25.96" CodeSchemaProperty_StrongName="Valiasr.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(74095029-36a6-4547-b1ac-a50ccf32ae3c.OutputPath)" Group="Collapsed" Label="Valiasr.Domain.dll" />
-    <Node Id="@8" Category="CodeSchema_Assembly" Bounds="80.8135350495621,63.5799208333329,172.81,25.96" CodeSchemaProperty_StrongName="Valiasr.DatAaccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(6e13a01e-5fd8-40ee-9dc8-fb613f04aef3.OutputPath)" Group="Collapsed" Label="Valiasr.DatAaccess.dll" />
-    <Node Id="@9" Category="CodeSchema_Namespace" Bounds="25.9757921904221,-12.3800791666671,131.643333333333,25.96" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="Valiasr‎.Service" />
+    <Node Id="@4" Category="CodeSchema_Assembly" Bounds="-67.3575411435819,-66.0067458333338,171.643333333333,86.9202" CodeSchemaProperty_StrongName="Valiasr.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="1" FilePath="$(15b3e0d2-6217-493a-a690-158c497f5318.OutputPath)" Group="Expanded" Label="Valiasr.Service.dll" UseManualLocation="True" />
+    <Node Id="@6" Category="CodeSchema_Assembly" Bounds="-67.3956546155516,106.873254166666,154.41,25.96" CodeSchemaProperty_StrongName="Valiasr.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(74095029-36a6-4547-b1ac-a50ccf32ae3c.OutputPath)" Group="Collapsed" Label="Valiasr.Domain.dll" UseManualLocation="True" />
+    <Node Id="@8" Category="CodeSchema_Assembly" Bounds="7.48020171643859,50.9132541666662,172.81,25.96" CodeSchemaProperty_StrongName="Valiasr.DatAaccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(6e13a01e-5fd8-40ee-9dc8-fb613f04aef3.OutputPath)" Group="Collapsed" Label="Valiasr.DatAaccess.dll" />
+    <Node Id="@9" Category="CodeSchema_Namespace" Bounds="-47.3575411435819,-25.0466458333338,131.643333333333,25.96" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="Valiasr‎.Service" />
   </Nodes>
   <Links>
     <Link Source="@4" Target="@9" Category="Contains" FetchingParent="@4" />
-    <Link Source="@8" Target="@6" Category="References" Bounds="110.136366406528,89.5399208333329,37.580656577407,25.0132872124581" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="195">
+    <Link Source="@8" Target="@6" Category="References" Bounds="36.8030330735902,76.8732541666662,37.5806565772795,25.0132872124477" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="195">
       <Category Ref="CodeSchema_Calls" />
       <Category Ref="CodeSchema_ReturnTypeLink" />
     </Link>
-    <Link Source="@9" Target="@6" Category="References" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="67">
+    <Link Source="@9" Target="@6" Category="References" Bounds="11.2501058267216,0.913354166666238,6.36244956782663,96.9792065538234" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="67">
       <Category Ref="CodeSchema_Calls" />
     </Link>
     <Link Source="@9" Target="@8" Category="References" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="10">
@@ -189,15 +189,15 @@
     </Style>
   </Styles>
   <Paths>
-    <Path Id="10e35248-b0d0-481d-89de-6cca965be469.OutputPath" Value="C:\Users\Jahangir Zinedine\Documents\Sites\Valiasr\Valiasr.UI.WPF\bin\Debug\Valiasr.UI.WPF.exe" />
-    <Path Id="10e35248-b0d0-481d-89de-6cca965be469.OutputPathUri" Value="file:///C:/Users/Jahangir Zinedine/Documents/Sites/Valiasr/Valiasr.UI.WPF/bin/Debug/Valiasr.UI.WPF.exe" />
-    <Path Id="15b3e0d2-6217-493a-a690-158c497f5318.OutputPath" Value="C:\Users\Jahangir Zinedine\Documents\Sites\Valiasr\Valiasr.Service\bin\Debug\Valiasr.Service.dll" />
-    <Path Id="15b3e0d2-6217-493a-a690-158c497f5318.OutputPathUri" Value="file:///C:/Users/Jahangir Zinedine/Documents/Sites/Valiasr/Valiasr.Service/bin/Debug/Valiasr.Service.dll" />
-    <Path Id="6e13a01e-5fd8-40ee-9dc8-fb613f04aef3.OutputPath" Value="C:\Users\Jahangir Zinedine\Documents\Sites\Valiasr\Valiasr.DataAccess\bin\Debug\Valiasr.DatAaccess.dll" />
-    <Path Id="6e13a01e-5fd8-40ee-9dc8-fb613f04aef3.OutputPathUri" Value="file:///C:/Users/Jahangir Zinedine/Documents/Sites/Valiasr/Valiasr.DataAccess/bin/Debug/Valiasr.DatAaccess.dll" />
-    <Path Id="74095029-36a6-4547-b1ac-a50ccf32ae3c.OutputPath" Value="C:\Users\Jahangir Zinedine\Documents\Sites\Valiasr\Valiasr.Domain\bin\Debug\Valiasr.Domain.dll" />
-    <Path Id="74095029-36a6-4547-b1ac-a50ccf32ae3c.OutputPathUri" Value="file:///C:/Users/Jahangir Zinedine/Documents/Sites/Valiasr/Valiasr.Domain/bin/Debug/Valiasr.Domain.dll" />
-    <Path Id="bcf3ad21-8a48-4de5-9e12-2d32ef76cd25.OutputPath" Value="C:\Users\Jahangir Zinedine\Documents\Sites\Valiasr\WindowsFormsApplicationClient\bin\Debug\WindowsFormsApplicationClient.exe" />
-    <Path Id="bcf3ad21-8a48-4de5-9e12-2d32ef76cd25.OutputPathUri" Value="file:///C:/Users/Jahangir Zinedine/Documents/Sites/Valiasr/WindowsFormsApplicationClient/bin/Debug/WindowsFormsApplicationClient.exe" />
+    <Path Id="10e35248-b0d0-481d-89de-6cca965be469.OutputPath" Value="D:\Valiasr\Valiasr.UI.WPF\bin\Debug\Valiasr.UI.WPF.exe" />
+    <Path Id="10e35248-b0d0-481d-89de-6cca965be469.OutputPathUri" Value="file:///D:/Valiasr/Valiasr.UI.WPF/bin/Debug/Valiasr.UI.WPF.exe" />
+    <Path Id="15b3e0d2-6217-493a-a690-158c497f5318.OutputPath" Value="D:\Valiasr\Valiasr.Service\bin\Debug\Valiasr.Service.dll" />
+    <Path Id="15b3e0d2-6217-493a-a690-158c497f5318.OutputPathUri" Value="file:///D:/Valiasr/Valiasr.Service/bin/Debug/Valiasr.Service.dll" />
+    <Path Id="6e13a01e-5fd8-40ee-9dc8-fb613f04aef3.OutputPath" Value="D:\Valiasr\Valiasr.DataAccess\bin\Debug\Valiasr.DatAaccess.dll" />
+    <Path Id="6e13a01e-5fd8-40ee-9dc8-fb613f04aef3.OutputPathUri" Value="file:///D:/Valiasr/Valiasr.DataAccess/bin/Debug/Valiasr.DatAaccess.dll" />
+    <Path Id="74095029-36a6-4547-b1ac-a50ccf32ae3c.OutputPath" Value="D:\Valiasr\Valiasr.Domain\bin\Debug\Valiasr.Domain.dll" />
+    <Path Id="74095029-36a6-4547-b1ac-a50ccf32ae3c.OutputPathUri" Value="file:///D:/Valiasr/Valiasr.Domain/bin/Debug/Valiasr.Domain.dll" />
+    <Path Id="bcf3ad21-8a48-4de5-9e12-2d32ef76cd25.OutputPath" Value="D:\Valiasr\WindowsFormsApplicationClient\bin\Debug\WindowsFormsApplicationClient.exe" />
+    <Path Id="bcf3ad21-8a48-4de5-9e12-2d32ef76cd25.OutputPathUri" Value="file:///D:/Valiasr/WindowsFormsApplicationClient/bin/Debug/WindowsFormsApplicationClient.exe" />
   </Paths>
 </DirectedGraph>

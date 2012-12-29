@@ -1,12 +1,24 @@
-﻿namespace Valiasr.Domain
+﻿namespace Valiasr.Domain.Model
 {
     using System;
 
-    public class Person
+    public class Person:IAggregateRoot
     {
         public Person()
         {
             Id = Guid.NewGuid();
+            ContactInfo = new ContactInfo();
+        }
+
+        public static Person CreatePerson()
+        {
+            return new Person()
+            {
+                IndivOrOrgan = "1",
+                Firstname = "ali",
+                Lastname = "ahmadi",
+                ContactInfo = new ContactInfo() { HomeAddress = "babol", HomeTelno = "12435" }
+            };
         }
 
         public bool Balegh
@@ -29,8 +41,8 @@
         public string CretySerial { get; set; }
         public string Sadereh { get; set; }
         public int BirthDate { get; set; }
-        public string MelliIdentity { get; set; }
-        public string HeadMelliIdentity { get; set; }
+        public string NationaliIdentity { get; set; }
+        public string HeadNationalIdentity { get; set; }
         public string JobName { get; set; }
         public short JobKind { get; set; }
         public decimal Salary { get; set; }
@@ -40,5 +52,15 @@
         public int LastDate { get; set; }
         public ContactInfo ContactInfo { get; set; }
 
+
+        public bool CanBeSaved
+        {
+            get { return true ; }
+        }
+
+        public bool CanBeDeleted
+        {
+            get { return true ; }
+        }
     }
 }

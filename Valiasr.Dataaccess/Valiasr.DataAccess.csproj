@@ -134,11 +134,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\AccountRepository.cs" />
+    <Compile Include="Repositories\CustomerRepository.cs" />
+    <Compile Include="Repositories\GeneralAccountRepository.cs" />
+    <Compile Include="Repositories\IndexAccountRepository.cs" />
+    <Compile Include="Repositories\LawyerRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Test\PersonTest.cs" />
     <Compile Include="Test\AccountTest.cs" />
     <Compile Include="Mapping\AccountMap.cs" />
     <Compile Include="Mapping\PersonMap.cs" />
-    <Compile Include="PersonRepository.cs" />
+    <Compile Include="Repositories\PersonRepository.cs" />
     <Compile Include="Test\TestBase.cs" />
     <Compile Include="ValiasrContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

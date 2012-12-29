@@ -1,4 +1,4 @@
-﻿namespace Valiasr.Domain
+﻿namespace Valiasr.Domain.Model
 {
     public class ContactInfo
     {
@@ -12,7 +12,7 @@
 
         public string Mobile { get; set; }
 
-        public string PostIdentity { get; set; }
+        public string PostalIdentity { get; set; }
 
         public bool HasValue()
         {

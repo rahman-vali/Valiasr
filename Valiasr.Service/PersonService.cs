@@ -1,66 +1,119 @@
-﻿using System.Linq;
-
-namespace Valiasr.Service
+﻿namespace Valiasr.Service
 {
-    using Valiasr.DataAccess;
-    using Valiasr.Domain;
+    using System;
+    using System.Linq;
+
+    using Valiasr.DataAccess.Repositories;
+    using Valiasr.Domain.Model;
 
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
      
     public class PersonService : IPersonService
      {
-        public PersonDTO GetPerson(string melliIdentity)
+
+        public PersonDto GetPerson(string nationalIdentity)
         {
-            PersonDTO personDTO =  new PersonDTO();           
             PersonRepository personRepository = new PersonRepository();
-            Person person = personRepository.GetPerson(melliIdentity);
+            Person person = personRepository.GetPerson(nationalIdentity);
             if (person != null)
-                TranslatePersonToPersonDto(person, personDTO);
-            else
-                return null;//personDTO = null;            
-            return personDTO;
+                return TranslatePersonToPersonDto(person);
+            return null;
         }
-         public void AddPerson(PersonDTO personDto)
-         {             
-            //Customer person = Customer.CreateCustomer(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, "12", personDto.MelliIdentity); 
-             Person correspondent = Person.Create(personDto.Firstname, personDto.Lastname, personDto.HomeAddress, personDto.MelliIdentity);//person;// vakil;//new Correspondent();
-            PersonRepository personRepository = new PersonRepository();
+
+        public void AddPerson(PersonDto personDto)
+        {    
+            Person person = new Person();
+            TranslatePersonDtoToPerson(personDto,person);        
+            PersonRepository repository = new PersonRepository();
+            repository.Add(person);
              
-            // TranslatePersonDtoToPerson(personDto, person);
-             personRepository.AddPerson(correspondent);
-
-         }
-         public void AddCustomer(string melliIdentity, string no, float portion)
-         {
-             PersonRepository personRepository = new PersonRepository();
-             personRepository.AddCustomer(melliIdentity, no, portion);
-         }
-        private void TranslatePersonToPersonDto(Person person, PersonDTO personDto)
-        {
-            personDto.CustomerId = person.CustomerId;
-            personDto.ShobehCode = person.ShobehCode;
-            personDto.Firstname = person.Firstname;
-            personDto.Lastname = person.Lastname;
-            personDto.FatherName = person.FatherName;
-            personDto.CretyId = person.CretyId;
-            personDto.CretySerial = person.CretySerial;
-            personDto.Sadereh = person.Sadereh;
-            personDto.BirthDate = person.BirthDate;
-            personDto.MelliIdentity = person.MelliIdentity;
-            personDto.HeadMelliIdentity = person.HeadMelliIdentity;
-            personDto.JobName = person.JobName;
-            personDto.JobKind = person.JobKind;
-            personDto.Salary = person.Salary;
-            personDto.IndivOrOrgan = person.IndivOrOrgan;
-            personDto.HomeAddress = person.ContactInfo.HomeAddress;
-            personDto.WorkAddress = person.ContactInfo.WorkAddress;
-            personDto.HomeTelno = person.ContactInfo.HomeTelno;
-            personDto.OfficeTelNo = person.ContactInfo.OfficeTelNo;
-            personDto.Mobile = person.ContactInfo.Mobile;
-            personDto.PostIdentity = person.ContactInfo.PostIdentity;
         }
 
-        private void TranslatePersonDtoToPerson(PersonDTO personDto , Person person)
+
+        public void UpdatePerson(PersonDto personDto)
+        {
+            string nationalIdentity = personDto.NationalIdentity;
+            PersonRepository repository = new PersonRepository();
+            Person person = repository.ActiveContext.Persons.Where(p => p.NationaliIdentity == nationalIdentity).FirstOrDefault();
+            if (person == null)
+                throw new Exception("no perso with this National Identity  " + nationalIdentity);
+            TranslatePersonDtoToPerson(personDto , person);
+
+            repository.Update(person);
+
+        }
+
+        public void AddCustomer(string melliIdentity, string no, float portion)
+        {
+            CustomerRepository repository = new CustomerRepository();           
+            repository.AddCustomer( melliIdentity, no , portion);
+        }
+
+        public void AddLawyer(string melliIdentity, DateTime startDate)
+        {
+            LawyerRepository repository = new LawyerRepository();
+            repository.AddLawyer(melliIdentity , startDate);
+        }
+
+        private PersonDto TranslatePersonToPersonDto(Person person)
+        {
+           PersonDto personDto = new PersonDto{
+                   CustomerId = person.CustomerId,
+                   ShobehCode = person.ShobehCode,
+                   Firstname = person.Firstname,
+                   Lastname = person.Lastname,
+                   FatherName = person.FatherName,
+                   CretyId = person.CretyId,
+                   CretySerial = person.CretySerial,
+                   Sadereh = person.Sadereh,
+                   BirthDate = person.BirthDate,
+                   NationalIdentity = person.NationaliIdentity,
+                   HeadNationalIdentity = person.HeadNationalIdentity,
+                   JobName = person.JobName,
+                   JobKind = person.JobKind,
+                   Salary = person.Salary,
+                   IndivOrOrgan = person.IndivOrOrgan,
+                   HomeAddress = person.ContactInfo.HomeAddress,
+                   WorkAddress = person.ContactInfo.WorkAddress,
+                   HomeTelno = person.ContactInfo.HomeTelno,
+                   OfficeTelNo = person.ContactInfo.OfficeTelNo,
+                   Mobile = person.ContactInfo.Mobile,
+                   PostalIdentity = person.ContactInfo.PostalIdentity,                  
+               };
+            return personDto;
+        }
+
+        /*private Person TranslatePersonDtoToPerson(PersonDTO personDto )
+        {
+            Person person = new Person {
+                   CustomerId = personDto.CustomerId,
+                   ShobehCode = personDto.ShobehCode,
+                   Firstname = personDto.Firstname,
+                   Lastname = personDto.Lastname,
+                   FatherName = personDto.FatherName,
+                   CretyId = personDto.CretyId,
+                   CretySerial = personDto.CretySerial,
+                   Sadereh = personDto.Sadereh,
+                   NationaliIdentity = personDto.NationalIdentity,
+                   HeadNationalIdentity = personDto.HeadNationalIdentity,
+                   JobName = personDto.JobName,
+                   JobKind = personDto.JobKind,
+                   Salary = personDto.Salary,
+                   IndivOrOrgan = personDto.IndivOrOrgan,
+                   ContactInfo = new ContactInfo {
+                           HomeAddress = personDto.HomeAddress,
+                           WorkAddress = personDto.WorkAddress,
+                           HomeTelno = personDto.HomeTelno,
+                           OfficeTelNo = personDto.OfficeTelNo,
+                           Mobile = personDto.Mobile,
+                           PostalIdentity = personDto.PostalIdentity,                  
+                       },
+              };
+            return person;
+
+        }*/
+
+        private void TranslatePersonDtoToPerson(PersonDto personDto , Person person)
         {
             person.CustomerId = personDto.CustomerId;
             person.ShobehCode = personDto.ShobehCode;
@@ -70,20 +123,18 @@ namespace Valiasr.Service
             person.CretyId = personDto.CretyId;
             person.CretySerial = personDto.CretySerial;
             person.Sadereh = personDto.Sadereh;
-            person.MelliIdentity = personDto.MelliIdentity;
-            person.HeadMelliIdentity = personDto.HeadMelliIdentity;
+            person.NationaliIdentity = personDto.NationalIdentity;
+            person.HeadNationalIdentity = personDto.HeadNationalIdentity;
             person.JobName = personDto.JobName;
             person.JobKind = personDto.JobKind;
             person.Salary = personDto.Salary;
-            person.IndivOrOrgan = personDto.IndivOrOrgan;
             person.ContactInfo.HomeAddress = personDto.HomeAddress;
-            person.ContactInfo.WorkAddress = personDto.WorkAddress;
+            person.ContactInfo. WorkAddress = personDto.WorkAddress;
             person.ContactInfo.HomeTelno = personDto.HomeTelno;
             person.ContactInfo.OfficeTelNo = personDto.OfficeTelNo;
             person.ContactInfo.Mobile = personDto.Mobile;
-            person.ContactInfo.PostIdentity = personDto.PostIdentity;
+            person.ContactInfo.PostalIdentity = personDto.PostalIdentity;           
         }
-
 
      }
    

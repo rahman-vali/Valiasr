@@ -1,10 +1,10 @@
-﻿namespace Valiasr.Domain
+﻿namespace Valiasr.Domain.Model
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    public class GeneralAccount
+    public class GeneralAccount:IAggregateRoot
     {
         public GeneralAccount()
         {
@@ -19,9 +19,19 @@
         public int LastDate { get; set; }
 
         public Collection<IndexAccount> IndexAccounts { get; set; }
+
+        public bool CanBeSaved
+        {
+            get { return true; }
+        }
+
+        public bool CanBeDeleted
+        {
+            get { return true; }
+        }
     }
 
-    public class IndexAccount
+    public class IndexAccount:IAggregateRoot
     {
         public IndexAccount()
         {
@@ -32,16 +42,27 @@
 
         public string Code { get; set; }
         public int GeneralAccountCode { get; set; }
+        public int Indexer { get; set; }
         public string Description { get; set; }
         public short ExpiryDateCategory { get; set; }
         public int LastUpdated { get; set; }
-        public bool HaveAccounts { get { return Accounts.Count > 0; } }
+        public bool HaveAccounts { get ; set; }
 
         public GeneralAccount GeneralAccount { get; set; }
         public Collection<Account> Accounts { get; set; }
+
+        public bool CanBeSaved
+        {
+            get { return true ; }
+        }
+
+        public bool CanBeDeleted
+        {
+            get { return true ; }
+        }
     }
 
-    public class Account
+    public class Account:IAggregateRoot
     {
         public Account()
         {
@@ -75,10 +96,17 @@
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
+        }
+
+        public bool CanBeSaved
+        {
+            get { return true ; }
+        }
+
+        public bool CanBeDeleted
+        {
+            get { return true ; }
         }
     }
 

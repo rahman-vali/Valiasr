@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Valiasr.Domain;
+    using Valiasr.Domain.Model;
 
     using Xunit;
 

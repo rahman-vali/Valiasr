@@ -39,16 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountPerson.cs" />
-    <Compile Include="ContactInfo.cs" />
-    <Compile Include="Correspondent.cs" />
-    <Compile Include="Customer.cs" />
-    <Compile Include="Account.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="Model\ContactInfo.cs" />
+    <Compile Include="Model\Correspondent.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\IAggregateRoot.cs" />
+    <Compile Include="Model\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IAccountRepository.cs" />
+    <Compile Include="Repositories\ICustomerRepository.cs" />
+    <Compile Include="Repositories\IGeneralAccountRepository.cs" />
+    <Compile Include="Repositories\IIndexAccountRepository.cs" />
+    <Compile Include="Repositories\ILawyerRepository.cs" />
+    <Compile Include="Repositories\IPersonRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\RepositoryContract.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.dgml">
+    <None Include="Model\ClassDiagram.dgml">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\DataSources\Customer.datasource" />
