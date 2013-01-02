@@ -24,7 +24,6 @@
             this.Property(ia => ia.Id).HasColumnName("MoinId");
             Property(ia => ia.Code).HasMaxLength(20);
             this.Property(ia => ia.Description).HasMaxLength(80).HasColumnName("Moin_Des");
-            this.HasRequired(ia => ia.GeneralAccount).WithMany(m => m.IndexAccounts).Map(m => m.MapKey("KolId"));
         }
     }
 
@@ -39,7 +38,7 @@
             this.Property(a => a.Balance);
             this.HasMany(a => a.Lawyers).WithMany(l => l.Accounts);
             this.HasMany(a => a.Customers).WithMany(c => c.Accounts);
-            this.HasRequired(m => m.IndexAccount).WithMany(a => a.Accounts).Map(m => m.MapKey("MoinId"));
+            this.HasRequired(m => m.IndexAccount).WithMany(a => a.Accounts);//.Map(m => m.MapKey("MoinId"));
         }
     }
 }

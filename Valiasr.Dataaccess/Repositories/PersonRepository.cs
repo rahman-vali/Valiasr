@@ -7,18 +7,9 @@
 
     public class PersonRepository:Repository<Person>,IPersonRepository
     {
-        
-
         public Person GetPerson(string nationalIdentity)
         {
-            return
-                (this.ActiveContext.Persons.Where(
-                    p => nationalIdentity != null && p.NationaliIdentity == nationalIdentity)).FirstOrDefault();
+            return ActiveContext.Persons.Where(p => p.NationaliIdentity == nationalIdentity).FirstOrDefault();
         }
-
-      
-
-
-       
     }
 }

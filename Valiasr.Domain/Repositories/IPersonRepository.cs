@@ -4,5 +4,6 @@
 
     public interface IPersonRepository:IRepository<Person>
     {
+        Person GetPerson(string nationalIdentity);
     }
 }

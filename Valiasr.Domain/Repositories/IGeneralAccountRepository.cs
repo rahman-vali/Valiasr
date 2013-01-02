@@ -4,6 +4,6 @@
 
     public interface IGeneralAccountRepository:IRepository<GeneralAccount>
     {
-        void AddIndexAccount(IndexAccount indexAccount);
+       
     }
 }

@@ -9,13 +9,6 @@ namespace Valiasr.DataAccess.Repositories
 
     public class LawyerRepository:Repository<Lawyer>,ILawyerRepository
     {
-        public void AddLawyer(string melliIdentity, DateTime startDate)
-        {
-            Person person = (from p in ActiveContext.Persons where p.NationaliIdentity == melliIdentity select p).FirstOrDefault();
-            Lawyer lawyer = Lawyer.CreateLawyer(person);
-            Add(lawyer);
-
-        }
-
+        
     }
 }

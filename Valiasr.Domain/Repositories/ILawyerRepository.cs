@@ -6,6 +6,6 @@
 
     public interface ILawyerRepository:IRepository<Lawyer>
     {
-        void AddLawyer(string melliIdentity , DateTime startDate);
+
     }
 }

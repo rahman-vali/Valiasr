@@ -26,7 +26,7 @@
 
         public DbSet<GeneralAccount> GeneralAccounts { get; set; }
 
-        public DbSet<IndexAccount> Moins { get; set; }
+        public DbSet<IndexAccount> IndexAccounts { get; set; }
 
         public DbSet<Account> Accounts { get; set; }
 

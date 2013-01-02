@@ -11,5 +11,6 @@ namespace Valiasr.DataAccess.Repositories
 
     public class AccountRepository:Repository<Account>,IAccountRepository
     {
+
     }
 }

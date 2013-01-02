@@ -55,12 +55,12 @@
             Accounts = new Collection<Account>();
         }
 
-        public static Lawyer CreateLawyer(Person person)
+        public static Lawyer CreateLawyer(Person person , DateTime startDate)
         {
             var lawyer = new Lawyer
             {
                 Id = Guid.NewGuid(),
-                StartDate = new DateTime(2012, 6, 12),
+                StartDate = startDate,
                 Person = person,
             };
             return lawyer;

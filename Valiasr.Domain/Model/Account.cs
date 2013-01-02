@@ -11,6 +11,13 @@
             Id = Guid.NewGuid();
             this.IndexAccounts = new Collection<IndexAccount>();
         }
+
+        public static GeneralAccount CreateGeneralAccount(int code, string description, int category)
+        {
+            var generalAccount = new GeneralAccount { Code = code, Description = description, Category = category, };
+            return generalAccount;
+        }
+
         public Guid Id { get; set; }
 
         public int Code { get; set; }
@@ -38,8 +45,27 @@
             Id = Guid.NewGuid();
             this.Accounts = new Collection<Account>();
         }
-        public Guid Id { get; set; }
 
+        public static IndexAccount CreateIndexAccount(
+            GeneralAccount generalAccount,
+            string code,
+            int generalAccountCode,
+            int indexer,
+            string description,
+            bool haveAcounts)
+        {
+            var indexAccount = new IndexAccount
+                {
+                    GeneralAccount = generalAccount,
+                    Code = code,
+                    GeneralAccountCode = generalAccountCode,
+                    Indexer = indexer,
+                    Description = description,
+                    HaveAccounts = haveAcounts
+                };
+            return indexAccount;
+        }
+        public Guid Id { get; set; }
         public string Code { get; set; }
         public int GeneralAccountCode { get; set; }
         public int Indexer { get; set; }
@@ -48,8 +74,8 @@
         public int LastUpdated { get; set; }
         public bool HaveAccounts { get ; set; }
 
-        public GeneralAccount GeneralAccount { get; set; }
-        public Collection<Account> Accounts { get; set; }
+        public virtual GeneralAccount GeneralAccount { get; set; }
+        public  Collection<Account> Accounts { get; set; }
 
         public bool CanBeSaved
         {
@@ -71,10 +97,24 @@
             this.Customers = new Collection<Customer>();
         }
 
+        public static Account CreateAccount(IndexAccount indexAccount, string code, string no , int Indexer , double balance , string description)
+        {
+            var account = new Account
+            {
+                IndexAccount = indexAccount ,
+                Code = code,
+                No = no,
+                Balance = balance,
+                Description = description,
+            };
+            return account;
+        }
+
         public Guid Id { get; set; }
         //Shomare Hesab
-        public string IndexCode { get; set; }
+        public string IndexAccountCode { get; set; }
         public string Code { get; set; }
+        public int Indexer { get; set; }
         public string No { get; set; }
         /// Mojodi Hesab
         public double Balance { get; set; }
