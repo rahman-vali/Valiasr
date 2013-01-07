@@ -44,22 +44,47 @@
         {
             GeneralAccountRepository context = new GeneralAccountRepository();
             Person person = PersonTest.CreatePerson();
-            Customer customer = PersonTest.CreateCustomer(person);
+ //           Customer customer = PersonTest.CreateCustomer(person);
             Lawyer lawyer = PersonTest.CreateLawyer(person);
             GeneralAccount generalAccount = CreateGeneralAccount();
             IndexAccount indexAccount = CreateIndexAccount();
             Account account = CreateAccount();
-            account.Customers.Add(customer);
+//            account.Customers.Add(customer);
             account.Lawyers.Add(lawyer);
             indexAccount.Accounts.Add(account);
             generalAccount.IndexAccounts.Add(indexAccount);
             context.Add(generalAccount);
+
             //context.AddIndexAccount(indexAccount);
             //context.GeneralAccounts.Add(generalAccount);
 
            // context.SaveChanges();
         }
 
+        [Fact]
+        public void Create_Complex_Account2()
+        {
+            PersonRepository context = new PersonRepository();
+            Person person = PersonTest.CreatePerson();
+            Customer customer = PersonTest.CreateCustomer(person);
+            Lawyer lawyer = PersonTest.CreateLawyer(person);
+            if (person != null)
+            {
+                context.Add(person);
+            }
+            /*            GeneralAccount generalAccount = CreateGeneralAccount();
+            IndexAccount indexAccount = CreateIndexAccount();
+            Account account = CreateAccount();
+            indexAccount.Accounts.Add(account);
+            generalAccount.IndexAccounts.Add(indexAccount);
+            context.Add(generalAccount);
+            CustomerRepository customerRepository = new CustomerRepository();
+            customer.Accounts.Add(account);
+            customerRepository.Add(customer);
+            LawyerRepository lawyerRepository = new LawyerRepository();
+            lawyer.Accounts.Add(account);
+            lawyerRepository.Add(lawyer);*/
+        }
         [Fact]
         public void create_generalAccount()
         {

@@ -11,5 +11,9 @@
         {
             return ActiveContext.Persons.Where(p => p.NationaliIdentity == nationalIdentity).FirstOrDefault();
         }
+        public void CanBeDeleted()
+        {
+           
+        }
     }
 }

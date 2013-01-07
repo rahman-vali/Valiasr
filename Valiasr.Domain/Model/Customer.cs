@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Moshtari
     /// </summary>
-    public class Customer:IAggregateRoot
+    public class Customer
     {
         public Customer()
         {
@@ -16,6 +17,7 @@
 
         public static Customer CreateCustomer(Person person,string no , float portion)
         {
+            //Contract.Requires<ArgumentNullException>(person != null, "person");
             var customer = new Customer
             {
                 Id = Guid.NewGuid(),
@@ -28,26 +30,22 @@
 
         public Guid Id { get; set; }
         public Person Person { get; set; }
+ //       [StringLenghValidator(20)]
         public string No { get; set; }
         public bool HagheBardasht { get; set; }
         public float Portion { get; set; }
         public Collection<Account> Accounts { get; set; }
-
-        public bool CanBeSaved
+        public bool ContainAccount()
         {
-            get { return true ; }
-        }
-
-        public bool CanBeDeleted
-        {
-            get { return true ; }
-        }
+            var collection = this.Accounts;
+            return (collection != null) && (collection.Count != 0);
+        }        
     }
 
     /// <summary>
     /// Vakil
     /// </summary>
-    public class Lawyer:IAggregateRoot 
+    public class Lawyer 
     {
         public Lawyer()
         {
@@ -57,6 +55,7 @@
 
         public static Lawyer CreateLawyer(Person person , DateTime startDate)
         {
+           // Contract.Requires<ArgumentNullException>(person != null ,"person");
             var lawyer = new Lawyer
             {
                 Id = Guid.NewGuid(),
@@ -71,17 +70,6 @@
         public DateTime? EndDate { get; set; }
         public DateTime StartDate { get; set; }
         public Collection<Account> Accounts { get; set; }
-
-
-        public bool CanBeSaved
-        {
-            get { return true ; }
-        }
-
-        public bool CanBeDeleted
-        {
-            get { return true ; }
-        }
     }
 
     //    public class Zamen : Customer

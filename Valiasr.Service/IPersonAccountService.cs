@@ -14,22 +14,25 @@ namespace Valiasr.Service
         /// <param name="nationalIdentity"></param>
         /// <returns></returns>
         [OperationContract]
-        PersonDto GetPerson(string nationalIdentity);
+        PersonDto GetPersonByNationalIdentity(string nationalIdentity);
 
         [OperationContract]
-        void AddPerson(PersonDto personDto);
+        PersonDto GetPersonById(Guid id);
 
         [OperationContract]
-        void UpdatePerson(PersonDto personDto);
+        string AddPerson(PersonDto personDto);
 
         [OperationContract]
-        void RemovePerson(Guid id);
+        string UpdatePerson(PersonDto personDto);
 
         [OperationContract]
-        void AddCustomer(CustomerDto customerDto);
+        string RemovePerson(Guid id);
 
         [OperationContract]
-        void AddLawyer(LawyerDto lawyerDto);
+        string AddCustomerToAccount(Guid accountId , CustomerDto customerDto);
+
+        [OperationContract]
+        string AddLawyerToAccount(Guid accountId , LawyerDto lawyerDto);
 
 
         /// <summary>
@@ -37,13 +40,25 @@ namespace Valiasr.Service
         /// </summary>
         /// <param name="generalAccountDto"></param>
         [OperationContract]
-        void AddGeneralAccount(GeneralAccountDto generalAccountDto);
+        string AddGeneralAccount(GeneralAccountDto generalAccountDto);
 
         [OperationContract]
-        void AddIndexAccount(IndexAccountDto indexAccountDto);
+        string RemoveGeneralAccount(Guid id);
 
         [OperationContract]
-        void AddAccount(AccountDto accountDto);
+        GeneralAccountDto GetGeneralAccount(int code);
+
+        [OperationContract]
+        string AddIndexAccount(IndexAccountDto indexAccountDto);
+
+        [OperationContract]
+        string RemoveIndexAccount(Guid id);
+
+        [OperationContract]
+        IndexAccountDto GetIndexAccount(string code);
+
+        [OperationContract]
+        string AddAccount(AccountDto accountDto);
 
    //     [OperationContract]
  //       bool CanBardasht(string accountNo, double amount);
@@ -140,6 +155,9 @@ namespace Valiasr.Service
     public class GeneralAccountDto
     {
         [DataMember]
+        public Guid Id { get; set; }
+
+        [DataMember]
         public int Code { get; set; }
 
         [DataMember]
@@ -153,6 +171,9 @@ namespace Valiasr.Service
     public class IndexAccountDto
     {
         [DataMember]
+        public Guid Id { get; set; }
+
+        [DataMember]
         public Guid GeneralAccountId { get; set; }
 
         [DataMember]
@@ -162,7 +183,7 @@ namespace Valiasr.Service
         public int GeneralAccountCode { get; set; }
 
         [DataMember]
-        public int Indexer { get; set; }
+        public int RowId { get; set; }
 
         [DataMember]
         public string Description { get; set; }
@@ -175,6 +196,8 @@ namespace Valiasr.Service
     public class AccountDto
     {
         [DataMember]
+        public Guid Id { get; set; }
+        [DataMember]
         public Guid IndexAccountId { get; set; }
 
         [DataMember]
@@ -184,7 +207,7 @@ namespace Valiasr.Service
         public string Code { get; set; }
 
         [DataMember]
-        public int Indexer { get; set; }
+        public int RowId { get; set; }
 
         [DataMember]
         public string No { get; set; }

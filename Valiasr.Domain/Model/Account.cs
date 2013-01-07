@@ -27,6 +27,19 @@
 
         public Collection<IndexAccount> IndexAccounts { get; set; }
 
+        public virtual bool ContainIndexAccount(string code)
+        {
+            return (this.IndexAccounts.Count(ia => ia.Code == code) != 0);
+        }
+
+        public bool ContainIndexAccounts
+        {
+            get
+            {
+                return this.IndexAccounts.Count() != 0;
+            }
+        }
+
         public bool CanBeSaved
         {
             get { return true; }
@@ -59,7 +72,7 @@
                     GeneralAccount = generalAccount,
                     Code = code,
                     GeneralAccountCode = generalAccountCode,
-                    Indexer = indexer,
+                    RowId = indexer,
                     Description = description,
                     HaveAccounts = haveAcounts
                 };
@@ -68,7 +81,7 @@
         public Guid Id { get; set; }
         public string Code { get; set; }
         public int GeneralAccountCode { get; set; }
-        public int Indexer { get; set; }
+        public int RowId { get; set; }
         public string Description { get; set; }
         public short ExpiryDateCategory { get; set; }
         public int LastUpdated { get; set; }
@@ -76,6 +89,19 @@
 
         public virtual GeneralAccount GeneralAccount { get; set; }
         public  Collection<Account> Accounts { get; set; }
+
+        public bool ContainAccounts
+        {
+            get
+            {
+                return this.Accounts.Count() != 0;
+            }
+        }
+        public virtual bool ContainAccount(string code)
+        {
+            int count = (this.Accounts.Where(a => a.Code == code)).Count();
+            return count != 0;
+        }
 
         public bool CanBeSaved
         {
@@ -114,7 +140,7 @@
         //Shomare Hesab
         public string IndexAccountCode { get; set; }
         public string Code { get; set; }
-        public int Indexer { get; set; }
+        public int RowId { get; set; }
         public string No { get; set; }
         /// Mojodi Hesab
         public double Balance { get; set; }
@@ -124,7 +150,45 @@
         public Collection<Customer> Customers { get; set; }
         public Collection<Lawyer> Lawyers { get; set; }
 
-        public bool Bardasht(string customerNo, double amount)
+        public virtual bool AddCustomer(Person person, string no, float portion , ref string messageStr)
+        {
+            if (!this.ContainCustomer(person.Id))
+            {
+                Customer customer = Customer.CreateCustomer(person, no, portion); 
+                this.Customers.Add(customer);
+                messageStr = "customer added successfully";
+                return true;
+            }
+            messageStr = "customer was there in database";
+            return false;
+        }
+
+        public bool ContainCustomer(Guid personId)
+        {
+            int count = (this.Customers.Where(c => c.Person.Id == personId)).Count();// from c in this.Customers where c.Id == customer.Person.Id select c).Count();
+            return count != 0;
+        }
+
+        public virtual bool AddLawyer(Person person, DateTime startDate ,ref string messageStr)
+        {
+            if (!this.ContainLawyer(person.Id))
+            {
+                Lawyer lawyer = Lawyer.CreateLawyer(person, startDate);
+                this.Lawyers.Add(lawyer);
+                messageStr = "lawyer added successfully";
+                return true;
+            }
+            messageStr = "lawyer was there in database";
+            return false;
+        }
+  
+        public bool ContainLawyer(Guid personId)
+        {
+            int count = (this.Lawyers.Where(l => Equals(l.Person.Id, personId))).Count();
+            return count != 0;
+        }
+
+        public bool Withdraw(string customerNo, double amount)
         {
             var customer = this.Customers
                 .FirstOrDefault(o => o.No == customerNo);

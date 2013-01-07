@@ -10,14 +10,19 @@
             ContactInfo = new ContactInfo();
         }
 
-        public static Person CreatePerson()
+        public static Person CreatePerson(int shobehCode ,int customerId , string firstname , string lastname , string fatherName , string cretyId , string cretySerial ,
+            string sadereh , int birthDate , string nationaliIdentity , string headNationalIdentity , string jobName , short jobKind , decimal salary , int regPerId , 
+            int lastPerId , string indivOrOrgan , int lastDate , string homeAddress , string workAddress , string  homeTelno , string officeTelNo , string mobile , 
+            string postalIdentity)
         {
-            return new Person()
+            return new Person
             {
-                IndivOrOrgan = "1",
-                Firstname = "ali",
-                Lastname = "ahmadi",
-                ContactInfo = new ContactInfo() { HomeAddress = "babol", HomeTelno = "12435" }
+                Id = Guid.NewGuid(), ShobehCode = shobehCode , CustomerId = customerId , Firstname = firstname , Lastname = lastname , FatherName = fatherName , 
+                CretyId = cretyId , CretySerial = cretySerial , Sadereh = sadereh , BirthDate = birthDate , NationaliIdentity = nationaliIdentity , 
+                HeadNationalIdentity = headNationalIdentity , JobName = jobName , JobKind = jobKind , Salary = salary , RegPerId = regPerId , LastPerId = lastPerId , 
+                IndivOrOrgan = indivOrOrgan , LastDate = lastDate, 
+                ContactInfo = new ContactInfo { HomeAddress = homeAddress , WorkAddress = workAddress , HomeTelno = homeTelno , OfficeTelNo = officeTelNo , Mobile = mobile, 
+                PostalIdentity = postalIdentity}
             };
         }
 

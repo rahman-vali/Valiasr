@@ -63,7 +63,7 @@
         [Fact]
         public void Add_Single_Person_As_Customer_And_Lawyer_2()
         {
-            var person = Person.CreatePerson();
+            var person = CreatePerson();
             var lawyer = Lawyer.CreateLawyer(person,new DateTime(2012,12,20));
             var customer = Customer.CreateCustomer(person,"3" , 1);
 
@@ -74,6 +74,7 @@
          //   Assert.True(this.anotherContext.Accounts.SelectMany(o => o.Customers).Count() == 1);
            // Assert.True(this.anotherContext.Accounts.Count() == 1);
         }
+ 
 
         public static Person CreatePerson()
         {
