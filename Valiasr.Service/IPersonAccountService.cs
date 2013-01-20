@@ -2,6 +2,7 @@
 
 namespace Valiasr.Service
 {
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
     using System.ServiceModel;
 
@@ -18,6 +19,9 @@ namespace Valiasr.Service
 
         [OperationContract]
         PersonDto GetPersonById(Guid id);
+
+        [OperationContract]
+        List<PersonDto> GetPersonByAccount(string code);
 
         [OperationContract]
         string AddPerson(PersonDto personDto);
@@ -60,13 +64,22 @@ namespace Valiasr.Service
         [OperationContract]
         string AddAccount(AccountDto accountDto);
 
-   //     [OperationContract]
- //       bool CanBardasht(string accountNo, double amount);
+        [OperationContract]
+        string AddLoanRequest(LoanRequestDto loanRequestDto);
 
-     //   [OperationContract]
-       // bool Bardasht(string account, double amount);
+        [OperationContract]
+        LoanRequestDto GetLoanRequest(int reqNo);
 
-       // [OperationContract]
+        [OperationContract]
+        string AddLoanRequestOkyAssistant(Guid loanRequestId , LoanRequestOkyDto loanRequestOkyDto);
+
+        //     [OperationContract]
+        //       bool CanBardasht(string accountNo, double amount);
+
+        //   [OperationContract]
+        // bool Bardasht(string account, double amount);
+
+        // [OperationContract]
         //ICollection<CustomerDto> GetCustomerByAccountNo(string accountNo);
     }
 
@@ -107,7 +120,7 @@ namespace Valiasr.Service
         [DataMember]
         public decimal Salary { get; set; }
         [DataMember]
-        public string IndivOrOrgan { get; set; }
+        public short IndivOrOrgan { get; set; }
         [DataMember]
         public string HomeAddress { get; set; }
         [DataMember]
@@ -217,5 +230,78 @@ namespace Valiasr.Service
 
         [DataMember]
         public string Description { get; set; }
+    }
+
+    [DataContract]
+    public class LoanRequestDto
+    {
+        [DataMember]
+        public Guid Id { get; set; }
+
+        [DataMember]
+        public string AccountCode { get; set; }
+
+        [DataMember]
+        public int ReqNo { get; set; }
+
+        [DataMember]
+        public int Date { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public decimal Amount { get; set; }
+
+        [DataMember]
+        public int Duration { get; set; }
+
+        [DataMember]
+        public string DurationType { get; set; }
+
+        [DataMember]
+        public int PaymentCount { get; set; }
+
+        [DataMember]
+        public short RequestKind { get; set; }
+
+        [DataMember]
+        public int FingerRegId { get; set; }
+
+        [DataMember]
+        public short IndivOrOrgan { get; set; }
+
+        [DataMember]
+        public int LastDate { get; set; }
+
+    }
+
+    public class LoanRequestOkyDto
+    {
+
+        [DataMember]
+        public int ReqNo { get; set; }
+
+        [DataMember]
+        public decimal OkyQty { get; set; }
+
+        [DataMember]
+        public int OkyDuration { get; set; }
+
+        [DataMember]
+        public string OkyDurationType { get; set; }
+
+        [DataMember]
+        public int PaymentCount { get; set; }
+
+        [DataMember]
+        public string OkyAss { get; set; }
+
+        [DataMember]
+        public int OKyDate { get; set; }
+
+        [DataMember]
+        public int RegPerId { get; set; }        
+
     }
 }

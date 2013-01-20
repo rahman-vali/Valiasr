@@ -34,11 +34,15 @@
             this.HasKey(a => a.Id);
             this.Property(a => a.Id)
                 .HasColumnName("AccountId");
+            this.Property(a => a.Code).HasMaxLength(30);
+            this.Property(a => a.IndexAccountCode).HasMaxLength(20);
+            this.Property(a => a.No).HasMaxLength(20);
             this.Property(a => a.Description).HasMaxLength(150);
             this.Property(a => a.Balance);
             this.HasMany(a => a.Lawyers).WithMany(l => l.Accounts);
             this.HasMany(a => a.Customers).WithMany(c => c.Accounts);
-            this.HasRequired(m => m.IndexAccount).WithMany(a => a.Accounts);//.Map(m => m.MapKey("MoinId"));
+            this.HasRequired(m => m.IndexAccount).WithMany(a => a.Accounts);
+    //        HasMany(a => a.LoanRequests).WithRequired(lr => lr.Account);
         }
     }
 }

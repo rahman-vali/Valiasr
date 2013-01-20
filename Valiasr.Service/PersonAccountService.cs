@@ -24,10 +24,11 @@ namespace Valiasr.Service
                 string nationalIdentity = personDto.NationalIdentity;
                 PersonRepository repository = new PersonRepository();
                 if (repository.ActiveContext.Persons.Where(p => p.NationaliIdentity == nationalIdentity).Count() != 0) return "person with this natinal identity is there ";
+                personDto.CustomerId = repository.ActiveContext.Persons.Select(o=> o.CustomerId).DefaultIfEmpty(0).Max() + 1;
                 Person person = new Person();
                 TranslatePersonDtoToPerson(personDto, person);
                 repository.Add(person);
-                return "person is added successfully";
+                return "person is added successfully by customerId :" + personDto.CustomerId.ToString();
             }
             catch (Exception exception)
             {
@@ -63,7 +64,7 @@ namespace Valiasr.Service
                 Person person = repository.ActiveContext.Persons.Where(p => p.Id == id).FirstOrDefault();
                 if (person == null) return ("person is not there in database");
                 string messageStr = "";
-                if (PersonIsCustomerOrLawyer(repository , id ,ref messageStr)) return messageStr;
+                if (repository.PersonIsCustomerOrLawyer(id ,ref messageStr)) return messageStr;
                 repository.Remove(person);
                 return ("person successfully removed");
             }
@@ -74,32 +75,39 @@ namespace Valiasr.Service
         }      
 
 
-        private bool PersonIsCustomerOrLawyer(PersonRepository repository, Guid id , ref string messageStr)
-        {
-            var accounts = repository.ActiveContext.Accounts.Include("customers")
-                                      .Include("Lawyers")
-                                      .Where(a => a.Customers.Any(c => c.Person.Id == id) || a.Lawyers.Any(l => l.Person.Id == id))
-                                      .ToList();
-            var customers = accounts.SelectMany(a => a.Customers).Where(c => c.Person.Id == id);
-            if (customers.Any())
-            {
-                messageStr = "This person is customer in these/this accounts: " + String.Join(", ", customers.Select(o => o.No).ToArray()) ;
-            }
-            var lawyers = accounts.SelectMany(a => a.Lawyers).Where(l => l.Person.Id == id);
-            if (lawyers.Any())
-            {
-                messageStr = string.Format("{0} And lawyer in these/this accounts:  {1}", messageStr, string.Join(",", lawyers.Select(l => l.StartDate).ToArray()));
-            }
-            return messageStr.Length != 0;
-        }
-
-
         public PersonDto GetPersonByNationalIdentity(string nationalIdentity)
         {
             PersonRepository repository = new PersonRepository();
-            Person person = repository.ActiveContext.Persons.Where(p => p.NationaliIdentity == nationalIdentity).FirstOrDefault();
+            Person person = repository.GetPersonByNationalIdentity(nationalIdentity);
             return TranslatePersonToPersonDto(person);            
         }
+
+       
+        public List<PersonDto> GetPersonByAccount(string code)
+        {
+            PersonRepository repository = new PersonRepository();
+            Account account = repository.ActiveContext.Accounts.Include("Customers.Person")
+                                        .Include("Lawyers.Person")
+                                        .FirstOrDefault(a => a.Code == code);
+
+            if (account != null)
+            {
+                var persons =
+                    account.Customers.Select(c => c.Person)
+                           .ToList()
+                           .Union(account.Lawyers.Select(l => l.Person))
+                           .ToList();
+                if (persons.Count == 0) return null;
+                List<PersonDto> personDtos = new List<PersonDto>();
+                foreach (Person person in persons)
+                {
+                    personDtos.Add(this.TranslatePersonToPersonDto(person));
+                }
+                return personDtos;
+            }
+            return null;
+        }
+
 
         public PersonDto GetPersonById(Guid id)
         {
@@ -107,19 +115,25 @@ namespace Valiasr.Service
             Person person = repository.ActiveContext.Persons.Where(p => p.Id == id).FirstOrDefault();
             return TranslatePersonToPersonDto(person);
         }
+
         public string AddCustomerToAccount(Guid accountId , CustomerDto customerDto)
         {
             try
             {
-                Guid id = customerDto.PersonId;
+                Guid personId = customerDto.PersonId;
                 AccountRepository repository = new AccountRepository();
-                Person person = repository.ActiveContext.Persons.Where(p => p.Id == id).FirstOrDefault();
+                Person person = repository.ActiveContext.Persons.Where(p => p.Id == personId).FirstOrDefault();
                 if (person == null) return ("the person id is invalid and customer can't be find");
-                Account account = repository.ActiveContext.Accounts.Include("customers").Where(a => a.Id == accountId).FirstOrDefault();
+                Account account = repository.ActiveContext.Accounts.Include("customers.Person").Where(a => a.Id == accountId).FirstOrDefault();
                 if (account == null) return "account id is invalid and can not be find";
-                string messageStr = "";
-                if (account.AddCustomer(person, customerDto.No, customerDto.Portion,ref messageStr)) repository.ActiveContext.SaveChanges();
-                return messageStr;
+                if (!account.ContainCustomer(personId))
+                {
+                    Customer customer = Customer.CreateCustomer(person, customerDto.No, customerDto.Portion);
+                    account.Customers.Add(customer);
+                    repository.ActiveContext.SaveChanges();
+                    return "customer added successfully";
+                }
+                return "customer was there in database";
             }
             catch (Exception fException)
             {
@@ -127,20 +141,24 @@ namespace Valiasr.Service
             }
         }
 
-
         public string AddLawyerToAccount(Guid accountId , LawyerDto lawyerDto)
         {
             try
             {
-                Guid id = lawyerDto.PersonId;
+                Guid personId = lawyerDto.PersonId;
                 AccountRepository repository = new AccountRepository();
-                Person person = repository.ActiveContext.Persons.Where(p => p.Id == lawyerDto.PersonId).FirstOrDefault();
+                Person person = repository.ActiveContext.Persons.Where(p => p.Id == personId).FirstOrDefault();
                 if (person == null) return ("the person id is invalid and person can't be find");
-                Account account = repository.ActiveContext.Accounts.Include("Lawyers").FirstOrDefault(a => a.Id == accountId);
+                Account account = repository.ActiveContext.Accounts.Include("Lawyers.Person").FirstOrDefault(a => a.Id == accountId);
                 if (account == null) return "account id is invalid and lawyer can't be added";
-                string messageStr = "";
-                if (account.AddLawyer(person, lawyerDto.StartDate, ref messageStr)) repository.ActiveContext.SaveChanges();
-                return messageStr;
+                if (!account.ContainLawyer(personId))
+                {
+                    Lawyer lawyer = Lawyer.CreateLawyer(person, lawyerDto.StartDate);
+                    account.Lawyers.Add(lawyer);
+                    repository.ActiveContext.SaveChanges();
+                    return "lawyer added successfully";
+                }
+                return "lawyer was there and can't be recreated";
             }
             catch (Exception fException)
             {
@@ -358,6 +376,7 @@ namespace Valiasr.Service
             }
         }
 
+
         public AccountDto GetAccount(string code)
         {
             AccountRepository repository = new AccountRepository();
@@ -385,6 +404,134 @@ namespace Valiasr.Service
             return indexAccountDto;
         }
 
+
+        public string AddLoanRequest(LoanRequestDto loanRequestDto)
+        {
+            try
+            {
+                LoanRequestRepository repository = new LoanRequestRepository();
+                loanRequestDto.ReqNo = MakeReqNo(repository , loanRequestDto.Date);
+                LoanRequest loanRequest = new LoanRequest();
+                TranslateLoanRequestDtoToLoanRequest(loanRequestDto, loanRequest);
+                repository.Add(loanRequest);
+                return "request added successfully";
+            }
+            catch (Exception exception)
+            {
+                return exception.Message;
+            }
+        }
+
+        private void TranslateLoanRequestDtoToLoanRequest(LoanRequestDto loanRequestDto, LoanRequest loanRequest)
+        {
+            loanRequest.ReqNo = loanRequestDto.ReqNo;
+            loanRequest.LoanRequestDate = loanRequestDto.Date;
+            loanRequest.Amount = loanRequestDto.Amount;
+            loanRequest.AccountCode = loanRequestDto.AccountCode;
+            loanRequest.Description = loanRequestDto.Description;
+            loanRequest.Duration = loanRequestDto.Duration;
+            loanRequest.DurationType = loanRequestDto.DurationType;
+            loanRequest.PaymentCount = loanRequestDto.PaymentCount;
+            loanRequest.LastDate = loanRequestDto.LastDate;
+            loanRequest.RequestKind = loanRequestDto.RequestKind;
+            loanRequest.IndivOrOrgan = loanRequestDto.IndivOrOrgan;
+            loanRequest.FingerRegId = loanRequestDto.FingerRegId;
+        }
+
+        private int MakeReqNo(LoanRequestRepository repository ,int date)
+        {
+            int no = repository.ActiveContext.LoanRequests.Where(lr => lr.LoanRequestDate == date).Select(lr => lr.ReqNo).DefaultIfEmpty(0).Max() + 1;
+            if (no == 1) no = date * 1000 + 1;
+            return no;
+        }
+
+        public LoanRequestDto GetLoanRequest(int reqNo)
+        {
+            LoanRequestRepository repository = new LoanRequestRepository();
+            LoanRequest loanRequest = repository.ActiveContext.LoanRequests.FirstOrDefault(lr => lr.ReqNo == reqNo);
+            return TranslateLoanRequestToLoanRequestDto(loanRequest);
+
+        }
+
+        private LoanRequestDto TranslateLoanRequestToLoanRequestDto(LoanRequest loanRequest)
+        {
+            if (loanRequest == null)
+            {
+                LoanRequestDto loanRequestDtoNull = new LoanRequestDto{Description = "record not found"};
+                return loanRequestDtoNull;
+            }
+            LoanRequestDto loanRequestDto = new LoanRequestDto
+                {
+                    ReqNo = loanRequest.ReqNo,
+                    AccountCode = loanRequest.AccountCode,
+                    Amount = loanRequest.Amount,
+                    Date = loanRequest.LoanRequestDate,
+                    Description = loanRequest.Description,
+                    Duration = loanRequest.Duration,
+                    DurationType = loanRequest.DurationType,
+                    FingerRegId = loanRequest.FingerRegId,
+                    Id = loanRequest.Id,
+                    IndivOrOrgan = loanRequest.IndivOrOrgan,
+                };
+            return loanRequestDto;
+        }
+
+        public string UpdaeLoanRequest(LoanRequestDto loanRequestDto)
+        {
+            try
+            {
+                Guid id = loanRequestDto.Id;
+                LoanRequestRepository repository = new LoanRequestRepository();
+                LoanRequest loanRequest = repository.ActiveContext.LoanRequests.Where(lr => lr.Id == id).FirstOrDefault();
+                if (loanRequest == null) return "request is not there ";
+                this.TranslateLoanRequestDtoToLoanRequest(loanRequestDto , loanRequest);
+                repository.Update(loanRequest);
+                return "updated successfully";
+            }
+            catch (Exception exception)
+            {
+                return exception.Message;
+            }
+        }
+
+        public string RemoveLoanRequest(int reqNo)
+        {
+            LoanRequestRepository repository = new LoanRequestRepository();
+            LoanRequest loanRequest = repository.ActiveContext.LoanRequests.FirstOrDefault(lr => lr.ReqNo == reqNo);
+            if (loanRequest == null) return "record not found to be deleted";
+
+            return "";
+        }
+
+        public string AddLoanRequestOkyAssistant(Guid loanRequestId ,LoanRequestOkyDto loanRequestOkyDto)
+        {
+            try
+            {
+                LoanRequestRepository repository = new LoanRequestRepository();
+                LoanRequest loanRequest =
+                    repository.ActiveContext.LoanRequests
+                              .FirstOrDefault(lr => lr.Id == loanRequestId);
+                if (loanRequest == null) return "this request with this Request no :" + loanRequestOkyDto.ReqNo.ToString() + " is not there";
+                TranslateLoanRequestOkyDto(loanRequestOkyDto,loanRequest);
+                repository.Update(loanRequest);
+                return "request added successfully";
+            }
+            catch (Exception exception)
+            {
+                return exception.Message;
+            }
+        }
+
+        private void TranslateLoanRequestOkyDto(LoanRequestOkyDto loanRequestOkyDto, LoanRequest loanRequest)
+        {
+            loanRequest.LoanRequestOkyAsistant.OKyDate = loanRequestOkyDto.OKyDate;
+            loanRequest.LoanRequestOkyAsistant.OkyAss = loanRequestOkyDto.OkyAss;
+            loanRequest.LoanRequestOkyAsistant.OkyQty = loanRequestOkyDto.OkyQty;
+            loanRequest.LoanRequestOkyAsistant.PaymentCount = loanRequestOkyDto.PaymentCount;
+            loanRequest.LoanRequestOkyAsistant.OkyDuration = loanRequestOkyDto.OkyDuration;
+            loanRequest.LoanRequestOkyAsistant.OkyDurationType = loanRequestOkyDto.OkyDurationType;
+            loanRequest.LoanRequestOkyAsistant.RegPerId = loanRequestOkyDto.RegPerId;
+        }
     }
 }
 

@@ -1,0 +1,3 @@
+﻿field AccountNo In LoanRequest is not needed it must be deleted after transformation;
+field AccountNo in AccountActivity is not needed and is surplus to the file;
+field LoanNo is not needed

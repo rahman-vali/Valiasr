@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Service References\AccountServiceReference\Reference.cs">
+    <Compile Include="Service References\ServiceReferencePerson\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -96,17 +96,23 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\AccountServiceReference\service.wsdl" />
-    <None Include="Service References\AccountServiceReference\service.xsd">
+    <None Include="Service References\ServiceReferencePerson\service.wsdl" />
+    <None Include="Service References\ServiceReferencePerson\service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\AccountServiceReference\service1.xsd">
+    <None Include="Service References\ServiceReferencePerson\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\AccountServiceReference\Valiasr.Service.xsd">
+    <None Include="Service References\ServiceReferencePerson\Valiasr.Service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\AccountServiceReference\Valiasr.UI.WPF.AccountServiceReference.CustomerDto.datasource">
+    <None Include="Service References\ServiceReferencePerson\Valiasr.UI.WPF.ServiceReferencePerson.GeneralAccountDto.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferencePerson\Valiasr.UI.WPF.ServiceReferencePerson.IndexAccountDto.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReferencePerson\Valiasr.UI.WPF.ServiceReferencePerson.PersonDto.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
   </ItemGroup>
@@ -117,21 +123,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\AccountServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\AccountServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\AccountServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\AccountServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +130,21 @@
       <Project>{74095029-36a6-4547-b1ac-a50ccf32ae3c}</Project>
       <Name>Valiasr.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ServiceReferencePerson\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReferencePerson\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReferencePerson\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReferencePerson\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

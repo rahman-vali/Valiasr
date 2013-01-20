@@ -31,8 +31,7 @@
             Property(p => p.ContactInfo.OfficeTelNo).HasColumnName("OfficeTelno").HasMaxLength(45);
             Property(p => p.ContactInfo.Mobile).HasMaxLength(15).HasColumnName("Mobile");
             Property(p => p.ContactInfo.PostalIdentity).HasMaxLength(15).HasColumnName("PostalIdentity");
-            Property(p => p.ContactInfo.PostalIdentity).HasMaxLength(20);
-            Property(p => p.IndivOrOrgan).HasMaxLength(1);
+            Property(p => p.ContactInfo.PostalIdentity).HasMaxLength(20);        
         }
 
         /// <summary>

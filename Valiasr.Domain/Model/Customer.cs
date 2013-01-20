@@ -12,7 +12,7 @@
         public Customer()
         {
             Person= new Person();
-            Accounts = new Collection<Account>();
+   //         Accounts = new Collection<Account>();
         }
 
         public static Customer CreateCustomer(Person person,string no , float portion)

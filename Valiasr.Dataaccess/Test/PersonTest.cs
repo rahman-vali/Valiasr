@@ -80,7 +80,7 @@
         {
             return new Person()
                 {
-                    IndivOrOrgan = "1",
+                    IndivOrOrgan = 1,
                     Firstname = "ali",
                     Lastname = "ahmadi",
                     ContactInfo = new ContactInfo() { HomeAddress = "babol", HomeTelno = "12435" }

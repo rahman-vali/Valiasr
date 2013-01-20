@@ -9,23 +9,6 @@
             Id = Guid.NewGuid();
             ContactInfo = new ContactInfo();
         }
-
-        public static Person CreatePerson(int shobehCode ,int customerId , string firstname , string lastname , string fatherName , string cretyId , string cretySerial ,
-            string sadereh , int birthDate , string nationaliIdentity , string headNationalIdentity , string jobName , short jobKind , decimal salary , int regPerId , 
-            int lastPerId , string indivOrOrgan , int lastDate , string homeAddress , string workAddress , string  homeTelno , string officeTelNo , string mobile , 
-            string postalIdentity)
-        {
-            return new Person
-            {
-                Id = Guid.NewGuid(), ShobehCode = shobehCode , CustomerId = customerId , Firstname = firstname , Lastname = lastname , FatherName = fatherName , 
-                CretyId = cretyId , CretySerial = cretySerial , Sadereh = sadereh , BirthDate = birthDate , NationaliIdentity = nationaliIdentity , 
-                HeadNationalIdentity = headNationalIdentity , JobName = jobName , JobKind = jobKind , Salary = salary , RegPerId = regPerId , LastPerId = lastPerId , 
-                IndivOrOrgan = indivOrOrgan , LastDate = lastDate, 
-                ContactInfo = new ContactInfo { HomeAddress = homeAddress , WorkAddress = workAddress , HomeTelno = homeTelno , OfficeTelNo = officeTelNo , Mobile = mobile, 
-                PostalIdentity = postalIdentity}
-            };
-        }
-
         public bool Balegh
         {
             get
@@ -53,7 +36,7 @@
         public decimal Salary { get; set; }
         public int RegPerId { get; set; }
         public int LastPerId { get; set; }
-        public string IndivOrOrgan { get; set; }
+        public short IndivOrOrgan { get; set; }
         public int LastDate { get; set; }
         public ContactInfo ContactInfo { get; set; }
 
@@ -69,3 +52,18 @@
         }
     }
 }
+/*        public static Person CreatePerson(int shobehCode ,int customerId , string firstname , string lastname , string fatherName , string cretyId , string cretySerial ,
+            string sadereh , int birthDate , string nationaliIdentity , string headNationalIdentity , string jobName , short jobKind , decimal salary , int regPerId , 
+            int lastPerId , string indivOrOrgan , int lastDate , string homeAddress , string workAddress , string  homeTelno , string officeTelNo , string mobile , 
+            string postalIdentity)
+        {
+            return new Person
+            {
+                Id = Guid.NewGuid(), ShobehCode = shobehCode , CustomerId = customerId , Firstname = firstname , Lastname = lastname , FatherName = fatherName , 
+                CretyId = cretyId , CretySerial = cretySerial , Sadereh = sadereh , BirthDate = birthDate , NationaliIdentity = nationaliIdentity , 
+                HeadNationalIdentity = headNationalIdentity , JobName = jobName , JobKind = jobKind , Salary = salary , RegPerId = regPerId , LastPerId = lastPerId , 
+                IndivOrOrgan = indivOrOrgan , LastDate = lastDate, 
+                ContactInfo = new ContactInfo { HomeAddress = homeAddress , WorkAddress = workAddress , HomeTelno = homeTelno , OfficeTelNo = officeTelNo , Mobile = mobile, 
+                PostalIdentity = postalIdentity}
+            };
+        }*/

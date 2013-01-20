@@ -29,7 +29,8 @@
 
         public virtual bool ContainIndexAccount(string code)
         {
-            return (this.IndexAccounts.Count(ia => ia.Code == code) != 0);
+            //return (this.IndexAccounts.Count(ia => ia.Code == code) != 0);
+            return IndexAccounts.Any(ia => ia.Code == code);
         }
 
         public bool ContainIndexAccounts
@@ -97,8 +98,8 @@
                 return this.Accounts.Count() != 0;
             }
         }
-        public virtual bool ContainAccount(string code)
-        {
+        public bool ContainAccount(string code)
+        {            
             int count = (this.Accounts.Where(a => a.Code == code)).Count();
             return count != 0;
         }
@@ -147,45 +148,27 @@
         public string Description { get; set; }
 
         public virtual IndexAccount IndexAccount { get; set; }
-        public Collection<Customer> Customers { get; set; }
-        public Collection<Lawyer> Lawyers { get; set; }
+        public virtual Collection<Customer> Customers { get; set; }
+        public virtual Collection<Lawyer> Lawyers { get; set; }
+        public virtual Collection<AccountActivity> AccountActivities { get; set; }
+        public virtual Collection<LoanRequest> LoanRequests { get; set; }
+        public virtual Collection<RequestAccountAve> RequestAccountAves { get; set; }
+        public virtual Loan Loan { get; set; }
 
-        public virtual bool AddCustomer(Person person, string no, float portion , ref string messageStr)
-        {
-            if (!this.ContainCustomer(person.Id))
-            {
-                Customer customer = Customer.CreateCustomer(person, no, portion); 
-                this.Customers.Add(customer);
-                messageStr = "customer added successfully";
-                return true;
-            }
-            messageStr = "customer was there in database";
-            return false;
-        }
-
+        
         public bool ContainCustomer(Guid personId)
         {
-            int count = (this.Customers.Where(c => c.Person.Id == personId)).Count();// from c in this.Customers where c.Id == customer.Person.Id select c).Count();
-            return count != 0;
+            return this.Customers.Any(c => c.Person.Id == personId);
         }
 
-        public virtual bool AddLawyer(Person person, DateTime startDate ,ref string messageStr)
-        {
-            if (!this.ContainLawyer(person.Id))
-            {
-                Lawyer lawyer = Lawyer.CreateLawyer(person, startDate);
-                this.Lawyers.Add(lawyer);
-                messageStr = "lawyer added successfully";
-                return true;
-            }
-            messageStr = "lawyer was there in database";
-            return false;
-        }
-  
         public bool ContainLawyer(Guid personId)
         {
-            int count = (this.Lawyers.Where(l => Equals(l.Person.Id, personId))).Count();
-            return count != 0;
+            return this.Lawyers.Any(l => l.Person.Id == personId);
+        }
+
+        public bool ContainLoanRequest(int loanRequestNo)
+        {
+            return this.LoanRequests.Any(lr => lr.ReqNo == loanRequestNo);
         }
 
         public bool Withdraw(string customerNo, double amount)

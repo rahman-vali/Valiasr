@@ -5,6 +5,7 @@ namespace Valiasr.Service.Test
     using System.Collections.Generic;
     using System.Linq;
 
+    using Valiasr.DataAccess;
     using Valiasr.DataAccess.Repositories;
     using Valiasr.Domain.Model;
     using Valiasr.Service;
@@ -34,32 +35,46 @@ namespace Valiasr.Service.Test
                   {
                       return "This person is customer in these/this accounts: " + String.Join(", ", result.Select(o => o.No).ToArray());
                   }
-
                   if (person == null) return ("person not found and can not be updated");
                   repository.Remove(person);
-                  return ("person successfully removed");
-              
+                  return ("person successfully removed");              
           }
+    [Fact]
+        public object getPersonByNationalIdentity()
+        {
+            PersonAccountService personAccountService = new PersonAccountService();
+            PersonDto personDto = personAccountService.GetPersonByNationalIdentity("1");
+            return null;
+        }
 
 
-          public static IEnumerable<object[]> TestAccountData { get { yield return new object[] { Guid.Parse("cb6ea868-cee7-443f-a4bc-3b107d98a6b8"), Guid.Parse("b2d93f0b-8af1-4228-bbb7-2c9ab96b64ad") }; } }
+
+         public static IEnumerable<object[]> TestAccountData { get { yield return new object[] { Guid.Parse("f422617f-76ab-4ed1-a366-56afc6e2eb98"), Guid.Parse("3cc23ade-b455-4496-a151-dce274c17622") }; } }
 
           [Theory]
           [PropertyData("TestAccountData")]
           public string AddCustomerToAccount(Guid accountId, Guid id)
           {
-              
-                  AccountRepository repository = new AccountRepository();
-                  Person person = repository.ActiveContext.Persons.Where(p => p.Id == id).FirstOrDefault();
-                  if (person == null) return ("the person id is invalid and person can't be find");
-                  Account account = repository.ActiveContext.Accounts.Include("Customers").Where(a => a.Id == accountId).FirstOrDefault();
-                  if (account == null) return "account id is invalid and can not be find";
-                  string messageStr = "";
-                  if (account.AddCustomer(person, "200", 1, ref messageStr)) repository.ActiveContext.SaveChanges();
-                  return messageStr;
-              
+              CustomerDto customerDto = new CustomerDto();
+              customerDto.PersonId = id;
+              customerDto.No = "4";
+              customerDto.Portion = 1;
+              PersonAccountService personAccountService = new PersonAccountService();
+              personAccountService.AddCustomerToAccount(accountId, customerDto);
+              return "completed";
           }
+        [Fact]
+        public object GetPersonByAccountTest()
+        {
+//            AccountRepository repository = new AccountRepository();
+//            Account account = repository.ActiveContext.Accounts.Include("Lawyers.Person").Include("Customers.Person").FirstOrDefault(a => a.Code == "1/0/0");
+//            var firstnames = account.Lawyers.Select(o => o.Person.Firstname).Union(account.Customers.Select(a => a.Person.Firstname)).ToList();
+            PersonAccountService personAccountService = new PersonAccountService();
+            List<PersonDto> list = personAccountService.GetPersonByAccount("1/0/0");
+            
+return null;
 
+        }
           [Fact]
           public void AddGeneralAccountTest()
           {
@@ -93,6 +108,8 @@ namespace Valiasr.Service.Test
               
           }
 
+
+
         public static IEnumerable<object[]> TestPersonData { get { yield return new object[] { Guid.Parse("01edfdbd-a289-4ffe-9d07-c41a0de38052") }; } }
 
         [Theory]
@@ -109,30 +126,37 @@ namespace Valiasr.Service.Test
               personDto.ShobehCode = 1;
               personDto.HomeAddress = "babol";
               personDto.HomeTelno = "145789+";
-              personDto.NationalIdentity = "2145645789";
+              personDto.NationalIdentity = "1";
               PersonAccountService pa = new PersonAccountService();
               string str = pa.AddPerson(personDto);
           }
-
-        [Theory]
-        [PropertyData("TestPersonData")]
-        public void AddPersonTest(Guid id)
+[Fact]
+        public void AddPersonTest()
         {
             PersonDto personDto = new PersonDto();
-            personDto.HeadNationalIdentity = "1245";
-            personDto.Id = id;
-            personDto.CustomerId = 10;
-            personDto.Firstname = "ali";
-            personDto.FatherName = "ahmad";
-            personDto.Lastname = "rezai";
-            personDto.ShobehCode = 1;
-            personDto.HomeAddress = "babol";
+            personDto.HeadNationalIdentity = "12451";
+            //personDto.Id = Guid.NewGuid();
+           // personDto.CustomerId = 10;
+            personDto.Firstname = "ali1";
+            personDto.FatherName = "ahmad1";
+            personDto.Lastname = "rezai1";
+            personDto.ShobehCode = 11;
+            personDto.HomeAddress = "babol1";
             personDto.HomeTelno = "145789+";
-            personDto.NationalIdentity = "2145645789";
+            personDto.NationalIdentity = "21456457611";
             PersonAccountService pa = new PersonAccountService();
             string str = pa.AddPerson(personDto);
         }
 
+        public static IEnumerable<object[]> TestRemovePerson { get { yield return new object[] { Guid.Parse("ca91fd3e-2729-4b77-b0cd-a4e415445853") }; } }
+
+        [Theory]
+        [PropertyData("TestRemovePerson")]
+        public void removePerson(Guid id)
+        {
+            PersonAccountService personAccountService = new PersonAccountService();
+            string str = personAccountService.RemovePerson(id);
+        }
 
           public static IEnumerable<object[]> TestAddAccountData { get { yield return new object[] { Guid.Parse("f1ab901a-4674-4aaa-a057-bdcdc11f1c72") }; } }
 
@@ -168,5 +192,105 @@ namespace Valiasr.Service.Test
             IndexAccountDto indexAccountDto = pa.GetIndexAccount("2/0");
             var a = indexAccountDto.Description;
         }
+        [Fact]
+        public void GetAccountTest()
+        {
+            PersonAccountService ps = new PersonAccountService();
+            AccountDto accountDto = ps.GetAccount("1/0/0");
+            var a = accountDto.RowId;
+        }
+        [Fact]
+        public void Creat_Request()
+        {
+            var context = new ValiasrContext("Valiasr.ce");
+            var account = context.Accounts.Where(a => a.Code == "1/0/0").FirstOrDefault();
+            var loanRequest = this.Create_Request(account);
+            loanRequest.Account = account;
+            var loan = new Loan { Id = Guid.NewGuid(), Amount = 1000,LoanRequest = loanRequest};
+            loanRequest.Loan = loan;
+            account.LoanRequests.Add(loanRequest);
+      //      context.LoanRequests.Add(loanRequest);
+            context.SaveChanges();
+
+        }
+
+        public static IEnumerable<object[]> RequestOky { get { yield return new object[] { Guid.Parse("1528fc7d-136b-4ac2-8ba1-0303a6c30560") }; } }
+
+        [Theory]
+        [PropertyData("RequestOky")]
+
+        public void Creat_RequestOkyAss(Guid id)
+        {
+            PersonAccountService ps = new PersonAccountService();
+            LoanRequestOkyDto loanRequestOkyDto = new LoanRequestOkyDto();
+            loanRequestOkyDto.ReqNo = 1;
+            loanRequestOkyDto.OKyDate = 13911032;
+            loanRequestOkyDto.OkyAss = "moavenreis";
+            string str = ps.AddLoanRequestOkyAssistant(id ,loanRequestOkyDto);
+        }
+
+
+        [Fact]
+        public void Creat_Loan()
+        {
+            var context = new ValiasrContext("Valiasr.ce");
+            var loanRequest = context.LoanRequests.Where(a => a.ReqNo == 1).FirstOrDefault();
+            var loan = new Loan { Id = Guid.NewGuid(), Amount = 2000 ,LoanRequest = loanRequest};
+            loanRequest.Loan = loan;
+        //    context.LoanRequests.Add(loanRequest);
+            context.SaveChanges();
+
+        }
+
+
+        public static IEnumerable<object[]> CustomerLawyerTest { get { yield return new object[] { Guid.Parse("1528fc7d-136b-4ac2-8ba1-0303a6c30560") }; } }
+
+        [Theory]
+        [PropertyData("CustomerLawyerTest")]
+        private bool PersonIsCustomerOrLawyer( Guid id)
+        {
+            string messageStr = "";
+            PersonRepository repository = new PersonRepository();
+            var customerAccounts =
+                repository.ActiveContext.Accounts.Include("Customers")
+                          .Where(a => a.Customers.Any(c => c.Person.Id == id))
+                          .ToList();
+            if (customerAccounts.Any())
+            {
+                messageStr = "this person is customer in these/this accounts :  " +
+                             string.Join(",", customerAccounts.Select(ca => ca.Code).ToArray());
+            }
+            var lawyerAccounts =
+                repository.ActiveContext.Accounts.Include("Lawyers")
+                          .Where(a => a.Customers.Any(c => c.Person.Id == id))
+                          .ToList();
+            if (lawyerAccounts.Any())
+            {
+                messageStr = messageStr = string.Format("{0} And lawyer in these/this accounts:  {1}", messageStr, string.Join(",", lawyerAccounts.Select(ca => ca.Code).ToArray()));
+            }
+            return messageStr.Length != 0;
+        }
+
+        public LoanRequest Create_Request(Account account)
+        {
+
+            var LoanRequest = new LoanRequest
+            {
+                Id = Guid.NewGuid(),
+                Account = account,
+                Amount = 5000,
+                ReqNo = 1,
+                Description = "h",
+                Duration = 20,
+                DurationType = "kl",
+                FingerRegId = 4,
+                LastDate = 13921024,
+            };
+            LoanRequestOkyAssistant loanRequestOkyAsistant = new LoanRequestOkyAssistant();           
+   //         loanRequestOkyAsistant.OKyDate = 13921029;
+            LoanRequest.LoanRequestOkyAsistant = loanRequestOkyAsistant;
+            return LoanRequest;
+        }
+
     }
 }

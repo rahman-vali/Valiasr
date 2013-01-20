@@ -4,6 +4,7 @@
 
     using Valiasr.DataAccess.Repositories;
     using Valiasr.Domain.Model;
+    using System.Linq;
 
     using Xunit;
 
@@ -111,6 +112,9 @@
             IndexAccountRepository repository = new IndexAccountRepository();
             //repository.AddAccount(account);
         }
+
+        [Fact]
+
         public static Account CreateAccount()
         {
             var account = new Account { Id = Guid.NewGuid(), Balance = 1000, Description = "first", No = "1",IndexAccountCode = "1/0"};

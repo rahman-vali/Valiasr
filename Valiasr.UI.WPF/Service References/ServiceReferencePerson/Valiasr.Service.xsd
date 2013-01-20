@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Valiasr.Service" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Valiasr.Service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="PersonDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BirthDate" type="xs:int" />
+      <xs:element minOccurs="0" name="CretyId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CretySerial" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerId" type="xs:int" />
+      <xs:element minOccurs="0" name="FatherName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Firstname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HeadNationalIdentity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HomeAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HomeTelno" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="ser:guid" />
+      <xs:element minOccurs="0" name="IndivOrOrgan" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="JobKind" type="xs:short" />
+      <xs:element minOccurs="0" name="JobName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Lastname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Mobile" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NationalIdentity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OfficeTelNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PostalIdentity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Sadereh" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Salary" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ShobehCode" type="xs:int" />
+      <xs:element minOccurs="0" name="WorkAddress" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PersonDto" nillable="true" type="tns:PersonDto" />
+  <xs:complexType name="CustomerDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="HagheBardasht" type="xs:boolean" />
+      <xs:element minOccurs="0" name="No" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonId" type="ser:guid" />
+      <xs:element minOccurs="0" name="Portion" type="xs:float" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CustomerDto" nillable="true" type="tns:CustomerDto" />
+  <xs:complexType name="LawyerDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PersonId" type="ser:guid" />
+      <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LawyerDto" nillable="true" type="tns:LawyerDto" />
+  <xs:complexType name="GeneralAccountDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Category" type="xs:int" />
+      <xs:element minOccurs="0" name="Code" type="xs:int" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GeneralAccountDto" nillable="true" type="tns:GeneralAccountDto" />
+  <xs:complexType name="IndexAccountDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GeneralAccountCode" type="xs:int" />
+      <xs:element minOccurs="0" name="GeneralAccountId" type="ser:guid" />
+      <xs:element minOccurs="0" name="HaveAccounts" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Id" type="ser:guid" />
+      <xs:element minOccurs="0" name="RowId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IndexAccountDto" nillable="true" type="tns:IndexAccountDto" />
+  <xs:complexType name="AccountDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Balance" type="xs:double" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="ser:guid" />
+      <xs:element minOccurs="0" name="IndexAccountCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IndexAccountId" type="ser:guid" />
+      <xs:element minOccurs="0" name="No" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RowId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AccountDto" nillable="true" type="tns:AccountDto" />
+</xs:schema>

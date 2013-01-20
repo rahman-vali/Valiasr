@@ -3,8 +3,7 @@
     using Valiasr.Domain.Model;
     using Valiasr.Domain.Repositories;
 
-    public class AccountRepository:Repository<Account>,IAccountRepository
+    public class LoanRequestRepository : Repository<LoanRequest>, ILoanRequestRepository
     {
-
     }
 }

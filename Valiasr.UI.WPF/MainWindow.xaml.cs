@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace Valiasr.UI.WPF
 {
-    using Valiasr.UI.WPF.AccountServiceReference;
+    using Valiasr.UI.WPF.ServiceReferencePerson;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,26 +25,33 @@ namespace Valiasr.UI.WPF
         public MainWindow()
         {
             InitializeComponent();
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            var client = new AccountServiceClient();
-            var customerDtos = client.GetCustomerByAccountNo(AccountNo.Text);
-            var customerDtoViewSource = ((CollectionViewSource)(this.FindResource("customerDtoViewSource")));
-            customerDtoViewSource.Source = customerDtos;
-
         }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
+
+            System.Windows.Data.CollectionViewSource personDtoViewSource =
+                ((System.Windows.Data.CollectionViewSource)(this.FindResource("personDtoViewSource")));
             // Load data by setting the CollectionViewSource.Source property:
-            // customerDtoViewSource.Source = [generic data source]
+            // personDtoViewSource.Source = [generic data source]
         }
 
-        private void customerDtoListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            ServiceReferencePerson.PersonAccountServiceClient client = new PersonAccountServiceClient();
+            PersonDto personDto = client.GetPersonByNationalIdentity("1"); 
+            CollectionViewSource personDtoViewSource =
+                ((System.Windows.Data.CollectionViewSource)(this.FindResource("personDtoViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            personDtoViewSource.Source = new[] { personDto };
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+             CollectionViewSource personDtoViewSource =
+                ((System.Windows.Data.CollectionViewSource)(this.FindResource("personDtoViewSource")));
+            ServiceReferencePerson.PersonAccountServiceClient client = new PersonAccountServiceClient();
+           //button2.Content = client.UpdatePerson(personDtoViewSource.Source.);
 
         }
     }
