@@ -28,7 +28,7 @@
 
         public DbSet<IndexAccount> IndexAccounts { get; set; }
 
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
 
         public DbSet<Person> Persons { get; set; }
 
@@ -48,6 +48,7 @@
             modelBuilder.Configurations.Add(new GeneralAccountMap());
             modelBuilder.Configurations.Add(new IndexAccountMap());
             modelBuilder.Configurations.Add(new PersonMap.ContactInfoMap());
+            modelBuilder.Configurations.Add(new BankAccountMap());
             modelBuilder.Configurations.Add(new AccountMap());
             modelBuilder.Configurations.Add(new LoanRequestMap());
             modelBuilder.Configurations.Add(new LoanRequestOkyAssistantMap());

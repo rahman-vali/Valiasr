@@ -13,7 +13,7 @@
         [Fact]
         public void Create_Complex_Account()
         {
-            var context = new ValiasrContext("Valiasr.ce");
+            var context = new ValiasrContext("Valiasr");
             Person person = PersonTest.CreatePerson();
             Customer customer = PersonTest.CreateCustomer(person);
             Lawyer lawyer = PersonTest.CreateLawyer(person);
@@ -22,11 +22,22 @@
             Account account = CreateAccount();
             account.Lawyers.Add(lawyer);
             account.Customers.Add(customer);
-            indexAccount.Accounts.Add(account);
+            LoanRequest loanRequest = new LoanRequest();
+            Loan loan = new Loan();
+    //        loan.Account = account;
+            loan.LoanRequest = loanRequest;
+            LoanRequestOkyAssistant loanRequestOkyAssistant = new LoanRequestOkyAssistant();
+            loanRequest.LoanRequestOkyAsistant = loanRequestOkyAssistant;
+            loanRequest.Account = account;
+            account.LoanRequests.Add(loanRequest);
+            indexAccount.BankAccounts.Add(account);
+            indexAccount.BankAccounts.Add(loan);
             generalAccount.IndexAccounts.Add(indexAccount);
             context.GeneralAccounts.Add(generalAccount);
             //context.IndexAccounts.Add(indexAccount);
+
             context.SaveChanges();
+
            /* GeneralAccount generalAccount = CreateGeneralAccount();
 
 
@@ -52,7 +63,7 @@
             Account account = CreateAccount();
 //            account.Customers.Add(customer);
             account.Lawyers.Add(lawyer);
-            indexAccount.Accounts.Add(account);
+            indexAccount.BankAccounts.Add(account);
             generalAccount.IndexAccounts.Add(indexAccount);
             context.Add(generalAccount);
 
@@ -117,7 +128,7 @@
 
         public static Account CreateAccount()
         {
-            var account = new Account { Id = Guid.NewGuid(), Balance = 1000, Description = "first", No = "1",IndexAccountCode = "1/0"};
+            var account = new Account { Balance = 1000, Description = "first", No = "1",IndexAccountCode = "1/0",Code = "1/0/0"};
             return account;
         }
 

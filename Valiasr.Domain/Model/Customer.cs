@@ -70,10 +70,11 @@
         public DateTime? EndDate { get; set; }
         public DateTime StartDate { get; set; }
         public Collection<Account> Accounts { get; set; }
-    }
 
-    //    public class Zamen : Customer
-    //    {
-    //        public Collection<Vam> Vams { get; set; }
-    //    }
+        public bool ContainAccount()
+        {
+            var collection = this.Accounts;
+            return (collection != null) && (collection.Count != 0);
+        }        
+    }
 }

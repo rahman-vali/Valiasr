@@ -13,8 +13,6 @@
             Property(lr => lr.Description).HasMaxLength(90);
             Property(lr => lr.DurationType).HasMaxLength(8);
             HasRequired(lr => lr.LoanRequestOkyAsistant).WithRequiredPrincipal();
-            HasOptional(lr => lr.Loan).WithRequired();
-           // HasRequired(lr => lr.Account).WithMany();
             ToTable("LoanRequests");
 
         }
@@ -36,12 +34,12 @@
     {
         public LoanMap()
         {
-            HasKey(l => l.Id);
+            ToTable("Loans");
             Property(l => l.DurationType).HasMaxLength(8);
             Property(l => l.LoanNo).HasMaxLength(30);
             Property(l => l.StepDef).HasMaxLength(150);
             Property(l => l.Assurance).HasMaxLength(90);
-            HasOptional(l => l.Account);
+            HasRequired(l => l.LoanRequest);
         }
     }
 }

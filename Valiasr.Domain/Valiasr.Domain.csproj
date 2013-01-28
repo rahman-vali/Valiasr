@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AccountActivity.cs" />
+    <Compile Include="Model\AccountPartial.cs" />
     <Compile Include="Model\ContactInfo.cs" />
     <Compile Include="Model\Correspondent.cs" />
     <Compile Include="Model\Customer.cs" />

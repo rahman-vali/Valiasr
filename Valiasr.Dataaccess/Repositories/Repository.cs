@@ -14,7 +14,7 @@ namespace Valiasr.DataAccess.Repositories
     {
         public Repository()
         {
-            this.ActiveContext = new ValiasrContext("Valiasr.ce");
+            this.ActiveContext = new ValiasrContext("Valiasr");
         }
 
         //[Dependency]

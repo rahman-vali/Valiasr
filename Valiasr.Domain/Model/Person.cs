@@ -47,7 +47,7 @@
         }
 
         public bool CanBeDeleted
-        {
+        {        
             get { return true ; }
         }
     }

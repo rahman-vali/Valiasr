@@ -27,6 +27,6 @@
         public int EntryFormatType { get; set; }
         public int AssistantCode { get; set; }
         public int ShobehCode { get; set; }
-        public virtual Account Account { get; set; }
+        public virtual BankAccount BankAccount { get; set; }
     }
 }

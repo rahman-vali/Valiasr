@@ -11,8 +11,8 @@
     public class PersonTest : TestBase
     {
 
-        ValiasrContext context = new ValiasrContext("Valiasr.ce");
-        ValiasrContext anotherContext = new ValiasrContext("Valiasr.ce");
+        ValiasrContext context = new ValiasrContext("Valiasr");
+        ValiasrContext anotherContext = new ValiasrContext("Valiasr");
 
         /// <summary>
         /// Sakhtan yek vakil va ezafe kardane an dar 2 hesab
@@ -26,19 +26,19 @@
             Account account1 = AccountTest.CreateAccount();
             account1.Lawyers.Add(lawyer);
             account1.Customers.Add(customer);
-            this.context.Accounts.Add(account1);
+            this.context.BankAccounts.Add(account1);
 
             Account account2 = AccountTest.CreateAccount();
             account2.Lawyers.Add(lawyer);
-            this.context.Accounts.Add(account2);
+            this.context.BankAccounts.Add(account2);
 
             this.context.SaveChanges();
 
             Assert.True(this.anotherContext.Persons.Count() == 2);
-            Assert.True(this.anotherContext.Accounts.Count() == 2);
-            var lawyers = this.anotherContext.Accounts.SelectMany(o => o.Lawyers).Distinct().ToList();
+            Assert.True(this.anotherContext.BankAccounts.Count() == 2);
+            var lawyers = this.anotherContext.BankAccounts.OfType<Account>().SelectMany(o => o.Lawyers).Distinct().ToList();
             Assert.True(lawyers.Count() == 1);
-            Assert.True(this.anotherContext.Accounts.SelectMany(o=> o.Customers).Count() == 1);
+            Assert.True(this.anotherContext.BankAccounts.OfType<Account>().SelectMany(o=> o.Customers).Count() == 1);
         }
 
         [Fact]
@@ -52,12 +52,12 @@
             account.Lawyers.Add(lawyer);
             account.Customers.Add(customer);
             
-            this.context.Accounts.Add(account);
+            this.context.BankAccounts.Add(account);
             this.context.SaveChanges();
 
-            Assert.True(this.anotherContext.Accounts.SelectMany(o => o.Lawyers).Distinct().Count() == 1);
-            Assert.True(this.anotherContext.Accounts.SelectMany(o => o.Customers).Count() == 1);
-            Assert.True(this.anotherContext.Accounts.Count() == 1);
+            Assert.True(this.anotherContext.BankAccounts.OfType<Account>().SelectMany(o => o.Lawyers).Distinct().Count() == 1);
+            Assert.True(this.anotherContext.BankAccounts.OfType<Account>().SelectMany(o => o.Customers).Count() == 1);
+            Assert.True(this.anotherContext.BankAccounts.Count() == 1);
         }
 
         [Fact]

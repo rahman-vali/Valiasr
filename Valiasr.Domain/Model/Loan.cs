@@ -1,36 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Valiasr.Domain.Model
 {
-    using System.Security.Permissions;
-
     public class LoanRequest:IAggregateRoot
     {
         public LoanRequest()
         {
             Id = Guid.NewGuid();
         }
-        public static LoanRequest CreateLoanRequest(Account account ,int reqNo , int date , decimal amount , string description , int duration , string durationType , int lastDate , short indivOrOrgan )
-        {
-
-            var LoanRequest = new LoanRequest
-                {
-                    Id = Guid.NewGuid(),
-                    ReqNo = reqNo,
-                    LoanRequestDate = date,
-                    Amount = amount,
-                    Description = description,
-                    Duration = duration,
-                    DurationType = durationType,
-                    IndivOrOrgan = indivOrOrgan,
-                    LastDate = lastDate
-                };
-            return LoanRequest;
-        }
+ 
         public Guid Id { get; set; }
         public int ReqNo { get; set; }
         public int LoanRequestDate { get; set; }
@@ -47,7 +26,6 @@ namespace Valiasr.Domain.Model
         public virtual Account Account { get; set; }   
         public virtual LoanRequestOkyAssistant LoanRequestOkyAsistant { get; set; }
         public virtual ICollection<RequestAccountAve> RequestAccountAves { get; set; }
-        public virtual Loan Loan { get; set; }
 
         public bool CanBeSaved
         {
@@ -75,6 +53,10 @@ namespace Valiasr.Domain.Model
 
     public class RequestAccountAve
     {
+        public RequestAccountAve()
+        {
+            Id = Guid.NewGuid();
+        }
         public Guid Id { get; set; }
         public int ReqNo { get; set; }
         public int fromDate { get; set; }
@@ -89,9 +71,12 @@ namespace Valiasr.Domain.Model
         public virtual LoanRequest LoanRequest { get; set; }
     }
 
-    public class Loan
+    public class Loan:BankAccount
     {
-        public Guid Id { get; set; }
+        public Loan()
+        {
+
+        }
         public string LoanNo { get; set; }
         public int ReqNo { get; set; }
         public int Date { get; set; }
@@ -111,12 +96,11 @@ namespace Valiasr.Domain.Model
         public short GrantPercent { get; set; }
         public int DelayDayCount { get; set; }
         public int SpeedyDayCount { get; set; }
-        public int DelaMonthCount { get; set; }
+        public int DelayMonthCount { get; set; }
         public int LastDate { get; set; }
         public int SuperiorOky { get; set; }
         public int SuperiorId { get; set; }
         public int RegisteredId { get; set; }
         public virtual LoanRequest LoanRequest { get; set; }
-        public virtual Account Account { get; set; }
     }
 }

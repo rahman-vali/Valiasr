@@ -3,6 +3,7 @@ namespace Valiasr.Service.Test
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
 
     using Valiasr.DataAccess;
@@ -25,7 +26,7 @@ namespace Valiasr.Service.Test
                   if (id == Guid.Empty) return ("person's id is not vali and can not be deleted");
                   PersonRepository repository = new PersonRepository();
                   Person person = repository.ActiveContext.Persons.Where(p => p.Id == id).FirstOrDefault();
-                  var accounts = repository.ActiveContext.Accounts.Include("Customers")
+                  var accounts = repository.ActiveContext.BankAccounts.OfType<Account>().Include("Customers")
                             .Include("Lawyers")
                             .Where(
                                 o => o.Customers.Any(c => c.Person.Id == id) || o.Lawyers.Any(l => l.Person.Id == id)).ToList();
@@ -85,8 +86,8 @@ return null;
                   generalAccountDto.Description = "bank";
                   PersonAccountService pa = new PersonAccountService();
               pa.AddGeneralAccount(generalAccountDto);
-              GeneralAccountRepository repository = new GeneralAccountRepository();
-                   Assert.True(repository.ActiveContext.GeneralAccounts.Where(ga => ga.Code == 15).Count() == 1);
+           //   GeneralAccountRepository repository = new GeneralAccountRepository();
+             //      Assert.True(repository.ActiveContext.GeneralAccounts.Where(ga => ga.Code == 15).Count() == 1);
 
           }
           public static IEnumerable<object[]> TestIndexAccountData { get { yield return new object[] { Guid.Parse("4dfe63d4-9816-4bd0-9051-9f4b4909a8cf") }; } }
@@ -202,15 +203,18 @@ return null;
         [Fact]
         public void Creat_Request()
         {
-            var context = new ValiasrContext("Valiasr.ce");
-            var account = context.Accounts.Where(a => a.Code == "1/0/0").FirstOrDefault();
-            var loanRequest = this.Create_Request(account);
-            loanRequest.Account = account;
-            var loan = new Loan { Id = Guid.NewGuid(), Amount = 1000,LoanRequest = loanRequest};
-            loanRequest.Loan = loan;
-            account.LoanRequests.Add(loanRequest);
-      //      context.LoanRequests.Add(loanRequest);
-            context.SaveChanges();
+            LoanRequestDto loanRequestDto = new LoanRequestDto {AccountCode = "1/0/0",Amount = 1000,Date = 13911102,Description = "vam" };
+            PersonAccountService ps = new PersonAccountService();
+            string str = ps.AddLoanRequest(loanRequestDto);
+//            var context = new ValiasrContext("Valiasr");
+//            var account = context.Accounts.Where(a => a.Code == "1/0/0").FirstOrDefault();
+//            var loanRequest = this.Create_Request(account);
+//            loanRequest.Account = account;
+//    //        var loan = new Loan { Id = Guid.NewGuid(), Amount = 1000,LoanRequest = loanRequest,Account = account};
+//      //      loanRequest.Loan = loan;
+//            account.LoanRequests.Add(loanRequest);
+//      //      context.LoanRequests.Add(loanRequest);
+//            context.SaveChanges();
 
         }
 
@@ -226,18 +230,20 @@ return null;
             loanRequestOkyDto.ReqNo = 1;
             loanRequestOkyDto.OKyDate = 13911032;
             loanRequestOkyDto.OkyAss = "moavenreis";
-            string str = ps.AddLoanRequestOkyAssistant(id ,loanRequestOkyDto);
+            string str = ps.AddOrUpdateLoanRequestOkyAssistant(id ,loanRequestOkyDto);
         }
 
 
         [Fact]
         public void Creat_Loan()
         {
-            var context = new ValiasrContext("Valiasr.ce");
+            var context = new ValiasrContext("Valiasr");
             var loanRequest = context.LoanRequests.Where(a => a.ReqNo == 1).FirstOrDefault();
-            var loan = new Loan { Id = Guid.NewGuid(), Amount = 2000 ,LoanRequest = loanRequest};
-            loanRequest.Loan = loan;
+            var account = context.BankAccounts.Where(a => a.Code == "1/0/0").FirstOrDefault();
+            //var loan = new Loan { Id = Guid.NewGuid(), Amount = 2000 ,LoanRequest = loanRequest,Account = account};
+            //loanRequest.Loan = loan;
         //    context.LoanRequests.Add(loanRequest);
+            //account.Loan = loan;
             context.SaveChanges();
 
         }
@@ -252,7 +258,7 @@ return null;
             string messageStr = "";
             PersonRepository repository = new PersonRepository();
             var customerAccounts =
-                repository.ActiveContext.Accounts.Include("Customers")
+                repository.ActiveContext.BankAccounts.OfType<Account>().Include("Customers")
                           .Where(a => a.Customers.Any(c => c.Person.Id == id))
                           .ToList();
             if (customerAccounts.Any())
@@ -261,7 +267,7 @@ return null;
                              string.Join(",", customerAccounts.Select(ca => ca.Code).ToArray());
             }
             var lawyerAccounts =
-                repository.ActiveContext.Accounts.Include("Lawyers")
+                repository.ActiveContext.BankAccounts.OfType<Account>().Include("Lawyers")
                           .Where(a => a.Customers.Any(c => c.Person.Id == id))
                           .ToList();
             if (lawyerAccounts.Any())
@@ -290,6 +296,29 @@ return null;
    //         loanRequestOkyAsistant.OKyDate = 13921029;
             LoanRequest.LoanRequestOkyAsistant = loanRequestOkyAsistant;
             return LoanRequest;
+        }
+
+        [Fact]
+        public decimal GetAve()
+        {
+            AccountRepository repository = new AccountRepository();
+            Account account =
+                repository.ActiveContext.BankAccounts.OfType<Account>().FirstOrDefault(a => a.Code == "1/0/0");
+            decimal ave = account.GetAccountAve(10, 30);
+            Loan loan = repository.ActiveContext.BankAccounts.OfType<Loan>().FirstOrDefault(l => l.Code == "2/0/0");
+
+            return ave;
+        }
+
+        [Fact]
+        public decimal getDayBalance()
+        {
+            AccountRepository repository = new AccountRepository();
+            Account account =
+                repository.ActiveContext.BankAccounts.OfType<Account>().FirstOrDefault(a => a.Code == "1/0/0");
+            decimal aa = account.TheDateBalance(911011);
+            return aa;
+
         }
 
     }

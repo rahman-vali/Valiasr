@@ -71,15 +71,11 @@ namespace Valiasr.Service
         LoanRequestDto GetLoanRequest(int reqNo);
 
         [OperationContract]
-        string AddLoanRequestOkyAssistant(Guid loanRequestId , LoanRequestOkyDto loanRequestOkyDto);
+        string AddOrUpdateLoanRequestOkyAssistant(Guid loanRequestId , LoanRequestOkyDto loanRequestOkyDto);
 
-        //     [OperationContract]
-        //       bool CanBardasht(string accountNo, double amount);
+        [OperationContract]
+        string AddRequestAccountAve(Guid loanRequestId, RequestAccountAveDto requestAccountAveDto);
 
-        //   [OperationContract]
-        // bool Bardasht(string account, double amount);
-
-        // [OperationContract]
         //ICollection<CustomerDto> GetCustomerByAccountNo(string accountNo);
     }
 
@@ -226,7 +222,7 @@ namespace Valiasr.Service
         public string No { get; set; }
 
         [DataMember]
-        public double Balance { get; set; }
+        public decimal Balance { get; set; }
 
         [DataMember]
         public string Description { get; set; }
@@ -276,6 +272,7 @@ namespace Valiasr.Service
 
     }
 
+    [DataContract]
     public class LoanRequestOkyDto
     {
 
@@ -303,5 +300,56 @@ namespace Valiasr.Service
         [DataMember]
         public int RegPerId { get; set; }        
 
+    }
+
+    [DataContract]
+    public class RequestAccountAveDto
+    {
+        
+        [DataMember]
+        public Guid Id { get; set; }
+
+        [DataMember]
+        public int ReqNo { get; set; }
+
+        [DataMember]
+        public int fromDate { get; set; }
+
+        [DataMember]
+        public int ToDate { get; set; }
+
+        [DataMember]
+        public string AccountCode { get; set; }
+
+        [DataMember]
+        public decimal DebtQty { get; set; }
+
+        [DataMember]
+        public decimal Average { get; set; }
+
+        [DataMember]
+        public decimal LastBalance { get; set; }
+
+        [DataMember]
+        public int LastDate { get; set; }
+
+        [DataMember]
+        public decimal ConsumedQty { get; set; }
+
+    }
+
+    [DataContract]
+    public class AccountAveDto
+    {
+
+        [DataMember]
+        public decimal Balance { get; set; }
+
+        [DataMember]
+        public decimal Bedehkar { get; set; }
+
+        [DataMember]
+        public decimal Emtiaz { get; set; }
+        
     }
 }

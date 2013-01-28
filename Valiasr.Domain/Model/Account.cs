@@ -48,7 +48,7 @@
 
         public bool CanBeDeleted
         {
-            get { return true; }
+            get { return !this.ContainIndexAccounts; }
         }
     }
 
@@ -57,7 +57,7 @@
         public IndexAccount()
         {
             Id = Guid.NewGuid();
-            this.Accounts = new Collection<Account>();
+            this.BankAccounts = new Collection<BankAccount>();
         }
 
         public static IndexAccount CreateIndexAccount(
@@ -89,19 +89,18 @@
         public bool HaveAccounts { get ; set; }
 
         public virtual GeneralAccount GeneralAccount { get; set; }
-        public  Collection<Account> Accounts { get; set; }
+        public  Collection<BankAccount> BankAccounts { get; set; }
 
         public bool ContainAccounts
         {
             get
             {
-                return this.Accounts.Count() != 0;
+                return this.BankAccounts.Count() != 0;
             }
         }
         public bool ContainAccount(string code)
         {            
-            int count = (this.Accounts.Where(a => a.Code == code)).Count();
-            return count != 0;
+            return this.BankAccounts.Where(ba => ba.Code == code).Count() != 0;
         }
 
         public bool CanBeSaved
@@ -111,20 +110,58 @@
 
         public bool CanBeDeleted
         {
-            get { return true ; }
+            get { return !ContainAccounts ; }
         }
     }
 
-    public class Account:IAggregateRoot
+    public class BankAccount:IAggregateRoot
+    {
+        protected BankAccount()
+        {
+            Id = Guid.NewGuid();
+        }
+        public Guid Id { get; set; }
+        public string Code { get; set; }
+        public string IndexAccountCode { get; set; }
+        public string No { get; set; }
+        public decimal Balance { get; set; }
+        public string Description { get; set; }
+        public string SubDescription { get; set; }
+        public int LastDate { get; set; }
+        public int BeginDate { get; set; }
+        public int GroupId { get; set; }
+        public decimal BodjetCode { get; set; }
+
+
+        public virtual IndexAccount IndexAccount { get; set; }
+        public virtual Collection<AccountActivity> AccountActivities { get; set; }
+        public virtual Collection<YearAccount> YearAccounts { get; set; }
+        public bool ContainActivities()
+        {
+            return this.AccountActivities.Any();      
+        }
+        public bool CanBeSaved
+        {
+            get { return true ; }
+        }
+
+        public bool CanBeDeleted
+        {
+            get { return !this.ContainActivities(); }
+        }
+
+    }
+
+    public partial class Account:BankAccount
     {
         public Account()
         {
-            Id = Guid.NewGuid();
             this.Lawyers = new Collection<Lawyer>();
             this.Customers = new Collection<Customer>();
+            this.LoanRequests = new Collection<LoanRequest>();
         }
 
-        public static Account CreateAccount(IndexAccount indexAccount, string code, string no , int Indexer , double balance , string description)
+        public static Account CreateAccount(IndexAccount indexAccount, string code, string no , int Indexer , decimal balance , string description)
         {
             var account = new Account
             {
@@ -136,25 +173,14 @@
             };
             return account;
         }
-
-        public Guid Id { get; set; }
-        //Shomare Hesab
-        public string IndexAccountCode { get; set; }
-        public string Code { get; set; }
-        public int RowId { get; set; }
-        public string No { get; set; }
-        /// Mojodi Hesab
-        public double Balance { get; set; }
-        public string Description { get; set; }
-
-        public virtual IndexAccount IndexAccount { get; set; }
+        public decimal BottomAmount { get; set; }
+        public decimal HebehQty { get; set; }
+        public int StopDate { get; set; }
+        public int PageNo { get; set; }
         public virtual Collection<Customer> Customers { get; set; }
         public virtual Collection<Lawyer> Lawyers { get; set; }
-        public virtual Collection<AccountActivity> AccountActivities { get; set; }
         public virtual Collection<LoanRequest> LoanRequests { get; set; }
         public virtual Collection<RequestAccountAve> RequestAccountAves { get; set; }
-        public virtual Loan Loan { get; set; }
-
         
         public bool ContainCustomer(Guid personId)
         {
@@ -171,7 +197,7 @@
             return this.LoanRequests.Any(lr => lr.ReqNo == loanRequestNo);
         }
 
-        public bool Withdraw(string customerNo, double amount)
+        public bool Withdraw(string customerNo, decimal amount)
         {
             var customer = this.Customers
                 .FirstOrDefault(o => o.No == customerNo);
@@ -179,23 +205,25 @@
             if (customer != null &&
                 customer.Person.Balegh &&
                 customer.HagheBardasht &&
-                amount <= customer.Portion / 100 * this.Balance)
+                amount <= (decimal)customer.Portion / 100 * this.Balance)
             {
                 return true;
             }
             return false;
         }
 
-        public bool CanBeSaved
-        {
-            get { return true ; }
-        }
 
-        public bool CanBeDeleted
-        {
-            get { return true ; }
-        }
     }
 
+    public class YearAccount
+    {
+        public Guid Id { get; set; }
+        public string AccountCode { get; set; }
+        public short YearOf { get; set; }
+        public decimal Balance { get; set; }
+        public decimal Bedehkar { get; set; }
+        public decimal Bestankar { get; set; }
+        public virtual BankAccount BankAccount { get; set; }
+    }
 
 }

@@ -1,6 +1,7 @@
 ﻿namespace Valiasr.DataAccess.Repositories
 {
     using System;
+    using System.Data.Entity;
     using System.Linq;
 
     using Valiasr.Domain.Model;
@@ -17,7 +18,7 @@
         public bool PersonIsCustomerOrLawyer(Guid id, ref string messageStr)
         {
             var customerAccounts =
-                ActiveContext.Accounts.Include("Customers.Person")
+                ActiveContext.BankAccounts.OfType<Account>().Include("Customers.Person")
                           .Where(a => a.Customers.Any(c => c.Person.Id == id))
                           .ToList();
             if (customerAccounts.Any())
@@ -26,7 +27,7 @@
                              string.Join(",", customerAccounts.Select(ca => ca.Code).ToArray());
             }
             var lawyerAccounts =
-                ActiveContext.Accounts.Include("Lawyers.Person")
+                ActiveContext.BankAccounts.OfType<Account>().Include("Lawyers.Person")
                           .Where(a => a.Customers.Any(c => c.Person.Id == id))
                           .ToList();
             if (lawyerAccounts.Any())
@@ -39,7 +40,7 @@
         public bool PersonIsCustomerOrLawyer(string natinalIdentity, ref string messageStr)
         {
             var customerAccounts =
-                ActiveContext.Accounts.Include("Customers.Person")
+                ActiveContext.BankAccounts.OfType<Account>().Include("Customers.Person")
                           .Where(a => a.Customers.Any(c => c.Person.NationaliIdentity == natinalIdentity))
                           .ToList();
             if (customerAccounts.Any())
@@ -48,7 +49,7 @@
                              string.Join(",", customerAccounts.Select(ca => ca.Code).ToArray());
             }
             var lawyerAccounts =
-                ActiveContext.Accounts.Include("Lawyers.Person")
+                ActiveContext.BankAccounts.OfType<Account>().Include("Lawyers.Person")
                           .Where(a => a.Customers.Any(c => c.Person.NationaliIdentity == natinalIdentity))
                           .ToList();
             if (lawyerAccounts.Any())
