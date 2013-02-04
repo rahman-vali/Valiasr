@@ -114,7 +114,7 @@
         }
     }
 
-    public class BankAccount:IAggregateRoot
+    public partial class BankAccount:IAggregateRoot
     {
         protected BankAccount()
         {
@@ -149,7 +149,6 @@
         {
             get { return !this.ContainActivities(); }
         }
-
     }
 
     public partial class Account:BankAccount

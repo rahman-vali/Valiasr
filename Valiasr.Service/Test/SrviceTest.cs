@@ -304,10 +304,12 @@ return null;
             AccountRepository repository = new AccountRepository();
             Account account =
                 repository.ActiveContext.BankAccounts.OfType<Account>().FirstOrDefault(a => a.Code == "1/0/0");
-            decimal ave = account.GetAccountAve(10, 30);
+            decimal untilDateBalance  = 0;
+            decimal untilDateBedehkar = 0 ;
+            decimal emtiaz = 0;
+            account.GetAccountAve(911010, 911130, ref untilDateBalance , ref untilDateBedehkar ,ref  emtiaz);
             Loan loan = repository.ActiveContext.BankAccounts.OfType<Loan>().FirstOrDefault(l => l.Code == "2/0/0");
-
-            return ave;
+            return emtiaz;
         }
 
         [Fact]
@@ -316,7 +318,7 @@ return null;
             AccountRepository repository = new AccountRepository();
             Account account =
                 repository.ActiveContext.BankAccounts.OfType<Account>().FirstOrDefault(a => a.Code == "1/0/0");
-            decimal aa = account.TheDateBalance(911011);
+            decimal aa = account.UntilDateBalance(911011);
             return aa;
 
         }

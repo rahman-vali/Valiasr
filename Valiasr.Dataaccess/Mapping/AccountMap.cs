@@ -56,6 +56,7 @@
             this.HasMany(a => a.Lawyers).WithMany(l => l.Accounts);
             this.HasMany(a => a.Customers).WithMany(c => c.Accounts);
             this.HasMany(a => a.LoanRequests).WithRequired(lr => lr.Account);
+            this.HasMany(a => a.RequestAccountAves);
         }
     }
 

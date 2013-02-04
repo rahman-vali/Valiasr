@@ -134,6 +134,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\AverageMap.cs" />
     <Compile Include="Mapping\LoanMap.cs" />
     <Compile Include="Repositories\AccountRepository.cs" />
     <Compile Include="Repositories\GeneralAccountRepository.cs" />

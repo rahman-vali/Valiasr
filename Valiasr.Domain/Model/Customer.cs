@@ -11,7 +11,7 @@
     {
         public Customer()
         {
-            Person= new Person();
+         //    Person= new Person();
    //         Accounts = new Collection<Account>();
         }
 
@@ -29,12 +29,12 @@
         }
 
         public Guid Id { get; set; }
-        public Person Person { get; set; }
+        public virtual Person Person { get; set; }
  //       [StringLenghValidator(20)]
         public string No { get; set; }
         public bool HagheBardasht { get; set; }
         public float Portion { get; set; }
-        public Collection<Account> Accounts { get; set; }
+        public virtual Collection<Account> Accounts { get; set; }
         public bool ContainAccount()
         {
             var collection = this.Accounts;
@@ -49,8 +49,8 @@
     {
         public Lawyer()
         {
-            Person = new Person();
-            Accounts = new Collection<Account>();
+           // Person = new Person();
+           // Accounts = new Collection<Account>();
         }
 
         public static Lawyer CreateLawyer(Person person , DateTime startDate)
@@ -66,10 +66,10 @@
         }
 
         public Guid Id { get; set; }
-        public Person Person { get; set; }
+        public virtual Person Person { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime StartDate { get; set; }
-        public Collection<Account> Accounts { get; set; }
+        public virtual Collection<Account> Accounts { get; set; }
 
         public bool ContainAccount()
         {

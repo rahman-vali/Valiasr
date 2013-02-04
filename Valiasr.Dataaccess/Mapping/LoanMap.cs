@@ -30,6 +30,19 @@
         
     }
 
+    class RequestAccountAvetMap : EntityTypeConfiguration<RequestAccountAve>
+    {
+        public RequestAccountAvetMap()
+        {
+            HasKey(ra => ra.Id);
+            ToTable("RequestAccountAve");
+            HasRequired(ra => ra.LoanRequest).WithMany( lr => lr.RequestAccountAves).WillCascadeOnDelete(false);
+            HasOptional(ra => ra.AverageM);
+        }
+
+    }
+
+
     class LoanMap:EntityTypeConfiguration<Loan>
     {
         public LoanMap()

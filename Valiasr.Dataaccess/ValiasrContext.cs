@@ -52,8 +52,12 @@
             modelBuilder.Configurations.Add(new AccountMap());
             modelBuilder.Configurations.Add(new LoanRequestMap());
             modelBuilder.Configurations.Add(new LoanRequestOkyAssistantMap());
+            modelBuilder.Configurations.Add(new RequestAccountAvetMap());
             modelBuilder.Configurations.Add(new LoanMap());
-
+            modelBuilder.Configurations.Add(new AverageMap());
+            modelBuilder.Entity<Average>()
+                        .Map<NormAverage>(a => a.Requires("AverageType").HasValue(1))
+                        .Map<AverageWithMin>(a => a.Requires("AverageType").HasValue(2));
             base.OnModelCreating(modelBuilder);
         }
 

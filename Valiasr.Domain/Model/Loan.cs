@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace Valiasr.Domain.Model
 {
+    using System.Collections.ObjectModel;
+
     public class LoanRequest:IAggregateRoot
     {
         public LoanRequest()
         {
             Id = Guid.NewGuid();
+            LoanRequestOkyAsistant = new LoanRequestOkyAssistant();
+            RequestAccountAves = new Collection<RequestAccountAve>();
         }
  
         public Guid Id { get; set; }
@@ -56,6 +60,7 @@ namespace Valiasr.Domain.Model
         public RequestAccountAve()
         {
             Id = Guid.NewGuid();
+            AverageM = new Average();
         }
         public Guid Id { get; set; }
         public int ReqNo { get; set; }
@@ -69,6 +74,7 @@ namespace Valiasr.Domain.Model
         public decimal ConsumedQty { get; set; }
         public virtual Account Account { get; set; }
         public virtual LoanRequest LoanRequest { get; set; }
+        public virtual Average AverageM { get; set; }
     }
 
     public class Loan:BankAccount

@@ -226,6 +226,34 @@ namespace Valiasr.Service
 
         [DataMember]
         public string Description { get; set; }
+
+        [DataMember]
+        public short PageNo { get; set; }
+    }
+
+    [DataContract]
+    public class SimpleAccountDto
+    {
+        [DataMember]
+        public Guid Id { get; set; }
+
+        [DataMember]
+        public string Code { get; set; }
+
+        [DataMember]
+        public string No { get; set; }
+
+        [DataMember]
+        public decimal Balance { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public string SubDescription { get; set; }
+
+        [DataMember]
+        public int BeginDate { get; set; }
     }
 
     [DataContract]
