@@ -34,6 +34,11 @@ namespace Valiasr.DataAccess.Repositories
             }
         }
 
+        public T Create()
+        {
+            return Set.Create();
+        }
+
         public void Add(T item)
         {
             this.Set.Add(item);

@@ -10,7 +10,7 @@
         public int RegDate { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
-        public short Category { get; set; }
+        public short ActivityType { get; set; }
         public int DestinationShobehCode { get; set; }
         public short NaghdiEnteghali { get; set; }
         public int UsanceDate { get; set; }

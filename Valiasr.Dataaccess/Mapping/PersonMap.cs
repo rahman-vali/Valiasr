@@ -10,16 +10,13 @@
         {
             this.ToTable("Persons");
             this.HasKey(p => p.Id);
-            this.Property(p => p.Id)
-                //It's not supported in Sql Server CE
-                //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
-                .HasColumnName("PersonId");
+            this.Property(p => p.Id);
             Property(p => p.CustomerId).IsRequired();
             Property(p => p.ShobehCode).IsRequired();
             Property(p => p.Firstname).IsRequired().HasMaxLength(120);
             Property(p => p.Lastname).HasMaxLength(120);
             Property(p => p.FatherName).HasMaxLength(120);
-            Property(p => p.NationaliIdentity).HasMaxLength(30);
+            Property(p => p.NationalIdentity).HasMaxLength(30);
             Property(p => p.CretyId).HasMaxLength(60);
             Property(p => p.CretySerial).HasMaxLength(20);
             Property(p => p.Sadereh).HasMaxLength(90);

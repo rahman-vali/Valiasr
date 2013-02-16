@@ -9,7 +9,6 @@
         public GeneralAccountMap()
         {
             this.HasKey(k => k.Id);
-            this.Property(ga => ga.Id).HasColumnName("KolId");           
             this.Property(ga => ga.Description).HasMaxLength(80).HasColumnName("Kol_Des");
             this.Property(ga => ga.Category).HasColumnName("KodKind");
             this.HasMany(ga => ga.IndexAccounts).WithRequired(m => m.GeneralAccount);
@@ -21,7 +20,6 @@
         public IndexAccountMap()
         {
             this.HasKey(ia => ia.Id);
-            this.Property(ia => ia.Id).HasColumnName("MoinId");
             this.Property(ia => ia.Code).HasMaxLength(20);
             this.Property(ia => ia.Description).HasMaxLength(80).HasColumnName("Moin_Des");
         }
@@ -32,21 +30,20 @@
         public BankAccountMap()
         {
             this.HasKey(a => a.Id);
-            this.Property(a => a.Id).HasColumnName("AccountId");
             this.Property(a => a.Code).HasMaxLength(30);
             this.Property(a => a.IndexAccountCode).HasMaxLength(20);
             this.Property(a => a.No).HasMaxLength(20);
             this.Property(a => a.Description).HasMaxLength(150);
             this.Property(a => a.Balance);
             this.HasRequired(m => m.IndexAccount).WithMany(a => a.BankAccounts);
- //           this.HasMany(ba => ba.AccountActivities).WithRequired();
-        }
+ }
     }
 
     public class AccountMap : EntityTypeConfiguration<Account>
     {
         public AccountMap()
         {
+            HasKey(a => a.Id);
             ToTable("Accounts");
             this.Property(a => a.Code).HasMaxLength(30);
             this.Property(a => a.IndexAccountCode).HasMaxLength(20);

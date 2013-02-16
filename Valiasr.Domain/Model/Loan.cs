@@ -9,9 +9,6 @@ namespace Valiasr.Domain.Model
     {
         public LoanRequest()
         {
-            Id = Guid.NewGuid();
-            LoanRequestOkyAsistant = new LoanRequestOkyAssistant();
-            RequestAccountAves = new Collection<RequestAccountAve>();
         }
  
         public Guid Id { get; set; }
@@ -57,24 +54,20 @@ namespace Valiasr.Domain.Model
 
     public class RequestAccountAve
     {
-        public RequestAccountAve()
-        {
-            Id = Guid.NewGuid();
-            AverageM = new Average();
-        }
         public Guid Id { get; set; }
         public int ReqNo { get; set; }
         public int fromDate { get; set; }
         public int ToDate { get; set; }
+        public decimal UpperQty { get; set; }
         public string AccountCode { get; set; }
         public decimal DebtQty { get; set; }
-        public decimal Average { get; set; }
+        public decimal AverageQty { get; set; }
         public decimal LastBalance { get; set; }
         public int LastDate { get; set; }
         public decimal ConsumedQty { get; set; }
         public virtual Account Account { get; set; }
         public virtual LoanRequest LoanRequest { get; set; }
-        public virtual Average AverageM { get; set; }
+        public virtual Average Average { get; set; }
     }
 
     public class Loan:BankAccount

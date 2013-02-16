@@ -9,7 +9,6 @@
         public LoanRequestMap ()
         {
             HasKey(p => p.Id);            
-            this.Property(lr => lr.Id).HasColumnName("LoanRequestId");            
             Property(lr => lr.Description).HasMaxLength(90);
             Property(lr => lr.DurationType).HasMaxLength(8);
             HasRequired(lr => lr.LoanRequestOkyAsistant).WithRequiredPrincipal();
@@ -37,7 +36,7 @@
             HasKey(ra => ra.Id);
             ToTable("RequestAccountAve");
             HasRequired(ra => ra.LoanRequest).WithMany( lr => lr.RequestAccountAves).WillCascadeOnDelete(false);
-            HasOptional(ra => ra.AverageM);
+            HasOptional(ra => ra.Average);
         }
 
     }
@@ -47,6 +46,7 @@
     {
         public LoanMap()
         {
+            HasKey(l => l.Id);
             ToTable("Loans");
             Property(l => l.DurationType).HasMaxLength(8);
             Property(l => l.LoanNo).HasMaxLength(30);

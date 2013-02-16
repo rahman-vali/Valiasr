@@ -16,7 +16,29 @@ namespace Valiasr.Service.Test
 
     public class SrviceTest
     {
-          public static IEnumerable<object[]> TesPersontData { get { yield return new object[] { Guid.Parse("eb706fde-6238-4add-8668-a52f460b94db") }; } }
+
+        [Fact]
+        public int AddPersonTest2()
+        {
+            PersonAccountService pa = new PersonAccountService();
+            PersonDto personDto = new PersonDto
+                {
+                    BirthDate = 13910102,
+                    CretyId = "1",
+                    CretySerial = "2",
+                    FatherName = "ahmad",
+                    Firstname = "ali",
+                    HomeAddress = "babol",
+                    NationalIdentity = "1",
+                    HomeTelno = "1245",
+                    HeadNationalIdentity = "2"
+                };
+            pa.AddPerson(personDto);
+            return 100;
+
+        }
+
+        public static IEnumerable<object[]> TesPersontData { get { yield return new object[] { Guid.Parse("be74180c-3cb0-4ac9-860f-16a39a64ab69") }; } }
 
           [Theory]
           [PropertyData("TestPersonData")]
@@ -50,7 +72,7 @@ namespace Valiasr.Service.Test
 
 
 
-         public static IEnumerable<object[]> TestAccountData { get { yield return new object[] { Guid.Parse("f422617f-76ab-4ed1-a366-56afc6e2eb98"), Guid.Parse("3cc23ade-b455-4496-a151-dce274c17622") }; } }
+    public static IEnumerable<object[]> TestAccountData { get { yield return new object[] { Guid.Parse("50ee97cc-411a-4944-994b-e2199298adca"), Guid.Parse("f1e93aef-6db4-4e53-bc59-19510800f3b1") }; } }
 
           [Theory]
           [PropertyData("TestAccountData")]
@@ -90,7 +112,7 @@ return null;
              //      Assert.True(repository.ActiveContext.GeneralAccounts.Where(ga => ga.Code == 15).Count() == 1);
 
           }
-          public static IEnumerable<object[]> TestIndexAccountData { get { yield return new object[] { Guid.Parse("4dfe63d4-9816-4bd0-9051-9f4b4909a8cf") }; } }
+          public static IEnumerable<object[]> TestIndexAccountData { get { yield return new object[] { Guid.Parse("e315dc2f-f4bf-4433-ab1b-927b2829224f") }; } }
 
           [Theory]
           [PropertyData("TestIndexAccountData")]
@@ -111,7 +133,7 @@ return null;
 
 
 
-        public static IEnumerable<object[]> TestPersonData { get { yield return new object[] { Guid.Parse("01edfdbd-a289-4ffe-9d07-c41a0de38052") }; } }
+        public static IEnumerable<object[]> TestPersonData { get { yield return new object[] { Guid.Parse("41890589-AB4C-4BDD-A4D9-08A0EB69EC09") }; } }
 
         [Theory]
           [PropertyData("TestPersonData")]
@@ -127,11 +149,11 @@ return null;
               personDto.ShobehCode = 1;
               personDto.HomeAddress = "babol";
               personDto.HomeTelno = "145789+";
-              personDto.NationalIdentity = "1";
+              personDto.NationalIdentity = "198598";
               PersonAccountService pa = new PersonAccountService();
               string str = pa.AddPerson(personDto);
           }
-[Fact]
+        [Fact]
         public void AddPersonTest()
         {
             PersonDto personDto = new PersonDto();
@@ -144,12 +166,12 @@ return null;
             personDto.ShobehCode = 11;
             personDto.HomeAddress = "babol1";
             personDto.HomeTelno = "145789+";
-            personDto.NationalIdentity = "21456457611";
+            personDto.NationalIdentity = "56457611";
             PersonAccountService pa = new PersonAccountService();
             string str = pa.AddPerson(personDto);
         }
 
-        public static IEnumerable<object[]> TestRemovePerson { get { yield return new object[] { Guid.Parse("ca91fd3e-2729-4b77-b0cd-a4e415445853") }; } }
+        public static IEnumerable<object[]> TestRemovePerson { get { yield return new object[] { Guid.Parse("6e65779a-0fc5-45a3-ae9d-2dc382634f7d") }; } }
 
         [Theory]
         [PropertyData("TestRemovePerson")]
@@ -159,7 +181,7 @@ return null;
             string str = personAccountService.RemovePerson(id);
         }
 
-          public static IEnumerable<object[]> TestAddAccountData { get { yield return new object[] { Guid.Parse("f1ab901a-4674-4aaa-a057-bdcdc11f1c72") }; } }
+        public static IEnumerable<object[]> TestAddAccountData { get { yield return new object[] { Guid.Parse("be291285-c79f-4741-84fc-4bd6fea24b04") }; } }
 
           [Theory]
           [PropertyData("TestAddAccountData")]
@@ -182,17 +204,26 @@ return null;
           public void GetPersonTest()
           {
               PersonAccountService pa = new PersonAccountService();
-              PersonDto personDto = pa.GetPersonByNationalIdentity("3");
+              PersonDto personDto = pa.GetPersonByNationalIdentity("198598");
               var a = personDto.NationalIdentity;
 
           }
+          [Fact]
+          public void GetGeneraAccountTest()
+          {
+              PersonAccountService pa = new PersonAccountService();
+              GeneralAccountDto generalAccountDto = pa.GetGeneralAccount(1);
+              var a = generalAccountDto.Description;
+          }
+
         [Fact]
         public void GetIndexAccountTest()
         {
             PersonAccountService pa = new PersonAccountService();
-            IndexAccountDto indexAccountDto = pa.GetIndexAccount("2/0");
+            IndexAccountDto indexAccountDto = pa.GetIndexAccount("1/0");
             var a = indexAccountDto.Description;
         }
+
         [Fact]
         public void GetAccountTest()
         {
@@ -203,22 +234,13 @@ return null;
         [Fact]
         public void Creat_Request()
         {
-            LoanRequestDto loanRequestDto = new LoanRequestDto {AccountCode = "1/0/0",Amount = 1000,Date = 13911102,Description = "vam" };
+
+            LoanRequestDto loanRequestDto = new LoanRequestDto {Id = Guid.NewGuid() , AccountCode = "1/0/0",Amount = 1000,Date = 13911102,Description = "vam" };
             PersonAccountService ps = new PersonAccountService();
             string str = ps.AddLoanRequest(loanRequestDto);
-//            var context = new ValiasrContext("Valiasr");
-//            var account = context.Accounts.Where(a => a.Code == "1/0/0").FirstOrDefault();
-//            var loanRequest = this.Create_Request(account);
-//            loanRequest.Account = account;
-//    //        var loan = new Loan { Id = Guid.NewGuid(), Amount = 1000,LoanRequest = loanRequest,Account = account};
-//      //      loanRequest.Loan = loan;
-//            account.LoanRequests.Add(loanRequest);
-//      //      context.LoanRequests.Add(loanRequest);
-//            context.SaveChanges();
-
         }
 
-        public static IEnumerable<object[]> RequestOky { get { yield return new object[] { Guid.Parse("1528fc7d-136b-4ac2-8ba1-0303a6c30560") }; } }
+        public static IEnumerable<object[]> RequestOky { get { yield return new object[] { Guid.Parse("{011142f3-4ec3-4c76-a840-b05d1d84fff0") }; } }
 
         [Theory]
         [PropertyData("RequestOky")]
@@ -233,6 +255,19 @@ return null;
             string str = ps.AddOrUpdateLoanRequestOkyAssistant(id ,loanRequestOkyDto);
         }
 
+        public static IEnumerable<object[]> RequestAve { get { yield return new object[] { Guid.Parse("2fad0e21-f8cb-4a25-a622-5a330b3e396d") }; } }
+
+        [Theory]
+        [PropertyData("RequestAve")]
+
+        public void Creat_RequestAve(Guid id)
+        {
+            PersonAccountService ps = new PersonAccountService();
+            RequestAccountAveDto requestAccountAveDto = new RequestAccountAveDto{AccountCode = "2/0/0" ,AverageId = 1 ,AverageQty = 90 ,ConsumedQty = 80,DebtQty = 70,fromDate = 911008,LastBalance = 68,LastDate = 0,ReqNo = 1,Id = Guid.NewGuid()};
+            string str = ps.AddRequestAccountAve(id, requestAccountAveDto);
+        }
+
+
 
         [Fact]
         public void Creat_Loan()
@@ -242,7 +277,7 @@ return null;
             var account = context.BankAccounts.Where(a => a.Code == "1/0/0").FirstOrDefault();
             //var loan = new Loan { Id = Guid.NewGuid(), Amount = 2000 ,LoanRequest = loanRequest,Account = account};
             //loanRequest.Loan = loan;
-        //    context.LoanRequests.Add(loanRequest);
+            // context.LoanRequests.Add(loanRequest);
             //account.Loan = loan;
             context.SaveChanges();
 
@@ -293,7 +328,6 @@ return null;
                 LastDate = 13921024,
             };
             LoanRequestOkyAssistant loanRequestOkyAsistant = new LoanRequestOkyAssistant();           
-   //         loanRequestOkyAsistant.OKyDate = 13921029;
             LoanRequest.LoanRequestOkyAsistant = loanRequestOkyAsistant;
             return LoanRequest;
         }
@@ -307,7 +341,7 @@ return null;
             decimal untilDateBalance  = 0;
             decimal untilDateBedehkar = 0 ;
             decimal emtiaz = 0;
-            account.GetAccountAve(911010, 911130, ref untilDateBalance , ref untilDateBedehkar ,ref  emtiaz);
+            //account.GetAccountAve(911010, 911130, ref untilDateBalance , ref untilDateBedehkar ,ref  emtiaz);
             Loan loan = repository.ActiveContext.BankAccounts.OfType<Loan>().FirstOrDefault(l => l.Code == "2/0/0");
             return emtiaz;
         }
@@ -321,6 +355,23 @@ return null;
             decimal aa = account.UntilDateBalance(911011);
             return aa;
 
+        }
+
+        [Fact]
+        public string getsimpleBankAccount()
+        {
+            PersonAccountService ps = new PersonAccountService();
+            SimpleAccountDto simpleAccountDto = ps.GetSimpleBankAccount("0/0/0");
+            return simpleAccountDto != null ? simpleAccountDto.Description : "0";
+
+        }
+
+        [Fact]
+        public string gerpersonsbyaccount()
+        {
+            PersonAccountService ps = new PersonAccountService();
+            List<PersonDto> personDtos = ps.GetPersonByAccount("1/0/0");
+            return "yes";
         }
 
     }

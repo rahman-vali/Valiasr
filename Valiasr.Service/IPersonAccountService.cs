@@ -228,7 +228,7 @@ namespace Valiasr.Service
         public string Description { get; set; }
 
         [DataMember]
-        public short PageNo { get; set; }
+        public int PageNo { get; set; }
     }
 
     [DataContract]
@@ -236,6 +236,9 @@ namespace Valiasr.Service
     {
         [DataMember]
         public Guid Id { get; set; }
+
+        [DataMember]
+        public Guid IndexAccountId { get; set; }
 
         [DataMember]
         public string Code { get; set; }
@@ -353,7 +356,7 @@ namespace Valiasr.Service
         public decimal DebtQty { get; set; }
 
         [DataMember]
-        public decimal Average { get; set; }
+        public decimal AverageQty { get; set; }
 
         [DataMember]
         public decimal LastBalance { get; set; }
@@ -363,6 +366,9 @@ namespace Valiasr.Service
 
         [DataMember]
         public decimal ConsumedQty { get; set; }
+
+        [DataMember]
+        public int AverageId { get; set; }
 
     }
 

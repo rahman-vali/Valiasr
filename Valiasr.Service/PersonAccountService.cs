@@ -4,7 +4,10 @@ using System.Linq;
 namespace Valiasr.Service
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Data.Entity;
+
+    using Omu.ValueInjecter;
 
     using Valiasr.DataAccess.Repositories;
     using Valiasr.Domain.Model;
@@ -21,11 +24,13 @@ namespace Valiasr.Service
             {
                 string nationalIdentity = personDto.NationalIdentity;
                 PersonRepository repository = new PersonRepository();
-                if (repository.ActiveContext.Persons.Where(p => p.NationaliIdentity == nationalIdentity).Count() != 0) return "person with this natinal identity is there ";
+                if (repository.ActiveContext.Persons.Where(p => p.NationalIdentity == nationalIdentity).Count() != 0) return "person with this natinal identity is there ";
                 personDto.CustomerId =
                     repository.ActiveContext.Persons.Select(o => o.CustomerId).DefaultIfEmpty(0).Max() + 1;
+                personDto.Id = Guid.NewGuid();
                 Person person = new Person();
-                TranslatePersonDtoToPerson(personDto, person);
+                person.InjectFrom<UnflatLoopValueInjection>(personDto);
+                person.ContactInfo.InjectFrom<UnflatLoopValueInjection>(personDto);
                 repository.Add(person);
                 return "person is added successfully by customerId :" + personDto.CustomerId.ToString();
             }
@@ -43,7 +48,8 @@ namespace Valiasr.Service
                 PersonRepository repository = new PersonRepository();
                 Person person = repository.ActiveContext.Persons.Where(p => p.Id == id).FirstOrDefault();
                 if (person == null) return ("person is not found and will not be updated ");
-                TranslatePersonDtoToPerson(personDto, person);
+                person.InjectFrom<UnflatLoopValueInjection>(personDto);
+                person.ContactInfo.InjectFrom<UnflatLoopValueInjection>(personDto);
                 repository.Update(person);
                 return ("updated successfully");
             }
@@ -77,8 +83,12 @@ namespace Valiasr.Service
         public PersonDto GetPersonByNationalIdentity(string nationalIdentity)
         {
             PersonRepository repository = new PersonRepository();
-            Person person = repository.GetPersonByNationalIdentity(nationalIdentity);
-            return TranslatePersonToPersonDto(person);
+            var person = repository.ActiveContext.Persons
+                .Where(p => p.NationalIdentity == nationalIdentity).FirstOrDefault();
+            return person != null
+                       ? (PersonDto)
+                         new PersonDto().InjectFrom<UnflatLoopValueInjection>(person).InjectFrom(person.ContactInfo)
+                       : null;
         }
 
 
@@ -89,34 +99,29 @@ namespace Valiasr.Service
                 repository.ActiveContext.BankAccounts.OfType<Account>()
                           .Include("Customers.Person")
                           .Include("Lawyers.Person")
-                          .FirstOrDefault(a => a.Code == code);
+                          .FirstOrDefault(a => a != null && a.Code == code);
 
-            if (account != null)
+
+            if (account != null && ((account.Customers.Count != 0) || (account.Lawyers.Count != 0)))
             {
-                var persons =
-                    account.Customers.Select(c => c.Person)
-                           .ToList()
-                           .Union(account.Lawyers.Select(l => l.Person))
-                           .ToList();
-                if (persons.Count == 0) return null;
-                List<PersonDto> personDtos = new List<PersonDto>();
-                foreach (Person person in persons)
-                {
-                    personDtos.Add(this.TranslatePersonToPersonDto(person));
-                }
-                return personDtos;
+                var personDtos =
+                    account.Customers.Select(a => new PersonDto().InjectFrom(a.Person).InjectFrom(a.Person.ContactInfo))
+                           .Union(account.Lawyers.Select(l => new PersonDto().InjectFrom(l.Person).InjectFrom(l.Person.ContactInfo)));
+                return personDtos.OfType<PersonDto>().ToList();
             }
             return null;
         }
 
-
         public PersonDto GetPersonById(Guid id)
         {
             PersonRepository repository = new PersonRepository();
-            Person person = repository.ActiveContext.Persons.Where(p => p.Id == id).FirstOrDefault();
-            return TranslatePersonToPersonDto(person);
+            var person = repository.ActiveContext.Persons
+                .Where(p => p.Id == id).FirstOrDefault();
+            return person != null
+                       ? (PersonDto)
+                         new PersonDto().InjectFrom<UnflatLoopValueInjection>(person).InjectFrom(person.ContactInfo)
+                       : null;
         }
-
         public string AddCustomerToAccount(Guid accountId, CustomerDto customerDto)
         {
             try
@@ -134,6 +139,7 @@ namespace Valiasr.Service
                 if (!account.ContainCustomer(personId))
                 {
                     Customer customer = Customer.CreateCustomer(person, customerDto.No, customerDto.Portion);
+                    account.Customers = new Collection<Customer>();
                     account.Customers.Add(customer);
                     repository.ActiveContext.SaveChanges();
                     return "customer added successfully";
@@ -162,6 +168,7 @@ namespace Valiasr.Service
                 if (!account.ContainLawyer(personId))
                 {
                     Lawyer lawyer = Lawyer.CreateLawyer(person, lawyerDto.StartDate);
+                    account.Lawyers = new Collection<Lawyer>();
                     account.Lawyers.Add(lawyer);
                     repository.ActiveContext.SaveChanges();
                     return "lawyer added successfully";
@@ -174,64 +181,6 @@ namespace Valiasr.Service
             }
         }
 
-        private PersonDto TranslatePersonToPersonDto(Person person)
-        {
-            if (person == null)
-            {
-                PersonDto nullPesonDto = new PersonDto { Firstname = "record not found by this national identity" };
-                return nullPesonDto;
-            }
-            PersonDto personDto = new PersonDto
-                {
-                    Id = person.Id,
-                    CustomerId = person.CustomerId,
-                    ShobehCode = person.ShobehCode,
-                    Firstname = person.Firstname,
-                    Lastname = person.Lastname,
-                    FatherName = person.FatherName,
-                    CretyId = person.CretyId,
-                    CretySerial = person.CretySerial,
-                    Sadereh = person.Sadereh,
-                    BirthDate = person.BirthDate,
-                    NationalIdentity = person.NationaliIdentity,
-                    HeadNationalIdentity = person.HeadNationalIdentity,
-                    JobName = person.JobName,
-                    JobKind = person.JobKind,
-                    Salary = person.Salary,
-                    IndivOrOrgan = person.IndivOrOrgan,
-                    HomeAddress = person.ContactInfo.HomeAddress,
-                    WorkAddress = person.ContactInfo.WorkAddress,
-                    HomeTelno = person.ContactInfo.HomeTelno,
-                    OfficeTelNo = person.ContactInfo.OfficeTelNo,
-                    Mobile = person.ContactInfo.Mobile,
-                    PostalIdentity = person.ContactInfo.PostalIdentity,
-                };
-            return personDto;
-        }
-
-
-        private void TranslatePersonDtoToPerson(PersonDto personDto, Person person)
-        {
-            person.CustomerId = personDto.CustomerId;
-            person.ShobehCode = personDto.ShobehCode;
-            person.Firstname = personDto.Firstname;
-            person.Lastname = personDto.Lastname;
-            person.FatherName = personDto.FatherName;
-            person.CretyId = personDto.CretyId;
-            person.CretySerial = personDto.CretySerial;
-            person.Sadereh = personDto.Sadereh;
-            person.NationaliIdentity = personDto.NationalIdentity;
-            person.HeadNationalIdentity = personDto.HeadNationalIdentity;
-            person.JobName = personDto.JobName;
-            person.JobKind = personDto.JobKind;
-            person.Salary = personDto.Salary;
-            person.ContactInfo.HomeAddress = personDto.HomeAddress;
-            person.ContactInfo.WorkAddress = personDto.WorkAddress;
-            person.ContactInfo.HomeTelno = personDto.HomeTelno;
-            person.ContactInfo.OfficeTelNo = personDto.OfficeTelNo;
-            person.ContactInfo.Mobile = personDto.Mobile;
-            person.ContactInfo.PostalIdentity = personDto.PostalIdentity;
-        }
 
 
         /// <summary>
@@ -247,8 +196,9 @@ namespace Valiasr.Service
                 GeneralAccountRepository repository = new GeneralAccountRepository();
                 if ((repository.ActiveContext.GeneralAccounts.Count(ga => ga.Code == code)) == 0)
                 {
-                    GeneralAccount generalAccount = GeneralAccount.CreateGeneralAccount(
-                        generalAccountDto.Code, generalAccountDto.Description, generalAccountDto.Category);
+                    GeneralAccount generalAccount = new GeneralAccount();
+                    generalAccountDto.Id = Guid.NewGuid();
+                    generalAccount.InjectFrom<UnflatLoopValueInjection>(generalAccountDto);
                     repository.Add(generalAccount);
                     return "has successfully created";
                 }
@@ -284,29 +234,14 @@ namespace Valiasr.Service
         public GeneralAccountDto GetGeneralAccount(int code)
         {
             GeneralAccountRepository repository = new GeneralAccountRepository();
-            GeneralAccount generalAccount = new GeneralAccount();
-            return TranslateGeneralAccountToGeneralAccountDto(generalAccount);
+            GeneralAccount general = repository.ActiveContext.GeneralAccounts
+                .Where(ga => ga != null && ga.Code == code)
+                .FirstOrDefault();
+            return general != null
+                       ? (GeneralAccountDto)new GeneralAccountDto().InjectFrom<UnflatLoopValueInjection>(general)
+                       : null;
         }
 
-        private GeneralAccountDto TranslateGeneralAccountToGeneralAccountDto(GeneralAccount generalAccount)
-        {
-            if (generalAccount == null)
-            {
-                GeneralAccountDto nullGeneralAccountDto = new GeneralAccountDto
-                    {
-                        Description = "record not found by this code"
-                    };
-                return nullGeneralAccountDto;
-            }
-            GeneralAccountDto generalAccountDto = new GeneralAccountDto
-                {
-                    Id = generalAccount.Id,
-                    Code = generalAccount.Code,
-                    Description = generalAccount.Description,
-                    Category = generalAccount.Category,
-                };
-            return generalAccountDto;
-        }
 
         public string AddIndexAccount(IndexAccountDto indexAccountDto)
         {
@@ -318,13 +253,10 @@ namespace Valiasr.Service
                               .FirstOrDefault(ga => ga.Id == indexAccountDto.GeneralAccountId);
                 if (!generalAccount.ContainIndexAccount(code: indexAccountDto.Code))
                 {
-                    IndexAccount indexAccount = IndexAccount.CreateIndexAccount(
-                        generalAccount,
-                        indexAccountDto.Code,
-                        indexAccountDto.GeneralAccountCode,
-                        indexAccountDto.RowId,
-                        indexAccountDto.Description,
-                        indexAccountDto.HaveAccounts);
+                    IndexAccount indexAccount = new IndexAccount();
+                    indexAccountDto.Id = Guid.NewGuid();
+                    indexAccount.InjectFrom<UnflatLoopValueInjection>(indexAccountDto);
+                    indexAccount.GeneralAccount = generalAccount;
                     repository.Add(indexAccount);
                     return "has successfully created";
                 }
@@ -357,32 +289,17 @@ namespace Valiasr.Service
         public IndexAccountDto GetIndexAccount(string code)
         {
             IndexAccountRepository repository = new IndexAccountRepository();
-            IndexAccount indexAccount =
-                repository.ActiveContext.IndexAccounts.Where(ia => ia.Code == code).FirstOrDefault();
-            return TranslateIndexAccountToIndexAccountDto(indexAccount);
-        }
+            IndexAccount indexAccount = repository.ActiveContext.IndexAccounts
+                .Where(ia => ia != null && ia.Code == code)
+                .FirstOrDefault();
 
-        private IndexAccountDto TranslateIndexAccountToIndexAccountDto(IndexAccount indexAccount)
-        {
-            if (indexAccount == null)
+            if (indexAccount != null)
             {
-                IndexAccountDto nullIndexAccountDto = new IndexAccountDto
-                    {
-                        Description = "record not found by this code"
-                    };
-                return nullIndexAccountDto;
+                IndexAccountDto indexAccountDto = (IndexAccountDto)new IndexAccountDto().InjectFrom<UnflatLoopValueInjection>(indexAccount);
+                if (indexAccount.GeneralAccount != null) indexAccountDto.GeneralAccountId = indexAccount.GeneralAccount.Id;
+                return indexAccountDto;                
             }
-            IndexAccountDto indexAccountDto = new IndexAccountDto()
-                {
-                    Id = indexAccount.Id,
-                    Code = indexAccount.Code,
-                    Description = indexAccount.Description,
-                    GeneralAccountId = indexAccount.GeneralAccount.Id,
-                    GeneralAccountCode = indexAccount.GeneralAccountCode,
-                    RowId = indexAccount.RowId,
-                    HaveAccounts = indexAccount.HaveAccounts,
-                };
-            return indexAccountDto;
+            return null;
         }
 
         public string AddAccount(AccountDto accountDto)
@@ -391,17 +308,14 @@ namespace Valiasr.Service
             {
                 AccountRepository repository = new AccountRepository();
                 IndexAccount indexAccount =
-                    repository.ActiveContext.IndexAccounts.Include("Accounts")
+                    repository.ActiveContext.IndexAccounts.Include("BankAccounts")
                               .FirstOrDefault(ia => ia.Id == accountDto.IndexAccountId);
                 if (!indexAccount.ContainAccount(accountDto.Code))
                 {
-                    Account account = Account.CreateAccount(
-                        indexAccount,
-                        accountDto.Code,
-                        accountDto.No,
-                        accountDto.RowId,
-                        accountDto.Balance,
-                        accountDto.Description);
+                    Account account = new Account();
+                    accountDto.Id = Guid.NewGuid();
+                    account.InjectFrom<UnflatLoopValueInjection>(accountDto);
+                    account.IndexAccount = indexAccount;
                     repository.Add(account);
                     return "account is created";
                 }
@@ -417,92 +331,77 @@ namespace Valiasr.Service
         public AccountDto GetBankAccount(string code)
         {
             AccountRepository repository = new AccountRepository();
-            BankAccount account =
-                repository.ActiveContext.BankAccounts.Where(a => a.Code == code).FirstOrDefault();
-            return this.TranslateBankAccountToAccountDto(account);
+            BankAccount bankAccount = repository.ActiveContext.BankAccounts
+                .Where(a => a != null && a.Code == code)
+                .FirstOrDefault();
+            if (bankAccount != null)
+            {
+                AccountDto accountDto = (AccountDto)new AccountDto().InjectFrom(bankAccount);
+                accountDto.IndexAccountId = bankAccount.IndexAccount.Id;
+                return accountDto;
+            }
+            return null;
         }
 
 
         public AccountDto GetAccount(string code)
         {
             AccountRepository repository = new AccountRepository();
-            Account account =
-                repository.ActiveContext.BankAccounts.OfType<Account>().Where(a => a.Code == code).FirstOrDefault();
-            return this.TranslateAccountToAccountDto(account);
+            Account account = repository.ActiveContext.BankAccounts.OfType<Account>().Where(a => a != null && a.Code == code)
+                .FirstOrDefault();
+
+            if (account != null)
+            {
+                AccountDto accountDto = (AccountDto)new AccountDto().InjectFrom(account);
+                accountDto.IndexAccountId = account.IndexAccount.Id;
+                return accountDto;
+            }
+            return null;
+        }
+
+        public SimpleAccountDto GetSimpleBankAccount(string code)
+        {
+            AccountRepository repository = new AccountRepository();
+            BankAccount bankAccount = repository.ActiveContext.BankAccounts
+                .Where(a => a != null && a.Code == code)
+                .FirstOrDefault();
+            if (bankAccount != null)
+            {
+                SimpleAccountDto simpleAccountDto = (SimpleAccountDto)new SimpleAccountDto().InjectFrom(bankAccount);
+                simpleAccountDto.IndexAccountId = bankAccount.IndexAccount.Id;
+                return simpleAccountDto;
+            }
+            return null;
         }
 
         public SimpleAccountDto GetSimpleAccount(string code)
         {
             AccountRepository repository = new AccountRepository();
-            SimpleAccountDto account =
-                repository.ActiveContext.BankAccounts.Where(a => a.Code == code).Select(a => new SimpleAccountDto { Balance = a.Balance, BeginDate = a.BeginDate, Description = a.Description, Id = a.Id, No = a.No, SubDescription = a.SubDescription }).FirstOrDefault();
-            return this.TranslateSimpleAccountToAccountDto(account);
+            BankAccount account = repository.ActiveContext.BankAccounts.OfType<Account>()
+                .Where(a => a.Code == code)
+                .FirstOrDefault();
+            if (account != null)
+            {
+                SimpleAccountDto simpleAccountDto = (SimpleAccountDto)new SimpleAccountDto().InjectFrom(account);
+                simpleAccountDto.IndexAccountId = account.IndexAccount.Id;
+                return simpleAccountDto;
+            }
+            return null;
+
         }
 
-        private SimpleAccountDto TranslateSimpleAccountToAccountDto(SimpleAccountDto account)
+        public SimpleAccountDto GetSimpleLoanAccount(string code)
         {
+            AccountRepository repository = new AccountRepository();
+            BankAccount account = repository.ActiveContext.BankAccounts.OfType<Loan>().FirstOrDefault(a => a.Code == code);
             if (account == null)
             {
-                SimpleAccountDto nullAccountDto = new SimpleAccountDto { Description = "record not found by this code" };
-                return nullAccountDto;
+                return null;
             }
-            SimpleAccountDto simpleAccountDto = new SimpleAccountDto()
-            {
-                Id = account.Id,
-                Code = account.Code,
-                Description = account.Description,
-                No = account.No,
-                SubDescription = account.SubDescription,
-                Balance = account.Balance,
-                BeginDate = account.BeginDate,
-            };
+            SimpleAccountDto simpleAccountDto = (SimpleAccountDto)new SimpleAccountDto().InjectFrom(account);
+            simpleAccountDto.IndexAccountId = account.IndexAccount.Id;
             return simpleAccountDto;
-        }
-
-
-        private AccountDto TranslateBankAccountToAccountDto(BankAccount account)
-        {
-            if (account == null)
-            {
-                AccountDto nullAccountDto = new AccountDto { Description = "record not found by this code" };
-                return nullAccountDto;
-            }
-            AccountDto bankAccountDto = new AccountDto()
-            {
-                Id = account.Id,
-                Code = account.Code,
-                Description = account.Description,
-                IndexAccountCode = account.IndexAccountCode,
-                No = account.No,
-                //                RowId = account.RowId,
-                Balance = account.Balance,
-            };
-            return bankAccountDto;
-        }
-
-
-        private AccountDto TranslateAccountToAccountDto(Account account)
-        {
-            if (account == null)
-            {
-                AccountDto nullAccountDto = new AccountDto { Description = "record not found by this code" };
-                return nullAccountDto;
-            }
-            AccountDto bankAccountDto = new AccountDto()
-                {
-                    Id = account.Id,
-                    Code = account.Code,
-                    Description = account.Description,
-                    IndexAccountCode = account.IndexAccountCode,
-                    No = account.No,
-                    //                RowId = account.RowId,
-                    Balance = account.Balance,
-                };
-            return bankAccountDto;
-        }
-
-        
-
+        }      
     }
 }
 
@@ -542,6 +441,29 @@ namespace Valiasr.Service
 #endregion
 #region IAccountService
 
+
+//        private AccountDto TranslateAccountToAccountDto(Account account)
+//        {
+//            if (account == null)
+//            {
+//                AccountDto nullAccountDto = new AccountDto { Description = "record not found by this code" };
+//                return nullAccountDto;
+//            }
+//            AccountDto bankAccountDto = new AccountDto()
+//                {
+//                    Id = account.Id,
+//                    Code = account.Code,
+//                    Description = account.Description,
+//                    IndexAccountCode = account.IndexAccountCode,
+//                    No = account.No,
+//                    //                RowId = account.RowId,
+//                    Balance = account.Balance,
+//                };
+//            return bankAccountDto;
+//        }
+
+
+
  /*public bool Bardasht(string account, double amount)
         {
             throw new NotImplementedException();
@@ -566,5 +488,164 @@ namespace Valiasr.Service
                     .Select(o => new CustomerDto { HagheBardasht = o.HagheBardasht, No = o.No, Portion = o.Portion })
                     .ToList();
         }*/
+//        private IndexAccountDto TranslateIndexAccountToIndexAccountDto(IndexAccount indexAccount)
+//        {
+//            if (indexAccount == null)
+//            {
+//                IndexAccountDto nullIndexAccountDto = new IndexAccountDto
+//                    {
+//                        Description = "record not found by this code"
+//                    };
+//                return nullIndexAccountDto;
+//            }
+//            IndexAccountDto indexAccountDto = new IndexAccountDto()
+//                {
+//                    Id = indexAccount.Id,
+//                    Code = indexAccount.Code,
+//                    Description = indexAccount.Description,
+//                    GeneralAccountId = indexAccount.GeneralAccount.Id,
+//                    GeneralAccountCode = indexAccount.GeneralAccountCode,
+//                    RowId = indexAccount.RowId,
+//                    HaveAccounts = indexAccount.HaveAccounts,
+//                };
+//            return indexAccountDto;
+//        }
+
+//                var personDtos1 = account.Customers.Select(
+//                    c =>
+//                    new PersonDto
+//                        {
+//                            Id = c.Person.Id,
+//                            BirthDate = c.Person.BirthDate,
+//                            CretyId = c.Person.CretyId,
+//                            CretySerial = c.Person.CretySerial,
+//                            CustomerId = c.Person.CustomerId,
+//                            FatherName = c.Person.FatherName,
+//                            Firstname = c.Person.Firstname,
+//                            HeadNationalIdentity = c.Person.HeadNationalIdentity,
+//                            HomeAddress = c.Person.ContactInfo.HomeAddress,
+//                            HomeTelno = c.Person.ContactInfo.HomeTelno,
+//                            IndivOrOrgan = c.Person.IndivOrOrgan,
+//                            JobKind = c.Person.JobKind,
+//                            JobName = c.Person.JobName,
+//                            NationalIdentity = c.Person.NationaliIdentity,
+//                            Lastname = c.Person.Lastname,
+//                            Mobile = c.Person.ContactInfo.Mobile,
+//                            OfficeTelNo = c.Person.ContactInfo.OfficeTelNo,
+//                            PostalIdentity = c.Person.ContactInfo.PostalIdentity,
+//                            Sadereh = c.Person.Sadereh,
+//                            Salary = c.Person.Salary,
+//                            ShobehCode = c.Person.ShobehCode,
+//                            WorkAddress = c.Person.ContactInfo.WorkAddress
+//                        })
+//                    .ToList()
+//                                        .Union(
+//                                            account.Lawyers.Select(
+//                                                l =>
+//                                                new PersonDto
+//                                                    {
+//                                                        Id = l.Person.Id,
+//                                                        BirthDate = l.Person.BirthDate,
+//                                                        CretyId = l.Person.CretyId,
+//                                                        CretySerial = l.Person.CretySerial,
+//                                                        CustomerId = l.Person.CustomerId,
+//                                                        FatherName = l.Person.FatherName,
+//                                                        Firstname = l.Person.Firstname,
+//                                                        HeadNationalIdentity = l.Person.HeadNationalIdentity,
+//                                                        HomeAddress = l.Person.ContactInfo.HomeAddress,
+//                                                        HomeTelno = l.Person.ContactInfo.HomeTelno,
+//                                                        IndivOrOrgan = l.Person.IndivOrOrgan,
+//                                                        JobKind = l.Person.JobKind,
+//                                                        JobName = l.Person.JobName,
+//                                                        NationalIdentity = l.Person.NationaliIdentity,
+//                                                        Lastname = l.Person.Lastname,
+//                                                        Mobile = l.Person.ContactInfo.Mobile,
+//                                                        OfficeTelNo = l.Person.ContactInfo.OfficeTelNo,
+//                                                        PostalIdentity = l.Person.ContactInfo.PostalIdentity,
+//                                                        Sadereh = l.Person.Sadereh,
+//                                                        Salary = l.Person.Salary,
+//                                                        ShobehCode = l.Person.ShobehCode,
+//                                                        WorkAddress = l.Person.ContactInfo.WorkAddress
+//                                                    })
+//                           .ToList());
+//
+//        private PersonDto TranslatePersonToPersonDto(Person person)
+//        {
+//            if (person == null)
+//            {
+//                PersonDto nullPesonDto = new PersonDto { Firstname = "record not found by this national identity" };
+//                return nullPesonDto;
+//            }
+//            PersonDto personDto = new PersonDto
+//                {
+//                    Id = person.Id,
+//                    CustomerId = person.CustomerId,
+//                    ShobehCode = person.ShobehCode,
+//                    Firstname = person.Firstname,
+//                    Lastname = person.Lastname,
+//                    FatherName = person.FatherName,
+//                    CretyId = person.CretyId,
+//                    CretySerial = person.CretySerial,
+//                    Sadereh = person.Sadereh,
+//                    BirthDate = person.BirthDate,
+//                    NationalIdentity = person.NationalIdentity,
+//                    HeadNationalIdentity = person.HeadNationalIdentity,
+//                    JobName = person.JobName,
+//                    JobKind = person.JobKind,
+//                    Salary = person.Salary,
+//                    IndivOrOrgan = person.IndivOrOrgan,
+//                    HomeAddress = person.ContactInfo.HomeAddress,
+//                    WorkAddress = person.ContactInfo.WorkAddress,
+//                    HomeTelno = person.ContactInfo.HomeTelno,
+//                    OfficeTelNo = person.ContactInfo.OfficeTelNo,
+//                    Mobile = person.ContactInfo.Mobile,
+//                    PostalIdentity = person.ContactInfo.PostalIdentity,
+//                };
+//            return personDto;
+//        }
+//
+//
+//        private void TranslatePersonDtoToPerson(PersonDto personDto, Person person)
+//        {
+//            person.CustomerId = personDto.CustomerId;
+//            person.ShobehCode = personDto.ShobehCode;
+//            person.Firstname = personDto.Firstname;
+//            person.Lastname = personDto.Lastname;
+//            person.FatherName = personDto.FatherName;
+//            person.CretyId = personDto.CretyId;
+//            person.CretySerial = personDto.CretySerial;
+//            person.Sadereh = personDto.Sadereh;
+//            person.NationalIdentity = personDto.NationalIdentity;
+//            person.HeadNationalIdentity = personDto.HeadNationalIdentity;
+//            person.JobName = personDto.JobName;
+//            person.JobKind = personDto.JobKind;
+//            person.Salary = personDto.Salary;
+//            person.ContactInfo.HomeAddress = personDto.HomeAddress;
+//            person.ContactInfo.WorkAddress = personDto.WorkAddress;
+//            person.ContactInfo.HomeTelno = personDto.HomeTelno;
+//            person.ContactInfo.OfficeTelNo = personDto.OfficeTelNo;
+//            person.ContactInfo.Mobile = personDto.Mobile;
+//            person.ContactInfo.PostalIdentity = personDto.PostalIdentity;
+//        }
+
+//        private GeneralAccountDto TranslateGeneralAccountToGeneralAccountDto(GeneralAccount generalAccount)
+//        {
+//            if (generalAccount == null)
+//            {
+//                GeneralAccountDto nullGeneralAccountDto = new GeneralAccountDto
+//                    {
+//                        Description = "record not found by this code"
+//                    };
+//                return nullGeneralAccountDto;
+//            }
+//            GeneralAccountDto generalAccountDto = new GeneralAccountDto
+//                {
+//                    Id = generalAccount.Id,
+//                    Code = generalAccount.Code,
+//                    Description = generalAccount.Description,
+//                    Category = generalAccount.Category,
+//                };
+//            return generalAccountDto;
+//        }
 
 #endregion

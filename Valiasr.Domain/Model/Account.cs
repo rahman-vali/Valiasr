@@ -6,20 +6,7 @@
 
     public class GeneralAccount:IAggregateRoot
     {
-        public GeneralAccount()
-        {
-            Id = Guid.NewGuid();
-            this.IndexAccounts = new Collection<IndexAccount>();
-        }
-
-        public static GeneralAccount CreateGeneralAccount(int code, string description, int category)
-        {
-            var generalAccount = new GeneralAccount { Code = code, Description = description, Category = category, };
-            return generalAccount;
-        }
-
         public Guid Id { get; set; }
-
         public int Code { get; set; }
         public string Description { get; set; }
         public int Category { get; set; }
@@ -29,7 +16,6 @@
 
         public virtual bool ContainIndexAccount(string code)
         {
-            //return (this.IndexAccounts.Count(ia => ia.Code == code) != 0);
             return IndexAccounts.Any(ia => ia.Code == code);
         }
 
@@ -54,31 +40,6 @@
 
     public class IndexAccount:IAggregateRoot
     {
-        public IndexAccount()
-        {
-            Id = Guid.NewGuid();
-            this.BankAccounts = new Collection<BankAccount>();
-        }
-
-        public static IndexAccount CreateIndexAccount(
-            GeneralAccount generalAccount,
-            string code,
-            int generalAccountCode,
-            int indexer,
-            string description,
-            bool haveAcounts)
-        {
-            var indexAccount = new IndexAccount
-                {
-                    GeneralAccount = generalAccount,
-                    Code = code,
-                    GeneralAccountCode = generalAccountCode,
-                    RowId = indexer,
-                    Description = description,
-                    HaveAccounts = haveAcounts
-                };
-            return indexAccount;
-        }
         public Guid Id { get; set; }
         public string Code { get; set; }
         public int GeneralAccountCode { get; set; }
@@ -89,7 +50,7 @@
         public bool HaveAccounts { get ; set; }
 
         public virtual GeneralAccount GeneralAccount { get; set; }
-        public  Collection<BankAccount> BankAccounts { get; set; }
+        public virtual Collection<BankAccount> BankAccounts { get; set; }
 
         public bool ContainAccounts
         {
@@ -116,13 +77,10 @@
 
     public partial class BankAccount:IAggregateRoot
     {
-        protected BankAccount()
-        {
-            Id = Guid.NewGuid();
-        }
         public Guid Id { get; set; }
         public string Code { get; set; }
         public string IndexAccountCode { get; set; }
+        public int RowId { get; set; }
         public string No { get; set; }
         public decimal Balance { get; set; }
         public string Description { get; set; }
@@ -134,8 +92,8 @@
 
 
         public virtual IndexAccount IndexAccount { get; set; }
-        public virtual Collection<AccountActivity> AccountActivities { get; set; }
-        public virtual Collection<YearAccount> YearAccounts { get; set; }
+        public  virtual Collection<AccountActivity> AccountActivities { get; set; }
+        public  virtual Collection<YearAccount> YearAccounts { get; set; }
         public bool ContainActivities()
         {
             return this.AccountActivities.Any();      
@@ -153,25 +111,6 @@
 
     public partial class Account:BankAccount
     {
-        public Account()
-        {
-            this.Lawyers = new Collection<Lawyer>();
-            this.Customers = new Collection<Customer>();
-            this.LoanRequests = new Collection<LoanRequest>();
-        }
-
-        public static Account CreateAccount(IndexAccount indexAccount, string code, string no , int Indexer , decimal balance , string description)
-        {
-            var account = new Account
-            {
-                IndexAccount = indexAccount ,
-                Code = code,
-                No = no,
-                Balance = balance,
-                Description = description,
-            };
-            return account;
-        }
         public decimal BottomAmount { get; set; }
         public decimal HebehQty { get; set; }
         public int StopDate { get; set; }
@@ -210,8 +149,6 @@
             }
             return false;
         }
-
-
     }
 
     public class YearAccount

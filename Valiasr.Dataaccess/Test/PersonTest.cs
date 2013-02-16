@@ -97,6 +97,7 @@
             var customer = new Customer
                 {
                     Id = Guid.NewGuid(),
+                   // Person = new Person(),
                     Person = person,
                     No = "1",
                 };

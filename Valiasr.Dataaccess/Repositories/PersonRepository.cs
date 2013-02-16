@@ -12,7 +12,7 @@
 
         public Person GetPersonByNationalIdentity(string nationalIdentity)
         {
-            return ActiveContext.Persons.Where(p => p.NationaliIdentity == nationalIdentity).FirstOrDefault();
+            return ActiveContext.Persons.Where(p => p.NationalIdentity == nationalIdentity).FirstOrDefault();
         }
 
         public bool PersonIsCustomerOrLawyer(Guid id, ref string messageStr)
@@ -41,7 +41,7 @@
         {
             var customerAccounts =
                 ActiveContext.BankAccounts.OfType<Account>().Include("Customers.Person")
-                          .Where(a => a.Customers.Any(c => c.Person.NationaliIdentity == natinalIdentity))
+                          .Where(a => a.Customers.Any(c => c.Person.NationalIdentity == natinalIdentity))
                           .ToList();
             if (customerAccounts.Any())
             {
@@ -50,7 +50,7 @@
             }
             var lawyerAccounts =
                 ActiveContext.BankAccounts.OfType<Account>().Include("Lawyers.Person")
-                          .Where(a => a.Customers.Any(c => c.Person.NationaliIdentity == natinalIdentity))
+                          .Where(a => a.Customers.Any(c => c.Person.NationalIdentity == natinalIdentity))
                           .ToList();
             if (lawyerAccounts.Any())
             {

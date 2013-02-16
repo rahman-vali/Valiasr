@@ -36,6 +36,8 @@
 
         public DbSet<Loan> Loans { get; set; }
 
+        public DbSet<Average> Averages { get; set; }
+
         #endregion
 
         #region Methods
@@ -56,8 +58,9 @@
             modelBuilder.Configurations.Add(new LoanMap());
             modelBuilder.Configurations.Add(new AverageMap());
             modelBuilder.Entity<Average>()
-                        .Map<NormAverage>(a => a.Requires("AverageType").HasValue(1))
-                        .Map<AverageWithMin>(a => a.Requires("AverageType").HasValue(2));
+                        .Map<NormAverage>(a => a.Requires("AverageType").HasValue(0))
+                        .Map<AverageWithMin>(a => a.Requires("AverageType").HasValue(1))
+                        .Map<AverageWithHoliday>(a => a.Requires("AverageType").HasValue(2)).ToTable("Average");
             base.OnModelCreating(modelBuilder);
         }
 

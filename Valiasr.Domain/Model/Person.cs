@@ -29,7 +29,7 @@
         public string CretySerial { get; set; }
         public string Sadereh { get; set; }
         public int BirthDate { get; set; }
-        public string NationaliIdentity { get; set; }
+        public string NationalIdentity { get; set; }
         public string HeadNationalIdentity { get; set; }
         public string JobName { get; set; }
         public short JobKind { get; set; }

@@ -1,6 +1,7 @@
 ﻿namespace Valiasr.DataAccess.Test
 {
     using System;
+    using System.Collections.ObjectModel;
 
     using Valiasr.DataAccess.Repositories;
     using Valiasr.Domain.Model;
@@ -20,7 +21,9 @@
             IndexAccount indexAccount = CreateIndexAccount();
             GeneralAccount generalAccount = CreateGeneralAccount();
             Account account = CreateAccount();
+            account.Lawyers = new Collection<Lawyer>();
             account.Lawyers.Add(lawyer);
+            account.Customers = new Collection<Customer>();
             account.Customers.Add(customer);
             LoanRequest loanRequest = new LoanRequest();
             Loan loan = new Loan();
@@ -29,9 +32,12 @@
             LoanRequestOkyAssistant loanRequestOkyAssistant = new LoanRequestOkyAssistant();
             loanRequest.LoanRequestOkyAsistant = loanRequestOkyAssistant;
             loanRequest.Account = account;
+            account.LoanRequests = new Collection<LoanRequest>();
             account.LoanRequests.Add(loanRequest);
+            indexAccount.BankAccounts = new Collection<BankAccount>();
             indexAccount.BankAccounts.Add(account);
             indexAccount.BankAccounts.Add(loan);
+            generalAccount.IndexAccounts = new Collection<IndexAccount>();
             generalAccount.IndexAccounts.Add(indexAccount);
             context.GeneralAccounts.Add(generalAccount);
             //context.IndexAccounts.Add(indexAccount);
@@ -128,19 +134,19 @@
 
         public static Account CreateAccount()
         {
-            var account = new Account { Balance = 1000, Description = "first", No = "1",IndexAccountCode = "1/0",Code = "1/0/0"};
+            var account = new Account { Id = Guid.NewGuid(),Balance = 1000, Description = "first", No = "1",IndexAccountCode = "1/0",Code = "1/0/0"};
             return account;
         }
 
         public static GeneralAccount CreateGeneralAccount()
         {
-            var generalAccount = new GeneralAccount { Description = "sandogh", Category = 1,Code = 1};
+            var generalAccount = new GeneralAccount { Id = Guid.NewGuid(),Description = "sandogh", Category = 1,Code = 1};
             return generalAccount;
         }
 
         public static IndexAccount CreateIndexAccount()
         {
-            var indexAccount = new IndexAccount { GeneralAccountCode = 1,Code = "1/0"};
+            var indexAccount = new IndexAccount { Id = Guid.NewGuid() ,GeneralAccountCode = 1,Code = "1/0"};
             return indexAccount;
         }
     }
